@@ -1,17 +1,17 @@
-\begin{abstract}
-% 提示：
-% 1. 摘要是论文的灵魂！评委通常只看这一页便决定了论文的起评分。
-% 2. 结构建议（4-5段）：
-%    - 第一段：简述背景并明确指出解决了什么核心问题。
-%    - 第二段：针对问题一，采用了什么模型/算法，得到了什么关键结论。
-%    - 第三段：针对问题二，核心创新点在哪（如：引入了XX权重，改进了XX算子）。
-%    - 后续段落：模型验证的效果、政策建议的精髓。
-% 3. 文笔：多用被动语态（is developed, is utilized），避免 I/We。
+\begin{abstract}%以下是25年C题的参考Abstract
+    
+To ensure a systematic and multidimensional approach to Olympic medal prediction, this study constructs a dynamic and coupled comprehensive \textbf{Predictive Framework}. This framework integrates various objectives, including medal distribution prediction, breakthrough country identification, event performance evaluation, and the impact analysis of coaching resource allocation. By employing multi-source heterogeneous data fusion and machine learning integration methods, we achieve an in-depth analysis and reliable prediction of the development patterns in competitive sports.
 
-Abstract content goes here. \lipsum[1]
+First, we develop a multidimensional predictive model to analyze Olympic medal patterns. Utilizing \textbf{Principal Component Analysis (PCA)} for dimensionality reduction and noise filtering of the Olympic event dataset, we combine \textbf{Long Short-Term Memory (LSTM)} networks to mine temporal features and integrate home advantage effects. A dual-channel \textbf{XGBoost-Bootstrap} model is established to generate predictions with a 95\% confidence interval. The results indicate an upward trend for countries such as the United States and the United Kingdom, while countries like France and China show a decline. The model exhibites a high accuracy with a low \textbf{MAE} and \textbf{MAPE}, demonstrating strong robustness. Through non-parametric testing, potential breakthrough countries are identified, with San Marino and Kuwait showing gold medal breakthrough probabilities of \textbf{84.7\%} and \textbf{68.4\%}, respectively.
+
+Subsequently, we develop a \textbf{Difference-in-Differences (DID)} model to quantify the competitive benefits of coaching replacement and conduct statistical significance tests as well as parallel trends tests to ensure the reliability of our results. It is found that during the 2020-2024 period, Australia, South Korea, and Poland experienced significant "great coach" policy effects through strategic restructuring of their coaching teams. Based on this, we recommend prioritizing investment in high-elasticity projects. \textbf{SHapley Additive exPlanations (SHAP)} is further utilized to quantify event contributions, revealing that swimming and athletics serve as core contributing events to medal augmentation.
+
+Furthermore, we explore the potential of a country to win its first-ever medal by constructing a \textbf{Hurdle-Tobit} fusion model. This model addresses the zero-inflation characteristics and heterogeneity between countries. The prediction results show that countries like Angola and Bangladesh have a probability of winning their first medal exceeding \textbf{45\%} in the next Games. Finally, we propose a strategic resource allocation plan using \textbf{Multiobjective Optimization} to balance the "depth" and "breadth" of National Olympic Committees (NOCs), suggesting that high-potential NOCs should prioritize multinational coach introductions in wrestling and table tennis.
+
+In conclusion, our integrated framework synthesizes all models and analyses to present new insights and corresponding decision supports for the global sports community.
 
 \begin{keywords}
-    Data Cleaning, Sensitivity Analysis, Policy Recommendation, Machine Learning.
+    Olympic Medal Prediction, PCA-LSTM, XGBoost, DID Model, Hurdle-Tobit, SHAP Analysis.
 \end{keywords}
 
 \end{abstract}

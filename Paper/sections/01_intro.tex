@@ -1,16 +1,22 @@
 \section{Introduction}
 
-% 提示：
-% 1. Background: 不要堆砌废话，要层层递进，引用权威文献证明问题的重要性。
-% 2. Problem Restatement: 千万不要翻原题！用你自己的话把题目转化为“数学语言”。
-% 3. Our Contributions: 建议用列表形式给出本文的 3-5 个亮点（例如：建立了层次化分析模型、使用了动态权重等）。
-
 \subsection{Problem Background}
-\lipsum[2]
+The Olympic Games stand as the pinnacle of global sporting competition, evolving into a complex socio-economic phenomenon where medal counts signify more than just athletic prowess—they reflect a nation's investment in human capital, strategic planning, and systematic resource allocation. As the 2024 Paris Olympics underscored, the disparity in medal distribution remains significant, with some traditional powerhouses maintaining dominance while emerging nations strive for "first-medal" breakthroughs. Predicting these outcomes precisely requires navigating high-dimensional datasets encompassing historical performance, socio-economic indicators, and the influence of elite coaching.
 
-\subsection{Expectations and Objectives}
-\lipsum[3]
+\subsection{Problem Restatement}
+To address the requirements of the 2025 MCM Problem C, we are tasked with developing a comprehensive analytical framework to:
+\begin{itemize}
+    \item \textbf{Predict Medal Distribution}: Forecast the number of gold and total medals for nations in the upcoming Games, accounting for temporal trends and home advantage.
+    \item \textbf{Identify Potential Breakthroughs}: Quantify the probability of countries winning their first-ever medal, specifically targeting historically underrepresented nations.
+    \item \textbf{Evaluate Coaching Effects}: Estimate the causal impact of "Great Coaches" on a nation's medal trajectory using rigorous econometric methods.
+    \item \textbf{Strategic Planning}: Provide actionable recommendations for National Olympic Committees (NOCs) to optimize their sports portfolios and coaching staff.
+\end{itemize}
 
-\subsection{Literature Review}
-% 提示：适当引用前人研究可以显得你们态度认真、专业功底深厚。
-As discussed in \cite{example_cite}, traditional models fail to consider...
+\subsection{Our Contributions}
+Our study introduces several methodological innovations to the field of sports analytics:
+\begin{enumerate}
+    \item \textbf{Hybrid Prediction Engine}: A coupled PCA-LSTM-XGBoost framework that captures both linear and non-linear patterns in Olympic data.
+    \item \textbf{Causal Inference for Elite Coaching}: Application of a DID model to isolate the policy effect of coaching replacements from natural athletic progression.
+    \item \textbf{Inclusive Forecasting}: A Hurdle-Tobit model specifically tuned for zero-inflated datasets to predict "miraculous" breakthroughs for smaller nations.
+    \item \textbf{Explainable AI (XAI)}: Deployment of SHAP values to demystify "black-box" predictions, providing transparent insights into why certain nations succeed.
+\end{enumerate}

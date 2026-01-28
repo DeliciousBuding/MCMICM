@@ -5,9 +5,10 @@
 \mcmsetup{
     tcn = {2617892},        
     problem = {C},          
-    sheet = true,           
+    sheet = true,           % sheet=true 会自动生成官方要求的摘要首页
     titleinsheet = true,    
-    keywordsinsheet = true  
+    keywordsinsheet = true,
+    titlepage = false       % 禁用独立的标题页，防止摘要重复
 }
 
 % --- 基础宏包 ---
@@ -30,6 +31,20 @@
 % --- 页面设置修正 ---
 \setlength{\headheight}{15pt}
 
+% --- 自定义页码计数器（通过 .aux 文件跨编译传递）---
+\newcounter{mainpages}   % 用于保存正文总页数
+\newcounter{aipages}     % 用于保存 AI Report 总页数
+
+% 定义写入和读取 aux 文件的命令
+\makeatletter
+\newcommand{\savemainpages}{%
+  \immediate\write\@auxout{\string\setcounter{mainpages}{\the\value{page}}}%
+}
+\newcommand{\saveaipages}{%
+  \immediate\write\@auxout{\string\setcounter{aipages}{\the\value{page}}}%
+}
+\makeatother
+
 % --- 参考文献 ---
 \usepackage[backend=biber, style=gb7714-2015]{biblatex} 
 \addbibresource{ref.bib}
@@ -42,15 +57,25 @@
 
 \begin{document}
 
-% --- 00 摘要页 ---
+% --- 00 摘要页 (Summary Sheet) ---
+% 注意：mcmthesis 的摘要页（Summary Sheet）是由 \maketitle 命令生成的。
+% 它会自动抓取 \begin{abstract} 中的内容。
 \input{sections/00_abstract.tex}
 \maketitle
 
+% 已移除多余标题页，确保摘要仅在首页显示
+
+% --- 目录设置 (如需目录请取消注释) ---
+% \tableofcontents
+
 % --- 正文开始 ---
 \newpage
+\setcounter{page}{1}
+\pagestyle{fancy} % 恢复页眉页脚
+\fancyhead[R]{Page \thepage\ of \themainpages} % 使用自定义计数器
 \pagenumbering{arabic} 
 
-\input{sections/01_intro.tex}        
+\input{sections/01_intro.tex} 
 \input{sections/02_data.tex}         
 \input{sections/03_assumptions.tex}  
 \input{sections/04_model.tex}        
@@ -63,9 +88,19 @@
 \newpage
 \printbibliography[heading=bibintoc, title={References}]
 
+% 【关键】将正文总页数写入 .aux 文件，下次编译时读取
+\savemainpages
+
 % --- 附录 (含 AI 报告) ---
-\newpage
+\clearpage
 \appendix
+% AI Report 单独计数
+\setcounter{page}{1}
+\fancyhead[R]{Page \thepage\ of \theaipages} % 使用自定义计数器 
+
 \input{ai_log/ai_report.tex} 
+
+% 【关键】将 AI Report 总页数写入 .aux 文件
+\saveaipages
 
 \end{document}
