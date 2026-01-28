@@ -1,25 +1,203 @@
-\section{The Mathematical Model}
+% ============================================================================
+%                        Section 4: The Mathematical Model
+%                              数学模型构建
+% ============================================================================
+% 【写作指导 - 核心章节！】
+%
+% ▶ 逻辑流程（必须遵循）：
+%   1. 问题形式化：将文字描述转化为数学语言
+%   2. 模型假设回顾：引用 Section 3 的假设
+%   3. 目标函数推导：给出清晰的数学公式
+%   4. 约束条件：明确问题的边界
+%   5. 算法设计：用伪代码展示求解流程
+%
+% ▶ 公式规范：
+%   - 每个公式必须编号（用 equation 环境）
+%   - 文中引用格式："as shown in Eq. (1)" 或 "Equation~\ref{eq:xxx}"
+%   - 重要公式用 \boxed{} 高亮
+%
+% ▶ 算法伪代码：
+%   - 使用 algorithm2e 宏包，风格：ruled + vlined + linesnumbered
+%   - 这是计算机顶会（如 NeurIPS, ICML）的标准风格
+%   - 【技巧】算法是填充页面的艺术，同时显得非常专业
+%
+% ▶ 图表要求：
+%   - 模型框架图（flowchart）几乎是 Outstanding 论文的标配
+%   - 用 TikZ 绘制或 PowerPoint/Visio 导出 PDF
+% ============================================================================
 
-% 提示：
-% 1. 逻辑流：问题描述 -> 公式推导 -> 算法说明（伪代码）。
-% 2. 可视化：不要全是文字！多用流程图（Logic flowchart）展示你们模型的运行机制。
-% 3. 公式：一定要有 LaTeX 编号，文字里引用时用 (1)。
+\section{Mathematical Model}
+\label{sec:model}
 
-\subsection{Model Formulation}
+% 【提示】开篇先给一个模型的 high-level overview
+In this section, we present our mathematical model for addressing the problem. We first formulate the problem mathematically, then derive the objective function, and finally design an efficient algorithm to solve it.
+
+% ============================================================================
+%                        4.1 问题形式化
+% ============================================================================
+\subsection{Problem Formulation}
+\label{subsec:formulation}
+
+% 【提示】用数学语言重新定义问题，引用假设
+Based on the assumptions established in Section~\ref{sec:assumptions}, we formalize the problem as follows.
+
+Let $\mathcal{G} = (\mathcal{N}, \mathcal{E})$ denote the network structure, where $\mathcal{N}$ represents the set of nodes (e.g., regions or entities) and $\mathcal{E}$ represents the set of edges (e.g., relationships or flows). Our goal is to find the optimal allocation strategy $\mathbf{x}^* = (x_1, x_2, \ldots, x_n)$ that minimizes the total cost while satisfying all constraints.
+
+% ============================================================================
+%                        4.2 目标函数
+% ============================================================================
+\subsection{Objective Function}
+\label{subsec:objective}
+
+% 【提示】目标函数是论文的核心，必须推导清晰
+We design a multi-objective optimization framework that balances efficiency and sustainability:
+
 \begin{equation}
-    J = \sum_{i=1}^{n} w_i x_i^2 + \int_{0}^{T} C(t) dt
+    \label{eq:objective}
+    \min_{\mathbf{x}} \quad J(\mathbf{x}) = \underbrace{\sum_{i=1}^{n} c_i x_i}_{\text{Cost Term}} + \omega \cdot \underbrace{\sum_{i=1}^{n} \sum_{j \in \mathcal{N}_i} d_{ij} (x_i - x_j)^2}_{\text{Smoothness Term}}
 \end{equation}
 
+where:
+\begin{itemize}[itemsep=0.2em]
+    \item $c_i$ is the unit cost associated with node $i$,
+    \item $d_{ij}$ is the distance or dissimilarity between nodes $i$ and $j$,
+    \item $\omega > 0$ is a trade-off parameter controlling the balance between cost minimization and spatial smoothness,
+    \item $\mathcal{N}_i$ denotes the neighborhood of node $i$.
+\end{itemize}
+
+% 【技巧】用 \boxed{} 高亮关键公式
+The optimization problem can be compactly written as:
+\begin{equation}
+    \label{eq:compact}
+    \boxed{\mathbf{x}^* = \arg\min_{\mathbf{x} \in \mathcal{X}} \left[ \mathbf{c}^\top \mathbf{x} + \omega \cdot \mathbf{x}^\top \mathbf{L} \mathbf{x} \right]}
+\end{equation}
+
+where $\mathbf{L}$ is the graph Laplacian matrix capturing the network structure.
+
+% ============================================================================
+%                        4.3 约束条件
+% ============================================================================
+\subsection{Constraints}
+\label{subsec:constraints}
+
+% 【提示】约束条件要分类列出，便于阅读
+The optimization problem is subject to the following constraints:
+
+\textbf{1. Resource Constraint:}
+\begin{equation}
+    \label{eq:resource}
+    \sum_{i=1}^{n} x_i \leq B
+\end{equation}
+where $B$ is the total available budget or resource.
+
+\textbf{2. Non-negativity Constraint:}
+\begin{equation}
+    \label{eq:nonneg}
+    x_i \geq 0, \quad \forall i \in \mathcal{N}
+\end{equation}
+
+\textbf{3. Capacity Constraint:}
+\begin{equation}
+    \label{eq:capacity}
+    x_i \leq \bar{x}_i, \quad \forall i \in \mathcal{N}
+\end{equation}
+where $\bar{x}_i$ is the maximum capacity at node $i$.
+
+% ============================================================================
+%                        4.4 求解算法
+% ============================================================================
 \subsection{Solution Algorithm}
-% 提示：算法伪代码不仅显得专业，也是填充页面长度的艺术。
+\label{subsec:algorithm}
+
+% 【提示】伪代码是展示专业性的最佳方式
+% 【重要】algorithm2e 配置：ruled + vlined + linesnumbered（顶会风格）
+
+Given the convex nature of our objective function (due to the positive semi-definiteness of $\mathbf{L}$), we employ a projected gradient descent algorithm to efficiently find the global optimum.
+
+% --- 主算法 ---
 \begin{algorithm}[H]
-    \caption{The Optimization Process}
-    \KwIn{Raw dataset $\mathcal{D}$, iteration limit $N$}
-    \KwOut{Optimized parameters $\Theta^*$}
-    Initialize $\Theta_0$ randomly\;
-    \For{$k=1$ \KwTo $N$}{
-        Calculate gradient $\nabla J(\Theta_k)$\;
-        Update $\Theta_{k+1} = \Theta_k - \eta \nabla J$\;
+    \caption{Projected Gradient Descent for Multi-Objective Optimization}
+    \label{alg:pgd}
+    \DontPrintSemicolon
+    \SetAlgoLined
+    
+    \KwIn{Dataset $\mathcal{D}$, cost vector $\mathbf{c}$, Laplacian $\mathbf{L}$, budget $B$, learning rate $\eta$, max iterations $N$, tolerance $\epsilon$}
+    \KwOut{Optimal allocation $\mathbf{x}^*$}
+    
+    \BlankLine
+    \tcp{Initialization}
+    $\mathbf{x}^{(0)} \gets \mathbf{0}$ \tcp*{Start from zero allocation}
+    $k \gets 0$\;
+    
+    \BlankLine
+    \tcp{Main optimization loop}
+    \While{$k < N$ \textbf{and} $\|\mathbf{x}^{(k)} - \mathbf{x}^{(k-1)}\| > \epsilon$}{
+        \tcp{Compute gradient}
+        $\nabla J(\mathbf{x}^{(k)}) \gets \mathbf{c} + 2\omega \mathbf{L} \mathbf{x}^{(k)}$\;
+        
+        \BlankLine
+        \tcp{Gradient descent step}
+        $\tilde{\mathbf{x}} \gets \mathbf{x}^{(k)} - \eta \cdot \nabla J(\mathbf{x}^{(k)})$\;
+        
+        \BlankLine
+        \tcp{Projection onto feasible set}
+        $\mathbf{x}^{(k+1)} \gets \textsc{Project}(\tilde{\mathbf{x}}, B, \bar{\mathbf{x}})$\;
+        
+        \BlankLine
+        $k \gets k + 1$\;
     }
-    \Return{$\Theta_{N}$}\;
+    
+    \BlankLine
+    \Return{$\mathbf{x}^{(k)}$}\;
 \end{algorithm}
+
+% --- 子算法：投影操作 ---
+\begin{algorithm}[H]
+    \caption{Projection onto Feasible Set}
+    \label{alg:project}
+    \DontPrintSemicolon
+    \SetAlgoLined
+    
+    \KwIn{Unconstrained solution $\tilde{\mathbf{x}}$, budget $B$, capacity bounds $\bar{\mathbf{x}}$}
+    \KwOut{Feasible solution $\mathbf{x}$}
+    
+    \BlankLine
+    \tcp{Step 1: Clip to non-negative and capacity bounds}
+    \For{$i = 1$ \KwTo $n$}{
+        $x_i \gets \max(0, \min(\tilde{x}_i, \bar{x}_i))$\;
+    }
+    
+    \BlankLine
+    \tcp{Step 2: Scale to satisfy budget constraint}
+    \If{$\sum_{i=1}^{n} x_i > B$}{
+        $\mathbf{x} \gets \mathbf{x} \cdot \frac{B}{\sum_{i=1}^{n} x_i}$\;
+    }
+    
+    \BlankLine
+    \Return{$\mathbf{x}$}\;
+\end{algorithm}
+
+% ============================================================================
+%                        4.5 算法复杂度分析
+% ============================================================================
+\subsection{Complexity Analysis}
+\label{subsec:complexity}
+
+% 【提示】算法复杂度分析是加分项，显示你的计算机功底
+We analyze the time and space complexity of Algorithm~\ref{alg:pgd}:
+
+\begin{itemize}[itemsep=0.3em]
+    \item \textbf{Time Complexity:} Each iteration requires $O(|\mathcal{E}|)$ for the gradient computation (sparse matrix multiplication) and $O(n)$ for the projection step. Thus, the total time complexity is $O(N \cdot (|\mathcal{E}| + n))$.
+    
+    \item \textbf{Space Complexity:} We store the Laplacian matrix in sparse format, requiring $O(|\mathcal{E}|)$ space. The solution vector requires $O(n)$ space. Total: $O(|\mathcal{E}| + n)$.
+    
+    \item \textbf{Convergence:} Since $J(\mathbf{x})$ is convex and Lipschitz continuous, the algorithm converges to the global optimum at a rate of $O(1/k)$ for a properly chosen learning rate $\eta$.
+\end{itemize}
+
+% 【提示】如果有模型框架图，在这里插入
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{figures/model_framework.pdf}
+%     \caption{Overview of the proposed optimization framework.}
+%     \label{fig:framework}
+% \end{figure}
