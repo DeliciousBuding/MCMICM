@@ -43,6 +43,51 @@ Based on the assumptions established in Section~\ref{sec:assumptions}, we formal
 
 Let $\mathcal{G} = (\mathcal{N}, \mathcal{E})$ denote the network structure, where $\mathcal{N}$ represents the set of nodes (e.g., regions or entities) and $\mathcal{E}$ represents the set of edges (e.g., relationships or flows). Our goal is to find the optimal allocation strategy $\mathbf{x}^* = (x_1, x_2, \ldots, x_n)$ that minimizes the total cost while satisfying all constraints.
 
+\subsubsection{PCA--LSTM Feature Fusion for Medal Forecasting}
+\label{subsubsec:pcalstm_fusion}
+
+We fuse heterogeneous event-level and macro-level predictors through a two-stage representation learning scheme: PCA for denoising and compression, followed by LSTM for temporal encoding. Let $\mathbf{x}_{i,t} \in \mathbb{R}^{p}$ denote the standardized feature vector for NOC $i$ at cycle $t$. PCA projects $\mathbf{x}_{i,t}$ to a $k$-dimensional score vector $\mathbf{z}_{i,t}$:
+\begin{equation}
+    \label{eq:pca_projection}
+    \mathbf{z}_{i,t} = \mathbf{W}^{\top}\mathbf{x}_{i,t},\qquad \mathbf{W}\in\mathbb{R}^{p\times k}.
+\end{equation}
+
+Given a look-back window length $L$, we form an input sequence $\mathbf{Z}_{i,t} = (\mathbf{z}_{i,t-L+1},\ldots,\mathbf{z}_{i,t})$ and encode it with an LSTM:
+\begin{equation}
+    \label{eq:lstm_encoding}
+    \mathbf{h}_{i,t} = \mathrm{LSTM}(\mathbf{Z}_{i,t};\,\Theta_{\mathrm{LSTM}}),
+\end{equation}
+where $\mathbf{h}_{i,t}$ summarizes the latent performance trajectory of NOC $i$ up to time $t$. We then construct a fused representation by concatenating the temporal embedding with structured covariates (e.g., host indicator and static controls):
+\begin{equation}
+    \label{eq:feature_fusion}
+    \mathbf{f}_{i,t} = \big[\,\mathbf{h}_{i,t};\,\mathrm{Host}_{i,t};\,\mathbf{u}_{i,t}\,\big].
+\end{equation}
+Finally, a downstream gradient-boosting regressor $g(\cdot)$ (XGBoost) maps $\mathbf{f}_{i,t}$ to medal predictions, and bootstrap resampling is used to quantify the 95\% predictive interval.
+
+\begin{algorithm}[H]
+    \caption{Training Pipeline for PCA--LSTM--XGBoost with Bootstrap Uncertainty}
+    \label{alg:pcalstm_train}
+    \DontPrintSemicolon
+    \SetAlgoLined
+    \KwIn{Historical dataset $\{(\mathbf{x}_{i,t}, M_{i,t})\}$; PCA dimension $k$; window length $L$; bootstrap size $\mathcal{B}$}
+    \KwOut{Predictor $\hat{M}_{i,t}=g(\mathbf{f}_{i,t})$ and 95\% interval $\mathrm{CI}^{95\%}_{i,t}$}
+    \BlankLine
+    \tcp{Preprocess and PCA}
+    Standardize features $\mathbf{x}_{i,t}$; fit PCA on training data to obtain $\mathbf{W}$; compute scores $\mathbf{z}_{i,t}=\mathbf{W}^\top\mathbf{x}_{i,t}$\;
+    \tcp{Sequence construction}
+    Build sequences $\mathbf{Z}_{i,t}=(\mathbf{z}_{i,t-L+1},\ldots,\mathbf{z}_{i,t})$ for all valid $(i,t)$\;
+    \tcp{Train temporal encoder}
+    Train LSTM on $(\mathbf{Z}_{i,t}, M_{i,t})$ to learn $\Theta_{\mathrm{LSTM}}$; extract embeddings $\mathbf{h}_{i,t}$\;
+    \tcp{Feature fusion}
+    Form $\mathbf{f}_{i,t}=[\mathbf{h}_{i,t};\,\mathrm{Host}_{i,t};\,\mathbf{u}_{i,t}]$\;
+    \tcp{Bootstrap + XGBoost}
+    \For{$b\gets 1$ \KwTo $\mathcal{B}$}{
+        Resample training pairs with replacement to get $\mathcal{D}^{(b)}$; train XGBoost regressor $g^{(b)}(\cdot)$ on $\mathcal{D}^{(b)}$\;
+        Predict $\hat{M}^{(b)}_{i,t}\gets g^{(b)}(\mathbf{f}_{i,t})$ on validation/test points\;
+    }
+    Compute point estimate $\hat{M}_{i,t}$ (e.g., mean of $\hat{M}^{(b)}_{i,t}$) and set $\mathrm{CI}^{95\%}_{i,t}$ as the 2.5\%--97.5\% quantiles across $\{\hat{M}^{(b)}_{i,t}\}_{b=1}^{\mathcal{B}}$\;
+\end{algorithm}
+
 % ============================================================================
 %                        4.2 目标函数
 % ============================================================================

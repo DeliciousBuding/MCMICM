@@ -1,5 +1,6 @@
 {
     "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.outDir": "build",
     "latex-workshop.view.pdf.viewer": "tab",
     "latex-workshop.view.pdf.editorTab.side": "right",
     "latex-workshop.latex.recipe.default": "lastUsed",
@@ -12,6 +13,7 @@
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
+                "-output-directory=build",
                 "%DOC%"
             ]
         },
@@ -19,6 +21,7 @@
             "name": "biber",
             "command": "biber",
             "args": [
+                "--output-directory=build",
                 "%DOCFILE%"
             ]
         }
@@ -35,19 +38,20 @@
         }
     ],
     "files.exclude": {
-        "**/*.aux": true,
-        "**/*.fdb_latexmk": true,
-        "**/*.fls": true,
-        "**/*.gz": true,
-        "**/*.log": true,
-        "**/*.out": true,
-        "**/*.run.xml": true,
-        "**/*.bcf": true,
-        "**/*.blg": true,
-        "**/*.bbl": true,
-        "**/*.toc": true,
-        "**/*.loa": true,
-        "**/*.lof": true,
-        "**/*.lot": true
+        "*.aux": true,
+        "*.fdb_latexmk": true,
+        "*.fls": true,
+        "*.log": true,
+        "*.out": true,
+        "*.run.xml": true,
+        "*.bcf": true,
+        "*.blg": true,
+        "*.bbl": true,
+        "*.toc": true,
+        "*.loa": true,
+        "*.lof": true,
+        "*.lot": true,
+        "*.bcf-SAVE-ERROR": true,
+        "*.*.gz": true
     }
 }

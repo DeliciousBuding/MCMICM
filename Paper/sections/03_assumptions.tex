@@ -64,46 +64,46 @@ To establish a reasonable and solvable mathematical model, we make the following
 \subsection{Notations}
 \label{subsec:notations}
 
-% 【重要】使用 tabularx + X 列类型，让 Description 自动换行
-% 【注意】不要手动用 \\ 或 \newline 断行，tabularx 会自动处理
+% 【重要】符号表需覆盖全文所有关键变量，尤其是 PCA--LSTM 与 DID 的核心参数；并补充 Unit 列。
 
-For clarity and consistency throughout this paper, we define the key symbols and their meanings in Table~\ref{tab:notations}.
+For clarity and consistency throughout this paper, we summarize the key symbols used in the PCA--LSTM forecasting module and the DID causal module in Table~\ref{tab:notations}.
 
-% --- 符号表 ---
 \begin{table}[H]
     \centering
-    \caption{Summary of Key Notations}
+    \caption{Summary of Key Notations (Forecasting + Causal Inference)}
     \label{tab:notations}
-    % 【说明】X 列类型会自动伸缩填充剩余宽度，并自动换行
     \begin{tabularx}{\textwidth}{c X c}
         \toprule
         \textbf{Symbol} & \textbf{Description} & \textbf{Unit} \\
         \midrule
-        % --- 集合与索引 ---
-        $i, j$ & Indices for regions or entities in the dataset & -- \\
-        $t$ & Time index (year, month, or discrete period) & -- \\
-        $\mathcal{N}$ & Set of all nodes (regions) in the network, $\mathcal{N} = \{1, 2, \ldots, n\}$ & -- \\
-        $\mathcal{T}$ & Time horizon of the study, $\mathcal{T} = \{1, 2, \ldots, T\}$ & -- \\
+        $i$ & Index of a National Olympic Committee (NOC) & -- \\
+        $t$ & Olympic cycle / year index & year \\
+        $\mathcal{I}$ & Set of NOCs, $|\mathcal{I}| = N$ & -- \\
+        $\mathcal{T}$ & Set of observed cycles/years, $|\mathcal{T}| = T$ & -- \\
         \midrule
-        % --- 输入变量 ---
-        $x_{i,t}$ & Primary feature variable for region $i$ at time $t$ & varies \\
-        $P_i$ & Population density of region $i$ & people/km\textsuperscript{2} \\
-        $G_i$ & GDP per capita of region $i$ & USD \\
+        $M^{\mathrm{gold}}_{i,t}$ & Observed number of gold medals for NOC $i$ at time $t$ & medals \\
+        $M^{\mathrm{tot}}_{i,t}$ & Observed number of total medals for NOC $i$ at time $t$ & medals \\
+        $\hat{M}_{i,t}$ & Model prediction of medal count (gold or total) & medals \\
+        $\mathrm{CI}^{95\%}_{i,t}$ & 95\% predictive interval for $\hat{M}_{i,t}$ & medals \\
         \midrule
-        % --- 输出/目标变量 ---
-        $y_{i,t}$ & Target variable (prediction objective) for region $i$ at time $t$ & varies \\
-        $\hat{y}_{i,t}$ & Predicted value of $y_{i,t}$ by our model & varies \\
+        $\mathbf{x}_{i,t} \in \mathbb{R}^{p}$ & Raw feature vector (event-level + macro covariates) for NOC $i$ at time $t$ & mixed \\
+        $\tilde{\mathbf{x}}_{i,t}$ & Standardized feature vector of $\mathbf{x}_{i,t}$ & -- \\
+        $\mathbf{W} \in \mathbb{R}^{p \times k}$ & PCA loading matrix (top-$k$ principal directions) & -- \\
+        $\mathbf{z}_{i,t} \in \mathbb{R}^{k}$ & PCA scores, $\mathbf{z}_{i,t} = \mathbf{W}^\top \tilde{\mathbf{x}}_{i,t}$ & -- \\
+        $L$ & LSTM look-back window length & cycles \\
+        $\mathbf{h}_{i,t}$ & LSTM hidden representation for NOC $i$ at time $t$ & -- \\
+        $\Theta_{\mathrm{LSTM}}$ & Trainable parameters of the LSTM & -- \\
+        $\mathbf{f}_{i,t}$ & Fused feature vector used by the downstream regressor (e.g., $[\mathbf{h}_{i,t};\,\mathrm{Host}_{i,t};\,\mathbf{u}_{i,t}]$) & mixed \\
+        $\mathcal{B}$ & Number of bootstrap resamples for uncertainty quantification & -- \\
         \midrule
-        % --- 模型参数 ---
-        $\omega$ & Weighting coefficient for the multi-objective function & -- \\
-        $\lambda$ & Regularization parameter to prevent overfitting & -- \\
-        $\eta$ & Learning rate in gradient-based optimization & -- \\
-        $\Theta$ & Set of all model parameters, $\Theta = \{\theta_1, \theta_2, \ldots\}$ & -- \\
-        \midrule
-        % --- 性能指标 ---
-        $J(\cdot)$ & Objective function to be minimized or maximized & -- \\
-        $\epsilon$ & Error tolerance or convergence threshold & -- \\
-        $\Delta t$ & Time interval between consecutive observations & years \\
+        $Y_{i,t}$ & Outcome variable in DID (e.g., medal growth, efficiency index) & varies \\
+        $\mathrm{Treat}_i$ & Treatment indicator: 1 if NOC $i$ adopts a ``great coach'' intervention & -- \\
+        $\mathrm{Post}_t$ & Post-intervention indicator: 1 for periods after policy implementation & -- \\
+        $\mathrm{Treat}_i\times\mathrm{Post}_t$ & DID interaction term capturing the treatment effect & -- \\
+        $\beta_{\mathrm{DID}}$ & DID coefficient (average treatment effect on the treated) & varies \\
+        $\boldsymbol{\gamma}$ & Coefficients for control covariates $\mathbf{c}_{i,t}$ & varies \\
+        $\alpha_i,\ \delta_t$ & NOC and time fixed effects (if included) & -- \\
+        $\varepsilon_{i,t}$ & Error term & -- \\
         \bottomrule
     \end{tabularx}
 \end{table}
