@@ -1,0 +1,119 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 2026 MCM/ICM SOLUTION REPORT
+%%% TEAM CONTROL NUMBER: 2617892
+%%% UNIVERSITY: HUNAN UNIVERSITY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{mcmthesis}
+
+\mcmsetup{
+  CTeX = false,
+  tcn = 2617892,
+  problem = ABCDEF, % TODO: after choosing, change to A/B/C/D/E/F
+  sheet = true,
+  titleinsheet = true,
+  keywordsinsheet = true,
+  titlepage = false,
+  abstract = true
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Packages (keep minimal & stable)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{csquotes}
+\usepackage{lastpage}
+% If you need hyperlinks (mcmthesis often handles this):
+% \usepackage[colorlinks=true]{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Bibliography (biblatex)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[hyperref=true,style=ieee]{biblatex}
+\addbibresource{ref.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Document metadata
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Modeling and Analysis of \texorpdfstring{[TODO: Update Title]}{[TODO: Update Title]}}
+\author{\small Team 2617892}
+\date{\today}
+
+\memoto{MCM/ICM Executive Director}
+\memofrom{Team 2617892}
+\memosubject{MCM/ICM 2026 Submission}
+\memodate{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Toggle switches
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set to true if you want ToC; keep false to save pages (ToC counts in 25 pages)
+\newif\ifshowtoc
+\showtocfalse
+% \showtoctrue
+
+
+\setlength{\headheight}{14pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Begin document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% Abstract is included via mcmsetup{abstract=true}
+\input{sections/00_abstract}
+
+\maketitle
+
+\ifshowtoc
+  \tableofcontents
+  \newpage
+\fi
+
+\section{Introduction}
+\input{sections/01_intro}
+
+\section{Assumptions and Notations}
+\input{sections/02_assumptions}
+
+\section{The Mathematical Model}
+\input{sections/03_model}
+
+\section{Solution Approach / Simulation and Result Analysis}
+\input{sections/04_solution}
+
+\section{Validation and Sensitivity Analysis}
+\input{sections/05_validation}
+
+\section{Conclusions and Policy Implications}
+\input{sections/06_policy}
+
+\section{Strengths and Weaknesses}
+\input{sections/07_strengths}
+
+\printbibliography
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 2026 NEW RULE: REPORT ON USE OF AI TOOLS
+%%% This section does NOT count toward 25-page limit
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\input{ai_log/ai_report}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Appendices (code, extra figures, etc.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{appendices}
+
+\section{Code Appendix}
+% Option A: paste key code snippets as text in appendix
+% Option B: include file (uncomment when file exists)
+% \lstinputlisting[language=Python]{code/main_model.py}
+
+\section{Additional Results}
+% Put extra figures/tables here if needed (does count? Appendices are in the 25 pages unless after limit rules say otherwise)
+
+\end{appendices}
+
+\end{document}
