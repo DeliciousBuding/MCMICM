@@ -10,6 +10,7 @@
 *.synctex.gz
 *.run.xml
 *.bcf
+*.bcf-SAVE-ERROR
 *.pdf
 
 # Python
