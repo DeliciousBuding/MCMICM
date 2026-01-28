@@ -1,0 +1,25 @@
+\section{The Mathematical Model}
+
+% 提示：
+% 1. 逻辑流：问题描述 -> 公式推导 -> 算法说明（伪代码）。
+% 2. 可视化：不要全是文字！多用流程图（Logic flowchart）展示你们模型的运行机制。
+% 3. 公式：一定要有 LaTeX 编号，文字里引用时用 (1)。
+
+\subsection{Model Formulation}
+\begin{equation}
+    J = \sum_{i=1}^{n} w_i x_i^2 + \int_{0}^{T} C(t) dt
+\end{equation}
+
+\subsection{Solution Algorithm}
+% 提示：算法伪代码不仅显得专业，也是填充页面长度的艺术。
+\begin{algorithm}[H]
+    \caption{The Optimization Process}
+    \KwIn{Raw dataset $\mathcal{D}$, iteration limit $N$}
+    \KwOut{Optimized parameters $\Theta^*$}
+    Initialize $\Theta_0$ randomly\;
+    \For{$k=1$ \KwTo $N$}{
+        Calculate gradient $\nabla J(\Theta_k)$\;
+        Update $\Theta_{k+1} = \Theta_k - \eta \nabla J$\;
+    }
+    \Return{$\Theta_{N}$}\;
+\end{algorithm}

@@ -1,119 +1,67 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% 2026 MCM/ICM SOLUTION REPORT
-%%% TEAM CONTROL NUMBER: 2617892
-%%% UNIVERSITY: HUNAN UNIVERSITY
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% !Tool = xelatex
+% !BIB = biber
 
-\documentclass{mcmthesis}
-
+\documentclass{mcmthesis} 
 \mcmsetup{
-  CTeX = false,
-  tcn = 2617892,
-  problem = ABCDEF, % TODO: after choosing, change to A/B/C/D/E/F
-  sheet = true,
-  titleinsheet = true,
-  keywordsinsheet = true,
-  titlepage = false,
-  abstract = true
+    CTANstyle = true,       
+    tcn = {2617892},        
+    problem = {C},          
+    sheet = true,           
+    titleinsheet = true,    
+    keywordsinsheet = true  
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Packages (keep minimal & stable)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{amsmath, amssymb}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{csquotes}
-\usepackage{lastpage}
-% If you need hyperlinks (mcmthesis often handles this):
-% \usepackage[colorlinks=true]{hyperref}
+% --- 基础宏包 ---
+\usepackage{palatino}       
+\usepackage{lipsum}         
+\usepackage{lastpage}       
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Bibliography (biblatex)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[hyperref=true,style=ieee]{biblatex}
+% --- 核心功能宏包 ---
+\usepackage{booktabs}       
+\usepackage{longtable}      
+\usepackage{amsmath, amssymb, amsthm} 
+\usepackage[ruled, linesnumbered]{algorithm2e} 
+\usepackage{listings}       
+\usepackage{subcaption}     
+\usepackage{graphicx}       
+\usepackage{xcolor}         
+\usepackage{enumitem}       
+
+% --- 参考文献 ---
+\usepackage[backend=biber, style=gb7714-2015]{biblatex} 
 \addbibresource{ref.bib}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Document metadata
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Modeling and Analysis of \texorpdfstring{[TODO: Update Title]}{[TODO: Update Title]}}
-\author{\small Team 2617892}
-\date{\today}
+% --- 自定义命令 ---
+\newcommand{\autoref}[1]{Fig. \ref{#1}} 
 
-\memoto{MCM/ICM Executive Director}
-\memofrom{Team 2617892}
-\memosubject{MCM/ICM 2026 Submission}
-\memodate{\today}
+\title{Your Professional Title for the MCM 2026 Problem}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Toggle switches
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Set to true if you want ToC; keep false to save pages (ToC counts in 25 pages)
-\newif\ifshowtoc
-\showtocfalse
-% \showtoctrue
-
-
-\setlength{\headheight}{14pt}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Begin document
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-% Abstract is included via mcmsetup{abstract=true}
-\input{sections/00_abstract}
-
+% --- 00 摘要页 ---
+\input{sections/00_abstract.tex}
 \maketitle
 
-\ifshowtoc
-  \tableofcontents
-  \newpage
-\fi
-
-\section{Introduction}
-\input{sections/01_intro}
-
-\section{Assumptions and Notations}
-\input{sections/02_assumptions}
-
-\section{The Mathematical Model}
-\input{sections/03_model}
-
-\section{Solution Approach / Simulation and Result Analysis}
-\input{sections/04_solution}
-
-\section{Validation and Sensitivity Analysis}
-\input{sections/05_validation}
-
-\section{Conclusions and Policy Implications}
-\input{sections/06_policy}
-
-\section{Strengths and Weaknesses}
-\input{sections/07_strengths}
-
-\printbibliography
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% 2026 NEW RULE: REPORT ON USE OF AI TOOLS
-%%% This section does NOT count toward 25-page limit
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% --- 正文开始 ---
 \newpage
-\input{ai_log/ai_report}
+\pagenumbering{arabic} 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Appendices (code, extra figures, etc.)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{appendices}
+\input{sections/01_intro.tex}        
+\input{sections/02_data.tex}         
+\input{sections/03_assumptions.tex}  
+\input{sections/04_model.tex}        
+\input{sections/05_solution.tex}     
+\input{sections/06_validation.tex}   
+\input{sections/07_policy.tex}       
+\input{sections/08_strengths.tex}    
 
-\section{Code Appendix}
-% Option A: paste key code snippets as text in appendix
-% Option B: include file (uncomment when file exists)
-% \lstinputlisting[language=Python]{code/main_model.py}
+% --- 参考文献 ---
+\newpage
+\printbibliography[heading=bibintoc, title={References}]
 
-\section{Additional Results}
-% Put extra figures/tables here if needed (does count? Appendices are in the 25 pages unless after limit rules say otherwise)
-
-\end{appendices}
+% --- 附录 (含 AI 报告) ---
+\newpage
+\appendix
+\input{ai_log/ai_report.tex} 
 
 \end{document}
