@@ -1,0 +1,223 @@
+% appendix_code.tex - 代码附录
+% ICM Problem F - Policy Science
+
+\section*{Appendix A: Source Code}
+\addcontentsline{toc}{section}{Appendix A: Source Code}
+\label{app:code}
+
+% 【写作指导】代码附录需要：
+% 1. 核心算法的可执行代码
+% 2. 清晰的注释
+% 3. 使用说明
+
+\subsection*{A.1 Mechanism Model Implementation}
+
+The following Python code implements the system dynamics model described in \secref{sec:model1}:
+
+\begin{lstlisting}[language=Python, caption={System Dynamics Model Core}, label={lst:mechanism}]
+"""
+System Dynamics Model for Policy Analysis
+ICM 2026 - Problem F
+Team #2617892
+"""
+import numpy as np
+from dataclasses import dataclass
+from typing import Callable, Tuple
+
+@dataclass
+class ModelParameters:
+    """Model parameters with default values"""
+    alpha_0: float = 0.0    # Intercept
+    alpha_1: float = 1.0    # Linear policy effect
+    alpha_2: float = -0.1   # Quadratic (diminishing returns)
+    beta: np.ndarray = None # Covariate effects
+    lambda_fb: float = 0.2  # Feedback strength
+    tau: int = 2            # Policy lag (periods)
+    delta: float = 0.95     # Discount factor
+    
+def simulate_dynamics(
+    policy: np.ndarray,
+    initial_state: float,
+    params: ModelParameters,
+    T: int
+) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Simulate system dynamics under given policy trajectory.
+    
+    Args:
+        policy: Policy intensity over time, shape (T,)
+        initial_state: Initial stock level
+        params: Model parameters
+        T: Time horizon
+    
+    Returns:
+        states: Stock trajectory, shape (T+1,)
+        outcomes: Outcome trajectory, shape (T,)
+    """
+    states = np.zeros(T + 1)
+    outcomes = np.zeros(T)
+    states[0] = initial_state
+    
+    for t in range(T):
+        # Inflow rate (Eq. 2 in paper)
+        flow_in = (
+            params.alpha_0 
+            + params.alpha_1 * policy[t] 
+            + params.alpha_2 * policy[t]**2
+        )
+        
+        # Feedback from lagged outcome (if t >= tau)
+        if t >= params.tau:
+            flow_in += params.lambda_fb * outcomes[t - params.tau]
+        
+        # Outflow rate (proportional depletion)
+        flow_out = 0.1 * states[t]
+        
+        # State evolution (Eq. 1 in paper)
+        states[t + 1] = states[t] + flow_in - flow_out
+        
+        # Outcome mapping (Eq. 4 in paper)
+        outcomes[t] = np.log(1 + max(states[t + 1], 0))
+    
+    return states, outcomes
+
+# TODO: Add parameter estimation functions
+# TODO: Add model validation routines
+\end{lstlisting}
+
+\subsection*{A.2 Multi-Objective Optimization}
+
+\begin{lstlisting}[language=Python, caption={NSGA-II Based Policy Optimizer}, label={lst:optimizer}]
+"""
+Multi-Objective Policy Optimization using NSGA-II
+"""
+import numpy as np
+from typing import List, Tuple
+# from pymoo.algorithms.moo.nsga2 import NSGA2  # Uncomment for full implementation
+
+def policy_objectives(
+    policy: np.ndarray,
+    params: dict
+) -> Tuple[float, float, float]:
+    """
+    Evaluate policy against multiple objectives.
+    
+    Args:
+        policy: Policy decision vector
+        params: Dictionary of model parameters
+    
+    Returns:
+        Tuple of (welfare, gini, cost) - note: minimize all
+    """
+    # Simulate dynamics
+    states, outcomes = simulate_dynamics(
+        policy, 
+        params['initial_state'],
+        params['model_params'],
+        len(policy)
+    )
+    
+    # Objective 1: Welfare (maximize -> negate for minimization)
+    welfare = -np.sum(
+        params['discount_factors'] * outcomes
+    )
+    
+    # Objective 2: Gini coefficient (minimize)
+    gini = compute_gini(outcomes)
+    
+    # Objective 3: Total cost (minimize)
+    cost = np.sum(params['unit_costs'] * policy)
+    
+    return welfare, gini, cost
+
+def compute_gini(values: np.ndarray) -> float:
+    """Compute Gini coefficient."""
+    sorted_vals = np.sort(values)
+    n = len(values)
+    cumsum = np.cumsum(sorted_vals)
+    return (2 * np.sum((np.arange(1, n+1) * sorted_vals))) / (n * np.sum(sorted_vals)) - (n + 1) / n
+
+def run_optimization(
+    problem_params: dict,
+    pop_size: int = 100,
+    n_gen: int = 200
+) -> List[np.ndarray]:
+    """
+    Run NSGA-II optimization to find Pareto-optimal policies.
+    
+    Returns:
+        List of Pareto-optimal policy vectors
+    """
+    # TODO: Implement full NSGA-II with pymoo
+    # Placeholder for demonstration
+    print("Running NSGA-II optimization...")
+    print(f"Population size: {pop_size}")
+    print(f"Generations: {n_gen}")
+    
+    # Return placeholder
+    return [np.random.rand(10) for _ in range(10)]  # Pareto set
+
+# TODO: Add constraint handling
+# TODO: Add local search refinement
+\end{lstlisting}
+
+\subsection*{A.3 Sensitivity Analysis}
+
+\begin{lstlisting}[language=Python, caption={Sobol Sensitivity Analysis}, label={lst:sensitivity}]
+"""
+Global Sensitivity Analysis using Sobol Indices
+"""
+import numpy as np
+# from SALib.sample import saltelli
+# from SALib.analyze import sobol  # Uncomment for full implementation
+
+def define_problem(param_ranges: dict) -> dict:
+    """Define problem for SALib."""
+    return {
+        'num_vars': len(param_ranges),
+        'names': list(param_ranges.keys()),
+        'bounds': list(param_ranges.values())
+    }
+
+def run_sobol_analysis(
+    model_func,
+    param_ranges: dict,
+    n_samples: int = 1024
+) -> dict:
+    """
+    Perform Sobol sensitivity analysis.
+    
+    Args:
+        model_func: Model function mapping parameters to output
+        param_ranges: Dict of {param_name: [low, high]}
+        n_samples: Number of samples (will be multiplied by 2*(d+1))
+    
+    Returns:
+        Dict with first-order (S1) and total-order (ST) indices
+    """
+    problem = define_problem(param_ranges)
+    
+    # TODO: Generate Saltelli samples
+    # param_samples = saltelli.sample(problem, n_samples)
+    
+    # TODO: Evaluate model
+    # Y = np.array([model_func(p) for p in param_samples])
+    
+    # TODO: Analyze
+    # Si = sobol.analyze(problem, Y)
+    
+    # Placeholder results
+    Si = {
+        'S1': np.random.rand(len(param_ranges)),  # First-order
+        'ST': np.random.rand(len(param_ranges)),  # Total-order
+        'names': list(param_ranges.keys())
+    }
+    
+    return Si
+
+# TODO: Add visualization functions
+# TODO: Add OAT analysis
+\end{lstlisting}
+
+\vspace{1em}
+\noindent\textbf{Note:} Complete source code with all dependencies is available at: \TODO{GitHub repository URL or submission attachment reference}.

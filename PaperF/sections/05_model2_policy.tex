@@ -1,0 +1,168 @@
+% 05_model2_policy.tex - 政策优化模型
+% ICM Problem F - Policy Science
+
+\section{Model II: Policy Optimization Framework}
+\label{sec:model2}
+
+% 【写作指导】F题政策优化需要：
+% 1. 多目标平衡（效率、公平、可持续性）
+% 2. 现实约束（预算、容量、政治可行性）
+% 3. 鲁棒性考量（不确定性下的决策）
+
+%=== 5.1 优化问题构建 ===
+\subsection{Problem Formulation}
+\label{sec:model2_formulation}
+
+Building on the mechanism model (\secref{sec:model1}), we formulate a \textbf{multi-objective optimization} problem that identifies Pareto-optimal policy portfolios.
+
+%--- 5.1.1 目标函数 ---
+\subsubsection{Objective Functions}
+
+Effective policy must balance multiple, potentially conflicting objectives. We consider:
+
+\textbf{Objective 1: \TODO{e.g., Social Welfare Maximization}}
+\begin{equation}
+\objective_1 = \max_{\boldsymbol{\policy}} \sum_{t=1}^{T} \discount^{t-1} \cdot \welfare(\outcome_t, \mathbf{X}_t)
+\label{eq:obj1}
+\end{equation}
+
+where $\welfare(\cdot)$ is the social welfare function aggregating individual utilities, and $\discount$ is the social discount factor.
+
+\textbf{Objective 2: \TODO{e.g., Equity / Distributional Fairness}}
+\begin{equation}
+\objective_2 = \min_{\boldsymbol{\policy}} \; \text{Gini}(\outcome_{i,T}) = 1 - 2 \int_0^1 L(p) \, dp
+\label{eq:obj2}
+\end{equation}
+
+where $L(p)$ is the Lorenz curve of outcomes across units.
+
+\textbf{Objective 3: \TODO{e.g., Cost-Effectiveness / Budget Efficiency}}
+\begin{equation}
+\objective_3 = \min_{\boldsymbol{\policy}} \sum_{i,t} c_{i,t} \cdot \policy_{i,t}
+\label{eq:obj3}
+\end{equation}
+
+%--- 5.1.2 约束条件 ---
+\subsubsection{Constraints}
+
+Policy decisions are subject to real-world constraints:
+
+\textbf{Budget Constraint:}
+\begin{equation}
+\sum_{i \in \mathcal{I}} \sum_{t=1}^{T} c_{i,t} \cdot \policy_{i,t} \leq B_{\text{total}}
+\label{eq:budget}
+\end{equation}
+
+\textbf{Capacity Constraint:}
+\begin{equation}
+\policy_{i,t} \leq \bar{\policy}_i \quad \forall i \in \mathcal{I}, \; t \in \mathcal{T}
+\label{eq:capacity}
+\end{equation}
+
+\textbf{Temporal Smoothness (avoid drastic policy changes):}
+\begin{equation}
+|\policy_{i,t+1} - \policy_{i,t}| \leq \Delta_{\max} \quad \forall i, t
+\label{eq:smoothness}
+\end{equation}
+
+\textbf{Non-negativity:}
+\begin{equation}
+\policy_{i,t} \geq 0 \quad \forall i \in \mathcal{I}, \; t \in \mathcal{T}
+\label{eq:nonnegativity}
+\end{equation}
+
+%--- 5.1.3 综合优化问题 ---
+\subsubsection{Integrated Optimization Problem}
+
+The complete multi-objective optimization problem is:
+
+\begin{equation}
+\begin{aligned}
+& \underset{\boldsymbol{\policy}}{\text{optimize}}
+& & \left( \objective_1(\boldsymbol{\policy}), \; \objective_2(\boldsymbol{\policy}), \; \objective_3(\boldsymbol{\policy}) \right) \\
+& \text{subject to}
+& & \text{Budget constraint \eqnref{eq:budget}} \\
+& & & \text{Capacity constraint \eqnref{eq:capacity}} \\
+& & & \text{Smoothness constraint \eqnref{eq:smoothness}} \\
+& & & \text{Non-negativity \eqnref{eq:nonnegativity}} \\
+& & & \text{System dynamics \eqnref{eq:state_evolution}--\eqnref{eq:outcome}}
+\end{aligned}
+\label{eq:moop}
+\end{equation}
+
+%=== 5.2 权衡分析框架 ===
+\subsection{Trade-off Analysis Framework}
+\label{sec:model2_tradeoff}
+
+Given multiple objectives, we employ the \textbf{$\epsilon$-constraint method} combined with \textbf{Pareto frontier visualization} to explore trade-offs.
+
+\textbf{$\epsilon$-Constraint Formulation:}
+
+Fix objectives 2 and 3 as constraints, optimize objective 1:
+\begin{equation}
+\begin{aligned}
+& \max_{\boldsymbol{\policy}} && \objective_1(\boldsymbol{\policy}) \\
+& \text{s.t.} && \objective_2(\boldsymbol{\policy}) \leq \epsilon_2 \\
+& && \objective_3(\boldsymbol{\policy}) \leq \epsilon_3 \\
+& && \text{Original constraints}
+\end{aligned}
+\label{eq:epsilon_constraint}
+\end{equation}
+
+By systematically varying $(\epsilon_2, \epsilon_3)$, we trace the Pareto frontier.
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{figures/pareto_frontier.pdf}
+    \fbox{\parbox{0.65\textwidth}{\centering\vspace{4em}\TODO{Figure: Pareto Frontier showing Efficiency-Equity Trade-off}\vspace{4em}}}
+    \caption{Pareto frontier illustrating trade-offs between efficiency ($\objective_1$) and equity ($\objective_2$)}
+    \label{fig:pareto}
+\end{figure}
+
+%=== 5.3 鲁棒优化扩展 ===
+\subsection{Robust Optimization Extension}
+\label{sec:model2_robust}
+
+To account for parameter uncertainty, we extend the formulation to a \textbf{robust optimization} framework.
+
+\textbf{Uncertainty Set:}
+Let $\mathcal{U}$ denote the uncertainty set for key parameters:
+\begin{equation}
+\mathcal{U} = \left\{ \boldsymbol{\theta} : \| \boldsymbol{\theta} - \hat{\boldsymbol{\theta}} \|_2 \leq \Gamma \right\}
+\label{eq:uncertainty_set}
+\end{equation}
+
+where $\hat{\boldsymbol{\theta}}$ is the nominal parameter estimate and $\Gamma$ is the uncertainty budget.
+
+\textbf{Robust Counterpart:}
+\begin{equation}
+\max_{\boldsymbol{\policy}} \min_{\boldsymbol{\theta} \in \mathcal{U}} \objective_1(\boldsymbol{\policy}; \boldsymbol{\theta})
+\label{eq:robust}
+\end{equation}
+
+This ensures policy performance even under adverse parameter realizations.
+
+%=== 5.4 政策情景设计 ===
+\subsection{Policy Scenario Design}
+\label{sec:model2_scenarios}
+
+We evaluate policy performance across \TODO{N} representative scenarios:
+
+\begin{table}[H]
+\centering
+\caption{Policy Scenarios for Comparative Analysis}
+\label{tab:scenarios}
+\begin{tabular}{l p{5cm} c c}
+\toprule
+\textbf{Scenario} & \textbf{Description} & \textbf{Policy Intensity} & \textbf{Budget} \\
+\midrule
+Baseline (S0) & Status quo, no new intervention & -- & \$0 \\
+Conservative (S1) & \TODO{Low-intensity intervention} & Low & \TODO{Budget} \\
+Moderate (S2) & \TODO{Balanced approach} & Medium & \TODO{Budget} \\
+Aggressive (S3) & \TODO{High-intensity intervention} & High & \TODO{Budget} \\
+Targeted (S4) & \TODO{Focused on high-impact units} & Variable & \TODO{Budget} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Scenario analysis results are presented in \secref{sec:results}.

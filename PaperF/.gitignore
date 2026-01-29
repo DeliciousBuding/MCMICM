@@ -1,0 +1,38 @@
+# LaTeX 编译临时文件
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lot
+*.lof
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# 编辑器备份
+*.bak
+*~
+\#*\#
+.\#*
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# PDF（可选：如果想保留 PDF 可注释此行）
+# *.pdf
+
+# 临时目录
+_minted*/
+auto/

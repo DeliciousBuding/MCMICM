@@ -1,0 +1,162 @@
+% Section 8: Sensitivity and Robustness Analysis
+% 灵敏度分析与鲁棒性检验
+
+\section{Sensitivity and Robustness Analysis}
+\label{sec:sensitivity}
+
+% 【E题O奖要求】灵敏度分析必须针对指标权重和关键参数
+
+%=== 8.1 灵敏度分析框架 ===
+\subsection{Sensitivity Analysis Framework}
+\label{subsec:sensitivity_framework}
+
+Sensitivity analysis examines how variations in model inputs affect outputs, identifying which parameters most influence conclusions. We conduct three types of sensitivity analysis:
+
+\begin{enumerate}[itemsep=0.3em]
+    \item \textbf{Local Sensitivity (One-at-a-Time):} Perturb individual parameters while holding others constant.
+    
+    \item \textbf{Global Sensitivity (Monte Carlo):} Simultaneously vary multiple parameters according to probability distributions.
+    
+    \item \textbf{Structural Sensitivity:} Test alternative model formulations and assumptions.
+\end{enumerate}
+
+%=== 8.2 指标权重灵敏度 ===
+\subsection{Indicator Weight Sensitivity}
+\label{subsec:weight_sensitivity}
+
+The AHP-Entropy hybrid weights contain inherent subjectivity. We examine sensitivity to the combination coefficient $\lambda$ and pillar-level weights.
+
+\subsubsection{Sensitivity to $\lambda$ (AHP-Entropy Balance)}
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][0.22\textheight][c]{0.85\textwidth}{
+        \centering
+        \textbf{TOPSIS Rankings as $\lambda$ Varies from 0 (Pure Entropy) to 1 (Pure AHP)}
+        \par\vspace{0.5em}
+        \small \TODO{Line plot showing $C_j^*$ for each scenario as $\lambda$ varies. Identify the range of $\lambda$ over which the ranking remains stable.}
+    }}
+    \caption{Sensitivity of scenario rankings to the AHP-Entropy balance parameter $\lambda$.}
+    \label{fig:lambda_sensitivity}
+\end{figure}
+
+\TODO{Report findings: e.g., ``Rankings remain stable for $\lambda \in [0.3, 0.7]$, suggesting conclusions are robust to reasonable variations in weight methodology.''}
+
+\subsubsection{Sensitivity to Pillar Weights}
+We conduct a systematic sweep of pillar weights $(w_{\text{Env}}, w_{\text{Econ}}, w_{\text{Soc}})$ over the simplex and identify ``ranking reversal regions.''
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][0.22\textheight][c]{0.85\textwidth}{
+        \centering
+        \textbf{Ternary Plot: Optimal Scenario by Pillar Weight Combination}
+        \par\vspace{0.5em}
+        \small \TODO{Ternary (triangular) diagram with corners representing 100\% weight on each pillar. Color-code regions by which scenario is optimal. Show that the recommended scenario is optimal over a large region.}
+    }}
+    \caption{Ternary plot showing which scenario is optimal under different pillar weight combinations.}
+    \label{fig:ternary}
+\end{figure}
+
+%=== 8.3 系统动力学参数灵敏度 ===
+\subsection{System Dynamics Parameter Sensitivity}
+\label{subsec:sd_sensitivity}
+
+We identify the parameters to which model outputs are most sensitive using normalized sensitivity elasticity:
+
+\begin{equation}
+    \eta_{\theta} = \frac{\partial U / U}{\partial \theta / \theta} \approx \frac{\Delta U / U}{\Delta \theta / \theta}
+    \label{eq:elasticity}
+\end{equation}
+
+\begin{table}[H]
+    \centering
+    \caption{Sensitivity Elasticity for Key System Dynamics Parameters}
+    \label{tab:sd_sensitivity}
+    \begin{tabular}{l c c l}
+        \toprule
+        \textbf{Parameter} & \textbf{Baseline} & \textbf{Elasticity $\eta$} & \textbf{Interpretation} \\
+        \midrule
+        $R_{\text{regen}}$ (Regeneration rate) & \TODO{value} & \TODO{$\eta$} & \TODO{High/Moderate/Low sensitivity} \\
+        $\gamma$ (Env. elasticity of output) & \TODO{value} & \TODO{$\eta$} & \TODO{interpretation} \\
+        $\tau_{\text{delay}}$ (Policy delay) & \TODO{value} & \TODO{$\eta$} & \TODO{interpretation} \\
+        $r$ (Discount rate) & \TODO{value} & \TODO{$\eta$} & \TODO{interpretation} \\
+        $\kappa$ (Carrying capacity) & \TODO{value} & \TODO{$\eta$} & \TODO{interpretation} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\TODO{Discuss which parameters dominate and implications for data collection priorities.}
+
+%=== 8.4 不确定性下的鲁棒性 ===
+\subsection{Robustness under Uncertainty}
+\label{subsec:robustness}
+
+We assess model robustness through Monte Carlo simulation with parameter uncertainty:
+
+\subsubsection{Uncertainty Propagation}
+\begin{enumerate}[itemsep=0.2em]
+    \item Define probability distributions for uncertain parameters based on literature ranges.
+    \item Draw $N = 1000$ samples via Latin Hypercube Sampling for efficiency.
+    \item Run System Dynamics model and TOPSIS ranking for each sample.
+    \item Analyze distribution of outcomes and ranking frequencies.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \fbox{\parbox[c][0.20\textheight][c]{\textwidth}{
+            \centering
+            \textbf{(a) Distribution of Sustainability Scores}
+            \par\vspace{0.5em}
+            \small \TODO{Box plots or violin plots showing the distribution of $U$ for each scenario under parameter uncertainty.}
+        }}
+        \caption{Uncertainty in composite scores}
+        \label{fig:uncertainty_scores}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \fbox{\parbox[c][0.20\textheight][c]{\textwidth}{
+            \centering
+            \textbf{(b) Ranking Frequency Distribution}
+            \par\vspace{0.5em}
+            \small \TODO{Stacked bar chart showing how often each scenario ranks 1st, 2nd, 3rd, 4th across Monte Carlo runs.}
+        }}
+        \caption{Robustness of scenario rankings}
+        \label{fig:ranking_robustness}
+    \end{subfigure}
+    \caption{Robustness analysis under parametric uncertainty.}
+    \label{fig:robustness}
+\end{figure}
+
+\subsubsection{Key Robustness Findings}
+
+\TODO{Report findings, e.g.:}
+\begin{itemize}[itemsep=0.2em]
+    \item \TODO{``Scenario S3 (AGG) ranks first in X\% of Monte Carlo runs, demonstrating robust superiority under uncertainty.''}
+    \item \TODO{``The 90\% confidence interval for sustainability score under S3 is [a, b], non-overlapping with S1 (BAU), confirming statistical significance.''}
+    \item \TODO{``Ranking reversals between S2 and S3 occur primarily when [specific condition], suggesting [implication].''}
+\end{itemize}
+
+%=== 8.5 结构鲁棒性检验 ===
+\subsection{Structural Robustness Checks}
+\label{subsec:structural}
+
+Beyond parametric uncertainty, we test robustness to modeling choices:
+
+\begin{table}[H]
+    \centering
+    \caption{Structural Robustness Tests}
+    \label{tab:structural_tests}
+    \begin{tabularx}{\textwidth}{l X c}
+        \toprule
+        \textbf{Test} & \textbf{Modification} & \textbf{Ranking Change?} \\
+        \midrule
+        Alternative normalization & Use Z-score instead of min-max & \TODO{Yes/No} \\
+        Alternative MCDA method & Use VIKOR instead of TOPSIS & \TODO{Yes/No} \\
+        Different time horizon & Project to 2040 instead of 2050 & \TODO{Yes/No} \\
+        Remove outlier indicators & Exclude most extreme indicator & \TODO{Yes/No} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\TODO{Summarize: ``Core conclusions are robust to structural variations, with rankings preserved in X of Y tests.''}

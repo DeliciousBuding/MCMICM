@@ -1,0 +1,152 @@
+% 07_results_and_validation.tex - 结果与验证
+% ICM Problem F - Policy Science
+
+\section{Results and Validation}
+\label{sec:results}
+
+% 【写作指导】F题结果部分需要：
+% 1. 情景比较（政策方案效果对比）
+% 2. 分群体/分区域影响分析
+% 3. 时间动态（政策效果演化）
+% 4. 与基准/文献比较
+
+%=== 7.1 主要结果概述 ===
+\subsection{Overview of Key Results}
+\label{sec:results_overview}
+
+We apply the optimization framework to the \TODO{specific problem context} and present results across the policy scenarios defined in \secref{sec:model2_scenarios}.
+
+\textbf{Key Finding Summary:}
+\begin{itemize}
+    \item \textbf{Optimal Policy:} Scenario \TODO{SX} achieves the best balance between \TODO{objective 1} and \TODO{objective 2}.
+    \item \textbf{Efficiency Gains:} Compared to baseline, the recommended policy improves \TODO{outcome metric} by \TODO{X\%}.
+    \item \textbf{Equity Impact:} Distributional analysis shows \TODO{reduction/increase} in inequality (Gini coefficient: \TODO{before} $\rightarrow$ \TODO{after}).
+    \item \textbf{Cost-Effectiveness:} \TODO{Y} units of improvement per \TODO{Z currency} invested.
+\end{itemize}
+
+%=== 7.2 情景比较分析 ===
+\subsection{Scenario Comparison}
+\label{sec:results_scenarios}
+
+\begin{table}[H]
+\centering
+\caption{Policy Scenario Performance Comparison}
+\label{tab:scenario_results}
+\small
+\begin{tabular}{l c c c c c}
+\toprule
+\textbf{Scenario} & \textbf{Welfare ($\objective_1$)} & \textbf{Gini ($\objective_2$)} & \textbf{Cost ($\objective_3$)} & \textbf{ROI} & \textbf{Rank} \\
+\midrule
+Baseline (S0) & \TODO{value} & \TODO{value} & \$0 & -- & 5 \\
+Conservative (S1) & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} & 4 \\
+Moderate (S2) & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} & \textbf{1} \\
+Aggressive (S3) & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} & 3 \\
+Targeted (S4) & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} & 2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{figures/scenario_comparison.pdf}
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{4em}\TODO{Figure: Radar Chart or Bar Chart Comparing Scenarios}\vspace{4em}}}
+    \caption{Multi-dimensional comparison of policy scenarios}
+    \label{fig:scenario_comparison}
+\end{figure}
+
+%=== 7.3 时间动态分析 ===
+\subsection{Temporal Dynamics}
+\label{sec:results_temporal}
+
+We examine how policy effects unfold over the planning horizon:
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{figures/temporal_dynamics.pdf}
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{4em}\TODO{Figure: Time Series of Outcome Variables Under Different Scenarios}\vspace{4em}}}
+    \caption{Temporal evolution of policy outcomes: Baseline vs. Recommended policy}
+    \label{fig:temporal}
+\end{figure}
+
+\textbf{Key Temporal Observations:}
+\begin{enumerate}
+    \item \textbf{Policy Lag:} Effects begin materializing at $t = \TODO{X}$, consistent with the assumed lag parameter $\tau = \TODO{value}$.
+    \item \textbf{Acceleration Phase:} Between $t = \TODO{X}$ and $t = \TODO{Y}$, outcomes improve at rate \TODO{description}.
+    \item \textbf{Saturation:} Beyond $t = \TODO{Y}$, diminishing returns are observed as \TODO{mechanism}.
+\end{enumerate}
+
+%=== 7.4 分布影响分析 ===
+\subsection{Distributional Impact Analysis}
+\label{sec:results_distributional}
+
+Policy impacts are not uniform across stakeholder groups. We disaggregate results by \TODO{dimension: region, income level, demographic group}:
+
+\begin{table}[H]
+\centering
+\caption{Distributional Impacts by \TODO{Dimension}}
+\label{tab:distributional}
+\small
+\begin{tabular}{l c c c c}
+\toprule
+\textbf{Group} & \textbf{Baseline Outcome} & \textbf{Policy Outcome} & \textbf{Abs. Change} & \textbf{\% Change} \\
+\midrule
+\TODO{Group 1} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{+X\%} \\
+\TODO{Group 2} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{+Y\%} \\
+\TODO{Group 3} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{+Z\%} \\
+\TODO{Group 4} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{+W\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Equity Implications:}
+The recommended policy demonstrates \TODO{progressive/regressive/neutral} distributional characteristics. \TODO{Explanation of why certain groups benefit more/less.}
+
+%=== 7.5 模型验证 ===
+\subsection{Model Validation}
+\label{sec:results_validation}
+
+We validate our results through multiple approaches:
+
+\textbf{1. Historical Back-Testing.}
+Applying the model to the period \TODO{years} and comparing predictions with observed outcomes:
+
+\begin{table}[H]
+\centering
+\caption{Back-Testing Results}
+\label{tab:backtest}
+\begin{tabular}{l c c c c}
+\toprule
+\textbf{Metric} & \textbf{Predicted} & \textbf{Observed} & \textbf{Error} & \textbf{MAPE} \\
+\midrule
+\TODO{Metric 1} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{\%} \\
+\TODO{Metric 2} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{2. Cross-Validation.}
+Using \TODO{k}-fold cross-validation on regional data, we achieve prediction accuracy of \TODO{R² = value}.
+
+\textbf{3. Benchmark Comparison.}
+Our model's policy recommendations align with \TODO{established best practices / comparable international cases}. Specifically, \TODO{comparison details}.
+
+%=== 7.6 Pareto前沿分析 ===
+\subsection{Pareto Frontier Analysis}
+\label{sec:results_pareto}
+
+The optimization algorithm identifies a set of Pareto-optimal policies representing the efficiency-equity trade-off:
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.75\textwidth]{figures/pareto_results.pdf}
+    \fbox{\parbox{0.7\textwidth}{\centering\vspace{4em}\TODO{Figure: Pareto Frontier with Labeled Policy Solutions}\vspace{4em}}}
+    \caption{Pareto frontier: Selected solutions labeled with scenario identifiers}
+    \label{fig:pareto_results}
+\end{figure}
+
+\textbf{Interpretation:} Decision-makers can select policies along this frontier based on their value priorities:
+\begin{itemize}
+    \item \textbf{Efficiency-Focused:} Select solutions in the upper-left region (high $\objective_1$, higher $\objective_2$).
+    \item \textbf{Equity-Focused:} Select solutions in the lower-right region (lower $\objective_1$, low $\objective_2$).
+    \item \textbf{Balanced:} The ``knee'' of the frontier (Solution \TODO{ID}) offers the best compromise.
+\end{itemize}

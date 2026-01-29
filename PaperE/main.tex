@@ -1,0 +1,216 @@
+% MCM/ICM 2026 LaTeX 主控文件 - Problem E (Sustainability)
+% 编译方式：XeLaTeX + Biber（推荐用latexmk自动编译）
+% !TEX program = xelatex
+% !BIB program = biber
+
+\documentclass{mcmthesis}
+
+% 兼容性补丁：避免旧aux残留的chapter计数器导致hyperref报错
+\newcounter{chapter}
+\renewcommand{\thechapter}{\arabic{chapter}}
+
+% MCM题目配置（比赛时务必修改tcn为真实队号）
+\mcmsetup{
+    tcn = {2617892},
+    problem = {E},
+    sheet = true,
+    titleinsheet = true,
+    keywordsinsheet = true,
+    titlepage = false
+}
+
+% 目录开关
+\makeatletter
+\@ifundefined{showtoctrue}{}{\showtoctrue}
+\makeatother
+
+%=== 宏包加载 ===
+
+% 字体与排版
+\usepackage{palatino}
+\usepackage{microtype}
+\setlength{\emergencystretch}{2em}
+
+% 页面与布局
+\usepackage{lastpage}
+\usepackage{zref-abspage}
+\usepackage{float}
+\usepackage{geometry}
+\setlength{\headheight}{15pt}
+
+% 数学公式
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+
+% 表格美化
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+
+% 算法伪代码（顶会风格）
+\usepackage[ruled, vlined, linesnumbered]{algorithm2e}
+\SetAlgorithmName{Algorithm}{algorithm}{List of Algorithms}
+\SetKwInput{KwIn}{Input}
+\SetKwInput{KwOut}{Output}
+\SetKwInput{KwData}{Data}
+\SetKwInput{KwResult}{Result}
+
+% 代码高亮
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    tabsize=4
+}
+
+% 图形与颜色
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning, calc, fit, backgrounds}
+
+% 列表与枚举
+\usepackage{enumitem}
+\setlist[enumerate]{itemsep=0pt, parsep=0pt}
+
+% 超链接（最后加载）
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=green!50!black,
+    urlcolor=blue!80!black
+}
+
+% 目录格式调整（紧凑行距）
+\usepackage{tocloft}
+\setlength{\cftbeforesecskip}{2pt}
+\setlength{\cftbeforesubsecskip}{1pt}
+
+% 参考文献
+\usepackage[backend=biber, style=ieee, sorting=none]{biblatex}
+\addbibresource{ref.bib}
+
+%=== 自定义命令 ===
+
+% 正文页数计数器（实现 Page X of Y）
+\newcounter{mainpages}
+\makeatletter
+\newcommand{\savemainpages}{%
+    \immediate\write\@auxout{\string\setcounter{mainpages}{\the\value{page}}}%
+}
+\makeatother
+
+% 快捷引用命令
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+\newcommand{\eqnref}[1]{Eq.~(\ref{#1})}
+\newcommand{\algref}[1]{Algorithm~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+
+% TODO标记命令（用于标识待填内容）
+\newcommand{\TODO}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+%=== 文档元信息 ===
+
+\title{A Sustainability-Oriented Multi-Criteria Decision Framework for \\
+       \TODO{Problem E Topic: e.g., Ecosystem Restoration / Clean Energy Transition}}
+\author{Team \#2617892}
+
+%=== 正文开始 ===
+\begin{document}
+
+% Summary Sheet（摘要页，不计入页数）
+\pagenumbering{arabic}
+\setcounter{page}{0}
+\pagestyle{empty}
+\input{sections/00_abstract.tex}
+\maketitle
+\thispagestyle{empty}
+
+% Contents（目录页，从第1页开始但不显示页码）
+\newpage
+\setcounter{page}{1}
+\pagestyle{empty}
+\tableofcontents
+\thispagestyle{empty}
+
+% 正文开始（从第3页开始显示页眉页码）
+\newpage
+\setcounter{page}{3}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Team \#2617892}
+\fancyhead[R]{\small Page \thepage\ of \themainpages}
+\fancyfoot[C]{}
+
+%=== Part I: Problem Understanding & System Definition ===
+
+% Section 1: Introduction (问题重构与利益相关者)
+\input{sections/01_intro.tex}
+
+% Section 2: Assumptions and System Boundary (假设与系统边界)
+\input{sections/02_assumptions.tex}
+
+% Section 3: Notations (符号说明)
+\input{sections/03_notations.tex}
+
+%=== Part II: Sustainability Assessment Framework ===
+
+% Section 4: Sustainability Indicator System (可持续性指标体系)
+\input{sections/04_indicators.tex}
+
+% Section 5: System Dynamics Model (系统动力学建模)
+\input{sections/05_system_model.tex}
+
+%=== Part III: Scenario Analysis & Decision Support ===
+
+% Section 6: Scenario Design and Simulation (情景设计与模拟)
+\input{sections/06_scenarios.tex}
+
+% Section 7: Multi-Criteria Decision Analysis (多准则决策分析)
+\input{sections/07_mcda.tex}
+
+%=== Part IV: Validation & Policy Implications ===
+
+% Section 8: Sensitivity and Robustness Analysis (灵敏度与鲁棒性)
+\input{sections/08_sensitivity.tex}
+
+% Section 9: Model Evaluation (模型评估：优缺点)
+\input{sections/09_evaluation.tex}
+
+% Section 10: Policy Recommendations (政策建议)
+\input{sections/10_policy.tex}
+
+% Section 11: Conclusion (结论)
+\input{sections/11_conclusion.tex}
+
+% References
+\newpage
+\nocite{*}
+\printbibliography[heading=bibintoc, title={References}]
+
+% 保存正文总页数
+\savemainpages
+
+% Appendices（附录不计入25页限制）
+\clearpage
+\appendix
+\pagenumbering{gobble}
+\pagestyle{plain}
+
+\input{appendices/appendix_code.tex}
+\newpage
+\input{appendices/appendix_figures.tex}
+\newpage
+\input{appendices/ai_report.tex}
+
+\end{document}

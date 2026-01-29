@@ -1,0 +1,152 @@
+% 10_strengths_and_weaknesses.tex - 优缺点分析
+% ICM Problem F - Policy Science
+
+\section{Strengths and Weaknesses}
+\label{sec:strengths}
+
+% 【写作指导】模型优缺点分析需要：
+% 1. 客观、平衡地评价
+% 2. 对每个缺点提供改进方向
+% 3. 展示对方法论的深刻理解
+
+%=== 10.1 模型优势 ===
+\subsection{Model Strengths}
+\label{sec:strengths_advantages}
+
+Our policy modeling framework offers several methodological and practical advantages:
+
+\begin{table}[H]
+\centering
+\caption{Summary of Model Strengths}
+\label{tab:strengths}
+\begin{tabular}{l p{8cm}}
+\toprule
+\textbf{Strength} & \textbf{Description} \\
+\midrule
+
+\textbf{S1: Mechanism Transparency} &
+Unlike black-box approaches, our model explicitly represents causal pathways, enabling stakeholders to understand \textit{how} policies generate effects. This supports trust-building and adaptive management. \\[0.5em]
+
+\textbf{S2: Multi-Objective Balance} &
+The Pareto optimization framework acknowledges that real policy involves trade-offs. Decision-makers can explore the efficiency-equity frontier rather than receiving a single ``optimal'' solution. \\[0.5em]
+
+\textbf{S3: Robustness Testing} &
+Comprehensive sensitivity and stress testing ensures recommendations are not artifacts of specific parameter values. Results remain valid under \TODO{X\%} of plausible conditions. \\[0.5em]
+
+\textbf{S4: Policy Relevance} &
+Direct translation of quantitative findings into the Policy Memorandum ensures actionability. Recommendations follow the SMART+A framework (Specific, Measurable, Achievable, Relevant, Time-bound + Adaptive). \\[0.5em]
+
+\textbf{S5: Spillover Analysis} &
+Explicit consideration of cross-domain effects prevents unintended consequences and supports integrated policy-making. \\[0.5em]
+
+\textbf{S6: Modularity} &
+The framework's modular design allows updating individual components (mechanism model, optimization objectives, constraints) as new evidence emerges. \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+%=== 10.2 模型局限 ===
+\subsection{Model Weaknesses}
+\label{sec:strengths_weaknesses}
+
+We candidly acknowledge limitations and propose mitigation strategies:
+
+\begin{table}[H]
+\centering
+\caption{Summary of Model Weaknesses and Mitigations}
+\label{tab:weaknesses}
+\small
+\begin{tabular}{l p{5cm} p{5cm}}
+\toprule
+\textbf{Weakness} & \textbf{Description} & \textbf{Mitigation / Future Work} \\
+\midrule
+
+\textbf{W1: Linearity Assumptions} &
+Several model components assume linear or low-order polynomial relationships, which may not capture complex nonlinearities. &
+Extend to nonparametric methods (Gaussian processes, neural networks) with interpretability layers. \\[0.5em]
+
+\textbf{W2: Static Parameters} &
+Parameters are treated as time-invariant, ignoring potential regime changes or learning effects. &
+Incorporate adaptive parameter updating or regime-switching models. \\[0.5em]
+
+\textbf{W3: Limited Behavioral Modeling} &
+Stakeholder behavior is modeled at aggregate level; individual heterogeneity and strategic interactions are simplified. &
+Develop agent-based extensions for fine-grained behavioral simulation. \\[0.5em]
+
+\textbf{W4: Data Dependencies} &
+Results are contingent on data quality and coverage. Sparse data for \TODO{specific variables/regions} increases uncertainty. &
+Conduct sensitivity analysis on data-poor parameters; pursue additional data collection. \\[0.5em]
+
+\textbf{W5: Computational Cost} &
+Full Pareto frontier exploration requires substantial computational resources, limiting real-time policy updates. &
+Develop surrogate models or approximate algorithms for faster iteration. \\[0.5em]
+
+\textbf{W6: External Validity} &
+Model calibrated on \TODO{context} may not generalize to significantly different settings. &
+Validate on out-of-sample contexts; develop transfer learning approaches. \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+%=== 10.3 与现有方法比较 ===
+\subsection{Comparison with Alternative Approaches}
+\label{sec:strengths_comparison}
+
+To contextualize our framework, we compare with alternative policy modeling approaches:
+
+\begin{table}[H]
+\centering
+\caption{Comparison with Alternative Approaches}
+\label{tab:comparison}
+\small
+\begin{tabular}{p{2.5cm} p{3cm} p{3cm} p{3cm} p{2.5cm}}
+\toprule
+\textbf{Criterion} & \textbf{Our Approach} & \textbf{Traditional Econometric} & \textbf{Pure Optimization} & \textbf{Agent-Based} \\
+\midrule
+Mechanism insight & High & Medium & Low & High \\
+Optimization rigor & High & Low & High & Low \\
+Behavioral realism & Medium & Low & Low & High \\
+Computational cost & Medium & Low & Medium & High \\
+Policy actionability & High & Medium & Medium & Low \\
+Data requirements & Medium & High & Low & High \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Positioning:} Our framework occupies a ``middle ground'' that balances mechanism understanding with optimization rigor, making it well-suited for policy contexts requiring both analytical depth and practical actionability.
+
+%=== 10.4 适用范围 ===
+\subsection{Scope of Applicability}
+\label{sec:strengths_scope}
+
+\textbf{Best Suited For:}
+\begin{itemize}
+    \item Policy problems with identifiable causal mechanisms
+    \item Multi-stakeholder contexts requiring trade-off navigation
+    \item Settings with moderate data availability (sufficient for calibration, not requiring big data)
+    \item Decision-makers seeking transparent, explainable recommendations
+\end{itemize}
+
+\textbf{Less Suited For:}
+\begin{itemize}
+    \item Highly complex adaptive systems with emergent behavior
+    \item Real-time decision-making requiring sub-second response
+    \item Contexts with fundamental model uncertainty (unknown unknowns)
+    \item Pure prediction tasks without policy intervention interest
+\end{itemize}
+
+%=== 10.5 改进路线图 ===
+\subsection{Improvement Roadmap}
+\label{sec:strengths_roadmap}
+
+For future development, we propose:
+
+\begin{enumerate}[label=\textbf{Phase \arabic*:}]
+    \item \textbf{Short-term (1-2 years):} Address W4 through targeted data collection; develop user-friendly decision support interface.
+    
+    \item \textbf{Medium-term (2-4 years):} Integrate agent-based behavioral modeling (W3); develop transfer learning for cross-context application (W6).
+    
+    \item \textbf{Long-term (4+ years):} Full adaptive system with real-time parameter updating (W2); integration with digital twin infrastructure for continuous policy optimization.
+\end{enumerate}

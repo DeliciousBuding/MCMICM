@@ -1,0 +1,159 @@
+% Section 5: System Dynamics Model
+% 系统动力学建模：捕捉非线性反馈与长期演化
+
+\section{System Dynamics Model}
+\label{sec:system_model}
+
+% 【E题核心】系统动力学是O奖论文的标志性方法论
+
+%=== 5.1 系统动力学方法论 ===
+\subsection{System Dynamics Approach}
+\label{subsec:sd_methodology}
+
+System Dynamics (SD) is a methodology for studying complex systems characterized by:
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{Feedback Loops:} Circular causality where effects become causes, creating reinforcing ($+$) or balancing ($-$) dynamics.
+    \item \textbf{Stock-Flow Structure:} Accumulations (stocks) change through inflows and outflows.
+    \item \textbf{Time Delays:} Lags between cause and effect that can destabilize systems.
+    \item \textbf{Nonlinearity:} Relationships that change in magnitude or direction across operating ranges.
+\end{itemize}
+
+SD is particularly suited for sustainability problems because it captures the long-term, interconnected nature of environmental-economic-social systems that linear optimization cannot adequately represent~\cite{sterman2000business, meadows2004limits}.
+
+%=== 5.2 因果回路图 ===
+\subsection{Causal Loop Diagram}
+\label{subsec:cld}
+
+Figure~\ref{fig:cld} presents the high-level causal loop diagram (CLD) capturing key feedback mechanisms in our system.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        stock/.style={rectangle, draw, thick, minimum width=2.5cm, minimum height=1cm, align=center},
+        arrow/.style={->, thick},
+        plus/.style={font=\small, blue},
+        minus/.style={font=\small, red}
+    ]
+        % 核心存量
+        \node[stock, fill=green!15] (env) {Environmental\\Quality};
+        \node[stock, fill=yellow!15, right=of env] (econ) {Economic\\Output};
+        \node[stock, fill=red!15, below right=1.5cm and 1.25cm of env] (social) {Social\\Well-being};
+        
+        % 反馈回路1：经济-环境权衡 (Balancing)
+        \draw[arrow] (econ) to[bend left=20] node[above, plus] {$+$ Pollution} (env);
+        \draw[arrow] (env) to[bend left=20] node[below, minus] {$-$ Regulation} (econ);
+        \node[draw, circle, thick] at ($(env)!0.5!(econ) + (0, 1.2)$) {\textbf{B1}};
+        
+        % 反馈回路2：经济-社会正反馈 (Reinforcing)
+        \draw[arrow] (econ) to[bend right=15] node[right, plus] {$+$ Jobs} (social);
+        \draw[arrow] (social) to[bend right=15] node[left, plus] {$+$ Demand} (econ);
+        \node[draw, circle, thick] at ($(econ)!0.5!(social) + (1.2, 0)$) {\textbf{R1}};
+        
+        % 反馈回路3：环境-社会 (Reinforcing)
+        \draw[arrow] (env) to[bend left=15] node[left, plus] {$+$ Health} (social);
+        \draw[arrow] (social) to[bend left=15] node[right, plus] {$+$ Conservation} (env);
+        \node[draw, circle, thick] at ($(env)!0.5!(social) + (-1.2, 0)$) {\textbf{R2}};
+        
+        % 外生输入
+        \node[align=center, font=\small] at (-3.5, 0) {Policy\\Intervention};
+        \draw[->, dashed, thick] (-2.5, 0) -- (env);
+        
+        \node[align=center, font=\small] at (6.5, 0) {Technology\\Innovation};
+        \draw[->, dashed, thick] (5.5, 0) -- (econ);
+    \end{tikzpicture}
+    \caption{Causal Loop Diagram showing key feedback structures. \textbf{R1, R2}: Reinforcing loops; \textbf{B1}: Balancing loop.}
+    \label{fig:cld}
+\end{figure}
+
+\noindent\textbf{Key Feedback Loops:}
+\begin{itemize}[itemsep=0.3em]
+    \item \textbf{B1 (Economic-Environmental Balancing):} Economic growth increases pollution, which triggers environmental degradation and regulatory responses that constrain growth---a classic ``limits to growth'' dynamic.
+    
+    \item \textbf{R1 (Economic-Social Reinforcing):} Economic output creates jobs and income, enhancing social well-being, which in turn supports consumer demand and economic growth.
+    
+    \item \textbf{R2 (Environmental-Social Reinforcing):} Environmental quality improves public health and quality of life, which increases public support for conservation, further enhancing environmental quality.
+\end{itemize}
+
+%=== 5.3 存量-流量结构 ===
+\subsection{Stock-Flow Structure}
+\label{subsec:stock_flow}
+
+The SD model is formalized through differential equations describing stock accumulation:
+
+\subsubsection{Environmental Subsystem}
+\begin{equation}
+    \frac{d E_{\text{stock}}(t)}{dt} = R_{\text{regen}}(t) - D_{\text{depletion}}(t) - P_{\text{pollution}}(t) + I_{\text{restoration}}(t)
+    \label{eq:env_stock}
+\end{equation}
+where:
+\begin{itemize}[itemsep=0.1em]
+    \item $E_{\text{stock}}$: Environmental resource stock (e.g., forest cover, fish population, air quality)
+    \item $R_{\text{regen}}$: Natural regeneration rate
+    \item $D_{\text{depletion}}$: Resource extraction/depletion rate
+    \item $P_{\text{pollution}}$: Pollution accumulation
+    \item $I_{\text{restoration}}$: Policy-driven restoration investment
+\end{itemize}
+
+\subsubsection{Economic Subsystem}
+\begin{equation}
+    \frac{d K(t)}{dt} = I(t) - \delta K(t), \quad Y(t) = A(t) \cdot K(t)^{\alpha} \cdot L(t)^{1-\alpha} \cdot E_{\text{stock}}(t)^{\gamma}
+    \label{eq:econ_stock}
+\end{equation}
+where $K$ is capital stock, $I$ is investment, $\delta$ is depreciation, and $Y$ is output following an extended Cobb-Douglas production function with environmental factor $E_{\text{stock}}^{\gamma}$.
+
+\subsubsection{Social Subsystem}
+\begin{equation}
+    \frac{d W(t)}{dt} = \beta_1 \cdot \ln(Y(t)/L(t)) + \beta_2 \cdot E_{\text{stock}}(t) - \beta_3 \cdot \text{Inequality}(t)
+    \label{eq:social_stock}
+\end{equation}
+where $W$ represents aggregate social well-being as a function of income, environmental quality, and inequality.
+
+%=== 5.4 关键参数与校准 ===
+\subsection{Key Parameters and Calibration}
+\label{subsec:sd_calibration}
+
+\begin{table}[H]
+    \centering
+    \caption{System Dynamics Model Parameters}
+    \label{tab:sd_params}
+    \begin{tabularx}{\textwidth}{l X c c}
+        \toprule
+        \textbf{Parameter} & \textbf{Description} & \textbf{Value} & \textbf{Source} \\
+        \midrule
+        $R_{\text{regen}}$ & Natural regeneration rate & \TODO{value} & \TODO{source} \\
+        $\delta$ & Capital depreciation rate & \TODO{value} & \TODO{source} \\
+        $\alpha$ & Capital share in production & \TODO{value} & \TODO{source} \\
+        $\gamma$ & Environmental elasticity of output & \TODO{value} & \TODO{source} \\
+        $\tau_{\text{delay}}$ & Policy implementation delay & \TODO{value} & \TODO{source} \\
+        $\kappa$ & Environmental carrying capacity & \TODO{value} & \TODO{source} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+%=== 5.5 临界点与杠杆点识别 ===
+\subsection{Tipping Points and Leverage Points}
+\label{subsec:tipping_points}
+
+A key insight from SD analysis is the identification of:
+
+\begin{itemize}[itemsep=0.3em]
+    \item \textbf{Tipping Points:} Thresholds beyond which system behavior changes qualitatively (e.g., ecosystem collapse, runaway climate feedback).
+    
+    \item \textbf{Leverage Points:} Places in the system where small interventions can produce large, lasting changes~\cite{meadows1999leverage}.
+\end{itemize}
+
+\TODO{Based on model simulation, identify specific tipping points (e.g., ``When environmental stock falls below X\% of carrying capacity, regeneration collapses'') and leverage points (e.g., ``Increasing restoration investment efficiency by 10\% has 3x the impact of equivalent pollution reduction'').}
+
+% SD模型输出占位符
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][0.25\textheight][c]{0.9\textwidth}{
+        \centering
+        \textbf{System Dynamics Simulation Output}
+        \par\vspace{1em}
+        \small \TODO{Replace with time-series plots showing the evolution of key stocks (Environmental Quality, Economic Output, Social Well-being) under baseline conditions. Include identification of tipping points and leverage points.}
+    }}
+    \caption{Baseline System Dynamics simulation results showing stock trajectories over time.}
+    \label{fig:sd_baseline}
+\end{figure}

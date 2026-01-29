@@ -1,0 +1,145 @@
+% 02_project_and_assumptions.tex - 项目定义与假设
+% ICM Problem F - Policy Science
+
+\section{Project Definition and Assumptions}
+\label{sec:assumptions}
+
+% 【写作指导】F题需要明确定义政策问题的边界、利益相关者、约束条件
+% 假设应分层次：系统假设、行为假设、数据假设
+
+%=== 2.1 政策问题界定 ===
+\subsection{Policy Problem Definition}
+\label{sec:assumptions_definition}
+
+% 问题范围
+\textbf{Policy Scope.} We define the policy problem within the following boundaries:
+
+\begin{itemize}
+    \item \textbf{Spatial Scope:} \TODO{e.g., ``National level with regional disaggregation'' or ``Urban metropolitan areas''}
+    \item \textbf{Temporal Scope:} \TODO{e.g., ``Planning horizon of 10 years (2025-2035) with annual decision intervals''}
+    \item \textbf{Sectoral Scope:} \TODO{e.g., ``Primary focus on [sector], with linkages to [related sectors]''}
+\end{itemize}
+
+% 利益相关者
+\textbf{Stakeholder Identification.} Effective policy analysis requires explicit recognition of affected parties:
+
+\begin{table}[H]
+\centering
+\caption{Stakeholder Analysis Matrix}
+\label{tab:stakeholders}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
+\toprule
+\textbf{Stakeholder Group} & \textbf{Primary Interest} & \textbf{Influence Level} & \textbf{Model Representation} \\
+\midrule
+\TODO{Group 1, e.g., Government} & \TODO{e.g., Efficiency, equity} & \TODO{High/Medium/Low} & \TODO{e.g., Decision-maker} \\
+\TODO{Group 2, e.g., Citizens} & \TODO{e.g., Service quality} & Medium & \TODO{e.g., Utility function} \\
+\TODO{Group 3, e.g., Industry} & \TODO{e.g., Profitability} & \TODO{Level} & \TODO{e.g., Constraint set} \\
+\TODO{Group 4} & \TODO{Interest} & \TODO{Level} & \TODO{Representation} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% 政策工具
+\textbf{Policy Instruments.} The decision-maker has access to the following intervention levers:
+
+\begin{enumerate}[label=\textbf{P\arabic*:}]
+    \item \textbf{Regulatory Tools:} \TODO{e.g., ``Standards, mandates, restrictions''}
+    \item \textbf{Economic Incentives:} \TODO{e.g., ``Subsidies, taxes, pricing mechanisms''}
+    \item \textbf{Information-Based:} \TODO{e.g., ``Disclosure requirements, awareness campaigns''}
+    \item \textbf{Direct Provision:} \TODO{e.g., ``Public investment, service delivery''}
+\end{enumerate}
+
+%=== 2.2 核心假设 ===
+\subsection{Core Assumptions}
+\label{sec:assumptions_core}
+
+We organize our assumptions into three categories, each justified by empirical evidence or standard practice in the policy literature.
+
+%--- 2.2.1 系统结构假设 ---
+\subsubsection{System Structure Assumptions}
+
+\begin{assumption}[System Boundaries]
+\label{asmp:boundaries}
+The policy system can be meaningfully bounded to include \TODO{list of included elements} while treating \TODO{excluded elements} as exogenous factors.
+\end{assumption}
+
+\noindent\textit{Justification:} \TODO{Explain why this boundary is appropriate for the problem.}
+
+\begin{assumption}[Causal Structure]
+\label{asmp:causality}
+The causal relationships between policy inputs and outcomes follow the directed acyclic graph (DAG) structure depicted in \figref{fig:causal_dag}, with no unmeasured confounders between key variables.
+\end{assumption}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2cm,
+        box/.style={rectangle, draw, minimum width=2cm, minimum height=0.8cm, align=center},
+        arrow/.style={->, >=stealth, thick}
+    ]
+        % 节点
+        \node[box, fill=policyblue!20] (policy) {Policy\\Intervention};
+        \node[box, right=of policy, fill=neutralgray!20] (mechanism) {Mechanism\\Variables};
+        \node[box, right=of mechanism, fill=resultgreen!20] (outcome) {Policy\\Outcomes};
+        \node[box, below=1cm of mechanism, fill=warningorange!20] (confound) {Contextual\\Factors};
+        
+        % 箭头
+        \draw[arrow] (policy) -- (mechanism);
+        \draw[arrow] (mechanism) -- (outcome);
+        \draw[arrow] (confound) -- (mechanism);
+        \draw[arrow] (confound) -- (outcome);
+    \end{tikzpicture}
+    \caption{Simplified causal DAG of the policy system}
+    \label{fig:causal_dag}
+\end{figure}
+
+%--- 2.2.2 行为假设 ---
+\subsubsection{Behavioral Assumptions}
+
+\begin{assumption}[Rational Bounded Response]
+\label{asmp:behavior}
+Stakeholders respond to policy signals in a \textit{bounded-rational} manner: they seek to improve their utility but face information constraints and adjustment costs, leading to gradual rather than instantaneous responses.
+\end{assumption}
+
+\noindent\textit{Justification:} Consistent with behavioral economics literature \cite{kahneman2011thinking} and empirical observations of policy lag effects.
+
+\begin{assumption}[Compliance Heterogeneity]
+\label{asmp:compliance}
+Compliance with policy mandates varies across stakeholder groups, with compliance rate $\rho_i \in [0.6, 0.95]$ for group $i$, estimated from \TODO{data source}.
+\end{assumption}
+
+%--- 2.2.3 数据与技术假设 ---
+\subsubsection{Data and Technical Assumptions}
+
+\begin{assumption}[Data Quality]
+\label{asmp:data}
+Available data accurately represents population characteristics with measurement error bounded by \TODO{X\%}, and missing data mechanisms are at most \textit{missing at random} (MAR).
+\end{assumption}
+
+\begin{assumption}[Parameter Stability]
+\label{asmp:stability}
+Model parameters estimated from historical data remain valid for the planning horizon, absent structural breaks. We test this assumption via sensitivity analysis in \secref{sec:sensitivity}.
+\end{assumption}
+
+%=== 2.3 假设汇总表 ===
+\subsection{Summary of Assumptions}
+\label{sec:assumptions_summary}
+
+\begin{table}[H]
+\centering
+\caption{Summary of Model Assumptions}
+\label{tab:assumptions_summary}
+\small
+\begin{tabular}{c l p{6cm} c}
+\toprule
+\textbf{ID} & \textbf{Category} & \textbf{Statement} & \textbf{Tested?} \\
+\midrule
+A1 & System & \TODO{Brief statement} & \secref{sec:sensitivity} \\
+A2 & System & \TODO{Brief statement} & -- \\
+A3 & Behavioral & Bounded-rational stakeholder response & \secref{sec:sensitivity} \\
+A4 & Behavioral & \TODO{Brief statement} & \secref{sec:results} \\
+A5 & Data & Data quality bounds & -- \\
+A6 & Technical & Parameter stability & \secref{sec:sensitivity} \\
+\bottomrule
+\end{tabular}
+\end{table}

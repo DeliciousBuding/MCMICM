@@ -1,0 +1,172 @@
+% Section 7: Multi-Criteria Decision Analysis
+% 多准则决策分析：TOPSIS与权衡可视化
+
+\section{Multi-Criteria Decision Analysis}
+\label{sec:mcda}
+
+% 【E题核心】MCDA将技术分析转化为决策支持
+
+%=== 7.1 MCDA方法论 ===
+\subsection{MCDA Methodology}
+\label{subsec:mcda_methodology}
+
+Multi-Criteria Decision Analysis (MCDA) provides a structured framework for evaluating alternatives against multiple, potentially conflicting objectives~\cite{velasquez2013analysis}. For sustainability decisions involving environmental-economic-social trade-offs, MCDA offers:
+
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{Transparency:} Explicit articulation of criteria and weights.
+    \item \textbf{Comprehensiveness:} Simultaneous consideration of all sustainability pillars.
+    \item \textbf{Flexibility:} Accommodation of diverse stakeholder preferences through weight adjustment.
+    \item \textbf{Defensibility:} Systematic documentation of decision logic.
+\end{itemize}
+
+We employ \textbf{TOPSIS} (Technique for Order Preference by Similarity to Ideal Solution) as our primary ranking method, complemented by trade-off frontier visualization.
+
+%=== 7.2 决策矩阵构建 ===
+\subsection{Decision Matrix Construction}
+\label{subsec:decision_matrix}
+
+The decision matrix $\mathbf{D}$ summarizes scenario performance across all indicators at the end of the projection horizon ($t = T$):
+
+\begin{table}[H]
+    \centering
+    \caption{Decision Matrix: Scenario Performance on Sustainability Indicators}
+    \label{tab:decision_matrix}
+    \begin{tabular}{l c c c c}
+        \toprule
+        \textbf{Indicator} & \textbf{S1: BAU} & \textbf{S2: MOD} & \textbf{S3: AGG} & \textbf{S4: STRESS} \\
+        \midrule
+        \multicolumn{5}{l}{\textit{Environmental Pillar}} \\
+        \TODO{Env. Indicator 1} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+        \TODO{Env. Indicator 2} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+        \TODO{Env. Indicator 3} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+        \midrule
+        \multicolumn{5}{l}{\textit{Economic Pillar}} \\
+        \TODO{Econ. Indicator 1} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+        \TODO{Econ. Indicator 2} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+        \TODO{Econ. Indicator 3} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+        \midrule
+        \multicolumn{5}{l}{\textit{Social Pillar}} \\
+        \TODO{Social Indicator 1} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+        \TODO{Social Indicator 2} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+        \TODO{Social Indicator 3} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+%=== 7.3 TOPSIS实现 ===
+\subsection{TOPSIS Implementation}
+\label{subsec:topsis}
+
+The TOPSIS method ranks alternatives based on their geometric distance from ideal ($A^+$) and anti-ideal ($A^-$) solutions.
+
+\subsubsection{Step 1: Normalize the Decision Matrix}
+\begin{equation}
+    r_{ij} = \frac{x_{ij}}{\sqrt{\sum_{j=1}^{m} x_{ij}^2}}
+    \label{eq:topsis_norm}
+\end{equation}
+
+\subsubsection{Step 2: Apply Weights}
+\begin{equation}
+    v_{ij} = w_i \cdot r_{ij}
+    \label{eq:topsis_weight}
+\end{equation}
+
+\subsubsection{Step 3: Determine Ideal and Anti-Ideal Solutions}
+\begin{align}
+    A^+ &= \{v_1^+, v_2^+, \ldots, v_n^+\}, \quad v_i^+ = \max_j(v_{ij}) \text{ for benefit criteria} \label{eq:ideal} \\
+    A^- &= \{v_1^-, v_2^-, \ldots, v_n^-\}, \quad v_i^- = \min_j(v_{ij}) \text{ for benefit criteria} \label{eq:anti_ideal}
+\end{align}
+
+\subsubsection{Step 4: Calculate Separation Measures}
+\begin{equation}
+    d_j^+ = \sqrt{\sum_{i=1}^{n} (v_{ij} - v_i^+)^2}, \quad d_j^- = \sqrt{\sum_{i=1}^{n} (v_{ij} - v_i^-)^2}
+    \label{eq:topsis_distance}
+\end{equation}
+
+\subsubsection{Step 5: Compute Relative Closeness}
+\begin{equation}
+    C_j^* = \frac{d_j^-}{d_j^+ + d_j^-}, \quad C_j^* \in [0, 1]
+    \label{eq:topsis_closeness}
+\end{equation}
+
+The scenario with the highest $C_j^*$ is the most preferred alternative.
+
+%=== 7.4 TOPSIS结果 ===
+\subsection{TOPSIS Results}
+\label{subsec:topsis_results}
+
+\begin{table}[H]
+    \centering
+    \caption{TOPSIS Ranking Results}
+    \label{tab:topsis_results}
+    \begin{tabular}{l c c c c}
+        \toprule
+        \textbf{Scenario} & $d_j^+$ & $d_j^-$ & $C_j^*$ & \textbf{Rank} \\
+        \midrule
+        S1: BAU & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{rank} \\
+        S2: MOD & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{rank} \\
+        S3: AGG & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{rank} \\
+        S4: STRESS & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{rank} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+%=== 7.5 权衡前沿可视化 ===
+\subsection{Trade-off Frontier Visualization}
+\label{subsec:tradeoff}
+
+% 【E题O奖特征】权衡可视化是展示决策复杂性的关键
+
+Beyond single-score ranking, we visualize the \textbf{Environmental-Economic Trade-off Frontier} to expose the inherent tensions in sustainability decision-making.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \fbox{\parbox[c][0.22\textheight][c]{\textwidth}{
+            \centering
+            \textbf{(a) Environmental vs. Economic Trade-off}
+            \par\vspace{0.5em}
+            \small \TODO{Scatter plot with Environmental Score on Y-axis and Economic Score on X-axis. Mark Pareto frontier. Label each scenario.}
+        }}
+        \caption{Environmental-Economic Pareto frontier}
+        \label{fig:tradeoff_env_econ}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \fbox{\parbox[c][0.22\textheight][c]{\textwidth}{
+            \centering
+            \textbf{(b) Radar Chart Comparison}
+            \par\vspace{0.5em}
+            \small \TODO{Radar/spider chart showing all scenarios across environmental, economic, and social pillars.}
+        }}
+        \caption{Multi-pillar radar comparison}
+        \label{fig:radar}
+    \end{subfigure}
+    \caption{Trade-off visualization for multi-criteria decision support.}
+    \label{fig:tradeoff}
+\end{figure}
+
+%=== 7.6 利益相关者偏好敏感性 ===
+\subsection{Stakeholder Preference Sensitivity}
+\label{subsec:stakeholder_sensitivity}
+
+Different stakeholders may assign different weights to the three pillars. We examine how rankings change under alternative weight profiles:
+
+\begin{table}[H]
+    \centering
+    \caption{Scenario Rankings under Alternative Stakeholder Weights}
+    \label{tab:stakeholder_weights}
+    \begin{tabular}{l c c c c c c}
+        \toprule
+        \textbf{Weight Profile} & $w_{\text{Env}}$ & $w_{\text{Econ}}$ & $w_{\text{Soc}}$ & \textbf{Best Scenario} & \textbf{Worst Scenario} \\
+        \midrule
+        Balanced & 0.33 & 0.33 & 0.34 & \TODO{scenario} & \TODO{scenario} \\
+        Environmental Priority & 0.50 & 0.25 & 0.25 & \TODO{scenario} & \TODO{scenario} \\
+        Economic Priority & 0.25 & 0.50 & 0.25 & \TODO{scenario} & \TODO{scenario} \\
+        Social Priority & 0.25 & 0.25 & 0.50 & \TODO{scenario} & \TODO{scenario} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\TODO{Discuss implications: Under which stakeholder preference profiles does the optimal scenario change? What does this reveal about the robustness of the recommended policy?}

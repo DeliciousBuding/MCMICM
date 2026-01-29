@@ -1,0 +1,215 @@
+% Appendix A: Key Code
+% 附录A：核心代码
+
+\section*{Appendix A: Key Code}
+\addcontentsline{toc}{section}{Appendix A: Key Code}
+\label{appendix:code}
+
+This appendix presents the core implementation of our sustainability assessment framework. Full code and data are available in our supplementary materials.
+
+%=== A.1 数据预处理与指标计算 ===
+\subsection*{A.1 Data Preprocessing and Indicator Calculation}
+
+\begin{lstlisting}[language=Python, caption={Sustainability indicator preprocessing and normalization}]
+import pandas as pd
+import numpy as np
+from scipy.stats import entropy
+
+def load_sustainability_data(filepath):
+    """Load and preprocess sustainability indicator data."""
+    df = pd.read_csv(filepath)
+    
+    # Handle missing values via interpolation
+    df = df.interpolate(method='linear', limit_direction='both')
+    
+    return df
+
+def normalize_indicators(df, indicator_cols, directions):
+    """
+    Normalize indicators using min-max scaling.
+    directions: dict mapping indicator -> 'positive' or 'negative'
+    """
+    normalized = pd.DataFrame()
+    
+    for col in indicator_cols:
+        x = df[col].values
+        x_min, x_max = x.min(), x.max()
+        
+        if directions[col] == 'positive':
+            normalized[col] = (x - x_min) / (x_max - x_min + 1e-10)
+        else:  # negative indicator (lower is better)
+            normalized[col] = (x_max - x) / (x_max - x_min + 1e-10)
+    
+    return normalized
+
+def entropy_weight(normalized_df):
+    """Calculate weights using entropy method."""
+    n, m = normalized_df.shape
+    
+    # Calculate proportion matrix
+    P = normalized_df / normalized_df.sum(axis=0)
+    P = P.replace(0, 1e-10)  # Avoid log(0)
+    
+    # Calculate entropy for each indicator
+    E = -1 / np.log(n) * (P * np.log(P)).sum(axis=0)
+    
+    # Calculate weights
+    weights = (1 - E) / (1 - E).sum()
+    
+    return weights.to_dict()
+\end{lstlisting}
+
+%=== A.2 AHP权重计算 ===
+\subsection*{A.2 AHP Weight Calculation}
+
+\begin{lstlisting}[language=Python, caption={Analytic Hierarchy Process implementation}]
+import numpy as np
+
+def ahp_weights(comparison_matrix):
+    """
+    Calculate weights from AHP pairwise comparison matrix.
+    Returns weights and consistency ratio.
+    """
+    n = comparison_matrix.shape[0]
+    
+    # Calculate eigenvalues and eigenvectors
+    eigenvalues, eigenvectors = np.linalg.eig(comparison_matrix)
+    
+    # Get principal eigenvalue and eigenvector
+    max_idx = np.argmax(eigenvalues.real)
+    lambda_max = eigenvalues[max_idx].real
+    principal_eigenvector = eigenvectors[:, max_idx].real
+    
+    # Normalize to get weights
+    weights = principal_eigenvector / principal_eigenvector.sum()
+    
+    # Calculate Consistency Index
+    CI = (lambda_max - n) / (n - 1)
+    
+    # Random Index (for n up to 10)
+    RI = {1: 0, 2: 0, 3: 0.58, 4: 0.90, 5: 1.12, 
+          6: 1.24, 7: 1.32, 8: 1.41, 9: 1.45, 10: 1.49}
+    
+    # Consistency Ratio
+    CR = CI / RI.get(n, 1.49)
+    
+    return weights, CR
+
+def hybrid_weights(ahp_w, entropy_w, lambda_param=0.5):
+    """Combine AHP and entropy weights."""
+    hybrid = {}
+    for key in ahp_w:
+        hybrid[key] = lambda_param * ahp_w[key] + (1 - lambda_param) * entropy_w[key]
+    return hybrid
+\end{lstlisting}
+
+%=== A.3 系统动力学模型 ===
+\subsection*{A.3 System Dynamics Model}
+
+\begin{lstlisting}[language=Python, caption={System Dynamics simulation core}]
+import numpy as np
+from scipy.integrate import odeint
+
+class SustainabilitySDModel:
+    """System Dynamics model for sustainability assessment."""
+    
+    def __init__(self, params):
+        self.params = params
+    
+    def derivatives(self, y, t, scenario):
+        """
+        Calculate derivatives for stock variables.
+        y = [E_stock, K, W] (environmental, economic, social)
+        """
+        E, K, W = y
+        p = self.params
+        s = scenario
+        
+        # Environmental subsystem
+        R_regen = p['regen_rate'] * E * (1 - E / p['carrying_capacity'])
+        D_depletion = p['depletion_rate'] * K
+        P_pollution = s['pollution_rate'] * K
+        I_restore = s['restoration_investment']
+        
+        dE_dt = R_regen - D_depletion - P_pollution + I_restore
+        
+        # Economic subsystem (extended Cobb-Douglas)
+        Y = p['tfp'] * (K ** p['alpha']) * (E ** p['gamma'])
+        I = p['savings_rate'] * Y
+        depreciation = p['depreciation'] * K
+        
+        dK_dt = I - depreciation
+        
+        # Social subsystem
+        income_effect = p['beta1'] * np.log(max(Y, 1))
+        env_effect = p['beta2'] * E
+        inequality_penalty = p['beta3'] * (1 - E / p['carrying_capacity'])
+        
+        dW_dt = income_effect + env_effect - inequality_penalty - p['decay'] * W
+        
+        return [dE_dt, dK_dt, dW_dt]
+    
+    def simulate(self, y0, t_span, scenario):
+        """Run simulation over time span."""
+        t = np.linspace(t_span[0], t_span[1], int(t_span[1] - t_span[0]) + 1)
+        solution = odeint(self.derivatives, y0, t, args=(scenario,))
+        return t, solution
+
+# Example scenario definitions
+SCENARIOS = {
+    'BAU': {'pollution_rate': 0.02, 'restoration_investment': 1.0},
+    'MOD': {'pollution_rate': 0.015, 'restoration_investment': 2.0},
+    'AGG': {'pollution_rate': 0.008, 'restoration_investment': 4.0},
+    'STRESS': {'pollution_rate': 0.02, 'restoration_investment': 1.0}
+}
+\end{lstlisting}
+
+%=== A.4 TOPSIS实现 ===
+\subsection*{A.4 TOPSIS Implementation}
+
+\begin{lstlisting}[language=Python, caption={TOPSIS multi-criteria decision analysis}]
+import numpy as np
+
+def topsis(decision_matrix, weights, criteria_types):
+    """
+    TOPSIS method for multi-criteria decision analysis.
+    
+    Parameters:
+    - decision_matrix: numpy array (alternatives x criteria)
+    - weights: array of criterion weights
+    - criteria_types: list of 'benefit' or 'cost' for each criterion
+    
+    Returns:
+    - closeness: relative closeness to ideal solution
+    - ranking: ranked alternatives (1 = best)
+    """
+    # Step 1: Normalize decision matrix
+    norm_matrix = decision_matrix / np.sqrt((decision_matrix ** 2).sum(axis=0))
+    
+    # Step 2: Apply weights
+    weighted_matrix = norm_matrix * weights
+    
+    # Step 3: Determine ideal and anti-ideal solutions
+    ideal = np.zeros(len(weights))
+    anti_ideal = np.zeros(len(weights))
+    
+    for j, ctype in enumerate(criteria_types):
+        if ctype == 'benefit':
+            ideal[j] = weighted_matrix[:, j].max()
+            anti_ideal[j] = weighted_matrix[:, j].min()
+        else:  # cost criterion
+            ideal[j] = weighted_matrix[:, j].min()
+            anti_ideal[j] = weighted_matrix[:, j].max()
+    
+    # Step 4: Calculate separation measures
+    d_plus = np.sqrt(((weighted_matrix - ideal) ** 2).sum(axis=1))
+    d_minus = np.sqrt(((weighted_matrix - anti_ideal) ** 2).sum(axis=1))
+    
+    # Step 5: Calculate relative closeness
+    closeness = d_minus / (d_plus + d_minus + 1e-10)
+    
+    # Ranking (higher closeness = better)
+    ranking = closeness.argsort()[::-1].argsort() + 1
+    
+    return closeness, ranking
+\end{lstlisting}

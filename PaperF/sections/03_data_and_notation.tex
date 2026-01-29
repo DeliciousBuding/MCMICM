@@ -1,0 +1,179 @@
+% 03_data_and_notation.tex - 数据与符号说明
+% ICM Problem F - Policy Science
+
+\section{Data Description and Notation}
+\label{sec:data}
+
+% 【写作指导】F题数据部分需要：
+% 1. 清晰说明数据来源的权威性（政府统计、学术数据库等）
+% 2. 展示数据预处理流程
+% 3. 建立统一的符号体系
+
+%=== 3.1 数据来源 ===
+\subsection{Data Sources}
+\label{sec:data_sources}
+
+Our analysis draws on multiple authoritative data sources to ensure reliability and cross-validation:
+
+\begin{table}[H]
+\centering
+\caption{Primary Data Sources}
+\label{tab:data_sources}
+\small
+\begin{tabular}{p{3cm} p{4cm} p{2.5cm} p{2.5cm} p{2cm}}
+\toprule
+\textbf{Dataset} & \textbf{Description} & \textbf{Source} & \textbf{Coverage} & \textbf{Granularity} \\
+\midrule
+\TODO{Dataset 1} & \TODO{e.g., Population demographics} & \TODO{e.g., Census Bureau} & \TODO{2015-2024} & \TODO{Regional} \\
+\TODO{Dataset 2} & \TODO{e.g., Policy implementation records} & \TODO{e.g., Government reports} & \TODO{Coverage} & \TODO{Level} \\
+\TODO{Dataset 3} & \TODO{e.g., Economic indicators} & \TODO{e.g., World Bank} & \TODO{Coverage} & \TODO{Level} \\
+\TODO{Dataset 4} & \TODO{e.g., Survey data} & \TODO{e.g., Academic study} & \TODO{Coverage} & \TODO{Level} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% 数据质量评估
+\textbf{Data Quality Assessment.} We evaluate each source against the following criteria:
+
+\begin{itemize}
+    \item \textbf{Completeness:} \TODO{e.g., ``Dataset 1 has <2\% missing values after preprocessing''}
+    \item \textbf{Consistency:} \TODO{e.g., ``Cross-validated against alternative sources''}
+    \item \textbf{Timeliness:} \TODO{e.g., ``Most recent data from 2023''}
+    \item \textbf{Relevance:} \TODO{e.g., ``Directly measures target outcomes''}
+\end{itemize}
+
+%=== 3.2 数据预处理 ===
+\subsection{Data Preprocessing}
+\label{sec:data_preprocessing}
+
+We apply a standardized preprocessing pipeline to ensure data quality and compatibility:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.5cm,
+        box/.style={rectangle, draw, rounded corners, minimum width=2.5cm, minimum height=0.8cm, align=center, font=\small},
+        arrow/.style={->, >=stealth, thick}
+    ]
+        % 流程节点
+        \node[box, fill=blue!10] (raw) {Raw Data\\Collection};
+        \node[box, fill=orange!10, right=of raw] (clean) {Missing Value\\Imputation};
+        \node[box, fill=green!10, right=of clean] (normal) {Normalization\\Standardization};
+        \node[box, fill=purple!10, right=of normal] (feature) {Feature\\Engineering};
+        \node[box, fill=red!10, right=of feature] (final) {Analysis-Ready\\Dataset};
+        
+        % 箭头
+        \draw[arrow] (raw) -- (clean);
+        \draw[arrow] (clean) -- (normal);
+        \draw[arrow] (normal) -- (feature);
+        \draw[arrow] (feature) -- (final);
+    \end{tikzpicture}
+    \caption{Data preprocessing pipeline}
+    \label{fig:preprocessing}
+\end{figure}
+
+\textbf{Key Preprocessing Steps:}
+
+\begin{enumerate}
+    \item \textbf{Missing Value Treatment:}
+    \begin{itemize}
+        \item Continuous variables: \TODO{e.g., Multiple imputation using chained equations (MICE)}
+        \item Categorical variables: \TODO{e.g., Mode imputation with uncertainty flags}
+    \end{itemize}
+    
+    \item \textbf{Outlier Detection:}
+    \begin{itemize}
+        \item Method: \TODO{e.g., IQR-based detection with domain expert validation}
+        \item Treatment: \TODO{e.g., Winsorization at 1st/99th percentiles}
+    \end{itemize}
+    
+    \item \textbf{Variable Transformation:}
+    \begin{itemize}
+        \item Skewed distributions: \TODO{e.g., Log transformation for income variables}
+        \item Scale standardization: \TODO{e.g., Z-score normalization for comparability}
+    \end{itemize}
+\end{enumerate}
+
+%=== 3.3 探索性数据分析 ===
+\subsection{Exploratory Data Analysis}
+\label{sec:data_eda}
+
+% 描述性统计
+\textbf{Summary Statistics.} \tabref{tab:descriptive} presents descriptive statistics for key variables:
+
+\begin{table}[H]
+\centering
+\caption{Descriptive Statistics of Key Variables}
+\label{tab:descriptive}
+\small
+\begin{tabular}{l c c c c c c}
+\toprule
+\textbf{Variable} & \textbf{N} & \textbf{Mean} & \textbf{Std Dev} & \textbf{Min} & \textbf{Max} & \textbf{Unit} \\
+\midrule
+\TODO{Variable 1} & \TODO{N} & \TODO{Mean} & \TODO{SD} & \TODO{Min} & \TODO{Max} & \TODO{Unit} \\
+\TODO{Variable 2} & \TODO{N} & \TODO{Mean} & \TODO{SD} & \TODO{Min} & \TODO{Max} & \TODO{Unit} \\
+\TODO{Variable 3} & \TODO{N} & \TODO{Mean} & \TODO{SD} & \TODO{Min} & \TODO{Max} & \TODO{Unit} \\
+\TODO{Variable 4} & \TODO{N} & \TODO{Mean} & \TODO{SD} & \TODO{Min} & \TODO{Max} & \TODO{Unit} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% 相关性分析
+\textbf{Correlation Analysis.} We examine pairwise correlations to identify potential multicollinearity and causal pathway candidates:
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{figures/correlation_heatmap.pdf}
+    \fbox{\parbox{0.55\textwidth}{\centering\vspace{4em}\TODO{Figure: Correlation Heatmap}\vspace{4em}}}
+    \caption{Correlation matrix of policy-relevant variables}
+    \label{fig:correlation}
+\end{figure}
+
+%=== 3.4 符号与约定 ===
+\subsection{Notation and Conventions}
+\label{sec:data_notation}
+
+To facilitate clear communication, we establish the following notation conventions:
+
+\begin{table}[H]
+\centering
+\caption{Notation System}
+\label{tab:notation}
+\begin{tabular}{c l p{8cm}}
+\toprule
+\textbf{Symbol} & \textbf{Type} & \textbf{Description} \\
+\midrule
+\multicolumn{3}{l}{\textit{Index Sets}} \\
+$i \in \mathcal{I}$ & Set & Set of regions/units, $|\mathcal{I}| = I$ \\
+$t \in \mathcal{T}$ & Set & Time periods, $\mathcal{T} = \{1, 2, \ldots, T\}$ \\
+$k \in \mathcal{K}$ & Set & Stakeholder groups \\
+\midrule
+\multicolumn{3}{l}{\textit{Decision Variables}} \\
+$\policy_{i,t}$ & Variable & Policy intensity for unit $i$ at time $t$ \\
+$x_{i,t}$ & Variable & Allocation decision \\
+\midrule
+\multicolumn{3}{l}{\textit{State Variables}} \\
+$\stock_{i,t}$ & Variable & System state (stock) for unit $i$ at time $t$ \\
+$\outcome_{i,t}$ & Variable & Outcome measure \\
+\midrule
+\multicolumn{3}{l}{\textit{Parameters}} \\
+$\alpha, \beta$ & Parameter & Model coefficients (estimated) \\
+$\lambda$ & Parameter & Feedback strength \\
+$\discount$ & Parameter & Discount factor, $\discount \in (0,1)$ \\
+\midrule
+\multicolumn{3}{l}{\textit{Functions}} \\
+$\utility_k(\cdot)$ & Function & Utility function of stakeholder $k$ \\
+$\objective(\cdot)$ & Function & Social welfare objective \\
+$f(\cdot), g(\cdot)$ & Function & System dynamics functions \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% 约定
+\textbf{Conventions:}
+\begin{itemize}
+    \item Boldface denotes vectors and matrices: $\mathbf{x} = (x_1, \ldots, x_n)^\top$
+    \item Subscripts denote indices; superscripts denote iterations or optimality ($x^*$)
+    \item Time indices follow the convention: $t=0$ is baseline, $t=1$ is first policy period
+    \item All monetary values are in \TODO{currency, e.g., 2023 USD} unless otherwise noted
+\end{itemize}

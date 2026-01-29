@@ -1,0 +1,182 @@
+% 06_solution_and_algorithm.tex - 求解算法
+% ICM Problem F - Policy Science
+
+\section{Solution Algorithm}
+\label{sec:algorithm}
+
+% 【写作指导】算法部分需要：
+% 1. 清晰的算法流程描述
+% 2. 复杂度分析
+% 3. 收敛性/最优性讨论
+% 4. 实现细节（便于复现）
+
+%=== 6.1 算法设计思路 ===
+\subsection{Algorithm Design Rationale}
+\label{sec:algorithm_rationale}
+
+The optimization problem \eqnref{eq:moop} presents several computational challenges:
+
+\begin{itemize}
+    \item \textbf{Non-convexity:} The objective functions involve nonlinear system dynamics.
+    \item \textbf{Multi-objective nature:} No single optimal solution exists; we seek the Pareto frontier.
+    \item \textbf{Large solution space:} $|\mathcal{I}| \times T$ decision variables with interdependencies.
+\end{itemize}
+
+To address these challenges, we develop a \textbf{\TODO{e.g., Hybrid Evolutionary-Local Search / Decomposition-Based / Simulation-Optimization}} algorithm.
+
+%=== 6.2 算法流程 ===
+\subsection{Algorithm Description}
+\label{sec:algorithm_description}
+
+\begin{algorithm}[H]
+\caption{Policy Optimization Algorithm (\TODO{Algorithm Name})}
+\label{alg:main}
+\KwIn{Initial population $\mathcal{P}_0$, parameters $\{\text{pop\_size}, \text{max\_gen}, \text{crossover\_rate}, \text{mutation\_rate}\}$}
+\KwOut{Pareto-optimal policy set $\mathcal{P}^*$}
+
+\BlankLine
+\tcp{Initialization}
+$\mathcal{P} \leftarrow$ InitializePopulation(pop\_size)\;
+EvaluateFitness($\mathcal{P}$) using mechanism model (\secref{sec:model1})\;
+$\mathcal{A} \leftarrow \emptyset$ \tcp{Archive for non-dominated solutions}
+
+\BlankLine
+\tcp{Main evolutionary loop}
+\For{$g = 1$ \KwTo max\_gen}{
+    \tcp{Selection}
+    $\mathcal{M} \leftarrow$ TournamentSelection($\mathcal{P}$, based on crowding distance)\;
+    
+    \tcp{Crossover and Mutation}
+    $\mathcal{O} \leftarrow \emptyset$\;
+    \For{each pair $(\boldsymbol{\policy}_1, \boldsymbol{\policy}_2)$ in $\mathcal{M}$}{
+        \If{rand() $<$ crossover\_rate}{
+            $(\boldsymbol{\policy}_1', \boldsymbol{\policy}_2') \leftarrow$ SBXCrossover($\boldsymbol{\policy}_1, \boldsymbol{\policy}_2$)\;
+        }
+        $\boldsymbol{\policy}_1' \leftarrow$ PolynomialMutation($\boldsymbol{\policy}_1'$, mutation\_rate)\;
+        RepairConstraints($\boldsymbol{\policy}_1'$) \tcp{Ensure feasibility}
+        $\mathcal{O} \leftarrow \mathcal{O} \cup \{\boldsymbol{\policy}_1'\}$\;
+    }
+    
+    \tcp{Evaluation}
+    EvaluateFitness($\mathcal{O}$)\;
+    
+    \tcp{Environmental Selection}
+    $\mathcal{P} \leftarrow$ NSGA-II-Selection($\mathcal{P} \cup \mathcal{O}$, pop\_size)\;
+    
+    \tcp{Archive Update}
+    $\mathcal{A} \leftarrow$ UpdateArchive($\mathcal{A}$, non-dominated solutions from $\mathcal{P}$)\;
+    
+    \tcp{Convergence Check}
+    \If{ConvergenceCriterion($\mathcal{A}$)}{
+        \textbf{break}\;
+    }
+}
+
+\BlankLine
+\tcp{Local Search Refinement}
+$\mathcal{P}^* \leftarrow$ LocalSearch($\mathcal{A}$) \tcp{Gradient-based refinement}
+
+\Return $\mathcal{P}^*$\;
+\end{algorithm}
+
+%=== 6.3 算法流程图 ===
+\subsection{Algorithm Flowchart}
+\label{sec:algorithm_flowchart}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.2cm,
+        startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=0.8cm, text centered, draw=black, fill=red!20},
+        process/.style={rectangle, minimum width=3.5cm, minimum height=0.8cm, text centered, draw=black, fill=blue!10},
+        decision/.style={diamond, aspect=2, minimum width=2cm, minimum height=0.8cm, text centered, draw=black, fill=green!10},
+        arrow/.style={thick,->,>=stealth}
+    ]
+        % 节点
+        \node (start) [startstop] {Start};
+        \node (init) [process, below=of start] {Initialize Population};
+        \node (eval) [process, below=of init] {Evaluate Fitness};
+        \node (select) [process, below=of eval] {Selection \& Reproduction};
+        \node (update) [process, below=of select] {Update Population};
+        \node (converge) [decision, below=of update] {Converged?};
+        \node (local) [process, below=of converge, yshift=-0.5cm] {Local Search Refinement};
+        \node (end) [startstop, below=of local] {Output Pareto Set};
+        
+        % 箭头
+        \draw [arrow] (start) -- (init);
+        \draw [arrow] (init) -- (eval);
+        \draw [arrow] (eval) -- (select);
+        \draw [arrow] (select) -- (update);
+        \draw [arrow] (update) -- (converge);
+        \draw [arrow] (converge) -- node[anchor=east] {Yes} (local);
+        \draw [arrow] (converge.east) -- ++(1.5,0) |- node[anchor=south, pos=0.25] {No} (eval.east);
+        \draw [arrow] (local) -- (end);
+    \end{tikzpicture}
+    \caption{Flowchart of the policy optimization algorithm}
+    \label{fig:flowchart}
+\end{figure}
+
+%=== 6.4 关键子程序 ===
+\subsection{Key Subroutines}
+\label{sec:algorithm_subroutines}
+
+\textbf{Constraint Repair.} When genetic operators produce infeasible solutions, we apply:
+\begin{equation}
+\policy_{i,t}^{\text{repaired}} = \min\left( \max(\policy_{i,t}, 0), \bar{\policy}_i \right)
+\label{eq:repair}
+\end{equation}
+
+\textbf{Crowding Distance.} To maintain solution diversity:
+\begin{equation}
+\text{CD}(\boldsymbol{\policy}) = \sum_{m=1}^{M} \frac{f_m^{(i+1)} - f_m^{(i-1)}}{f_m^{\max} - f_m^{\min}}
+\label{eq:crowding}
+\end{equation}
+
+\textbf{Local Search.} For archive solutions, we apply gradient-based refinement:
+\begin{equation}
+\boldsymbol{\policy}^{(k+1)} = \boldsymbol{\policy}^{(k)} + \eta \cdot \nabla_{\boldsymbol{\policy}} \objective(\boldsymbol{\policy}^{(k)})
+\label{eq:local_search}
+\end{equation}
+
+%=== 6.5 复杂度分析 ===
+\subsection{Complexity Analysis}
+\label{sec:algorithm_complexity}
+
+\begin{table}[H]
+\centering
+\caption{Computational Complexity Analysis}
+\label{tab:complexity}
+\begin{tabular}{l l l}
+\toprule
+\textbf{Component} & \textbf{Complexity} & \textbf{Remarks} \\
+\midrule
+Fitness evaluation & $O(I \cdot T)$ & Per individual \\
+Non-dominated sorting & $O(M \cdot N^2)$ & $M$ objectives, $N$ population \\
+Crowding distance & $O(M \cdot N \log N)$ & Sorting required \\
+Local search & $O(K \cdot I \cdot T)$ & $K$ iterations \\
+\midrule
+\textbf{Total per generation} & $O(N \cdot I \cdot T + M \cdot N^2)$ & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Convergence.} Empirically, the algorithm converges within \TODO{G} generations for problem instances with $|\mathcal{I}| \leq \TODO{I}$ and $T \leq \TODO{T}$. Formal convergence guarantees follow from standard evolutionary algorithm theory \cite{rudolph1998convergence}.
+
+%=== 6.6 实现细节 ===
+\subsection{Implementation Details}
+\label{sec:algorithm_implementation}
+
+\begin{itemize}
+    \item \textbf{Programming Language:} Python 3.10 with NumPy, SciPy
+    \item \textbf{Parallelization:} Fitness evaluations parallelized across \TODO{N} CPU cores
+    \item \textbf{Parameter Settings:}
+    \begin{itemize}
+        \item Population size: \TODO{100}
+        \item Maximum generations: \TODO{500}
+        \item Crossover rate: \TODO{0.9}
+        \item Mutation rate: \TODO{1/n} (where $n$ = number of decision variables)
+    \end{itemize}
+    \item \textbf{Runtime:} Approximately \TODO{X} minutes on \TODO{hardware specification}
+\end{itemize}
+
+Source code is provided in Appendix \ref{app:code}.

@@ -1,0 +1,77 @@
+% _shared_macros.tex - 共享宏定义文件
+% 用于多人协作时统一符号和变量命名，避免冲突
+% 使用说明：在 main.tex 中通过 \input{sections/_shared_macros.tex} 引入
+
+%=== 政策分析专用符号 ===
+
+% 政策变量
+\newcommand{\policy}{\pi}                    % 政策方案
+\newcommand{\policyspace}{\Pi}               % 政策空间
+\newcommand{\intervention}{I}                % 干预措施
+\newcommand{\baseline}{B}                    % 基准情景
+
+% 效果评估
+\newcommand{\outcome}{Y}                     % 结果变量
+\newcommand{\treatment}{T}                   % 处理变量
+\newcommand{\effect}{\tau}                   % 处理效应
+\newcommand{\ate}{\bar{\tau}}               % 平均处理效应 (ATE)
+\newcommand{\att}{\tau_{\text{ATT}}}        % 处理组平均效应
+
+% 利益相关者
+\newcommand{\stakeholder}{S}                 % 利益相关者
+\newcommand{\utility}{U}                     % 效用函数
+\newcommand{\welfare}{W}                     % 社会福利
+
+% 时间与动态
+\newcommand{\horizon}{T}                     % 规划期
+\newcommand{\discount}{\delta}               % 折现因子
+\newcommand{\lagtime}{\tau_{\text{lag}}}    % 政策时滞
+
+% 不确定性
+\newcommand{\uncertainty}{\epsilon}          % 不确定性项
+\newcommand{\robust}{\mathcal{R}}           % 鲁棒性指标
+
+%=== 模型专用符号 ===
+
+% 系统动力学
+\newcommand{\stock}{S}                       % 存量
+\newcommand{\flow}{F}                        % 流量
+\newcommand{\feedback}{\lambda}              % 反馈系数
+
+% 优化
+\newcommand{\objective}{\mathcal{J}}         % 目标函数
+\newcommand{\constraint}{\mathcal{C}}        % 约束集
+\newcommand{\optimal}{^*}                    % 最优解标记
+
+% 评估指标
+\newcommand{\efficiency}{\eta}               % 效率
+\newcommand{\equity}{\xi}                    % 公平性
+\newcommand{\sustainability}{\sigma}         % 可持续性
+
+%=== 常用缩写 ===
+
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\etc}{\textit{etc.}}
+\newcommand{\wrt}{w.r.t.}
+\newcommand{\st}{\text{s.t.}}
+
+%=== 数学环境 ===
+
+% 期望、概率
+\newcommand{\E}{\mathbb{E}}                  % 期望
+\newcommand{\Prob}{\mathbb{P}}               % 概率
+\newcommand{\Var}{\text{Var}}                % 方差
+
+% 集合
+\newcommand{\R}{\mathbb{R}}                  % 实数集
+\newcommand{\N}{\mathbb{N}}                  % 自然数集
+\newcommand{\Z}{\mathbb{Z}}                  % 整数集
+
+%=== 颜色定义（用于图表一致性）===
+
+\definecolor{policyblue}{RGB}{31, 119, 180}
+\definecolor{resultgreen}{RGB}{44, 160, 44}
+\definecolor{warningorange}{RGB}{255, 127, 14}
+\definecolor{riskred}{RGB}{214, 39, 40}
+\definecolor{neutralgray}{RGB}{127, 127, 127}

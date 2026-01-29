@@ -1,0 +1,160 @@
+% 08_sensitivity_and_robustness.tex - 灵敏度与鲁棒性分析
+% ICM Problem F - Policy Science
+
+\section{Sensitivity and Robustness Analysis}
+\label{sec:sensitivity}
+
+% 【写作指导】F题灵敏度分析是O奖关键得分点
+% 需要：参数扰动分析、情景压力测试、模型假设检验
+
+%=== 8.1 灵敏度分析框架 ===
+\subsection{Sensitivity Analysis Framework}
+\label{sec:sensitivity_framework}
+
+To assess the reliability of our policy recommendations, we conduct comprehensive sensitivity analysis using:
+
+\begin{enumerate}
+    \item \textbf{One-At-a-Time (OAT) Analysis:} Vary each parameter independently by $\pm$\TODO{X\%}.
+    \item \textbf{Global Sensitivity Analysis:} Sobol indices to identify influential parameters.
+    \item \textbf{Scenario Stress Testing:} Evaluate performance under extreme conditions.
+\end{enumerate}
+
+%=== 8.2 参数灵敏度 ===
+\subsection{Parameter Sensitivity}
+\label{sec:sensitivity_parameters}
+
+We identify the following parameters as candidates for sensitivity analysis:
+
+\begin{table}[H]
+\centering
+\caption{Parameters for Sensitivity Analysis}
+\label{tab:sensitivity_params}
+\small
+\begin{tabular}{l l c c c}
+\toprule
+\textbf{Parameter} & \textbf{Description} & \textbf{Base Value} & \textbf{Range} & \textbf{Source of Uncertainty} \\
+\midrule
+$\alpha_1$ & Policy effect coefficient & \TODO{value} & [\TODO{L}, \TODO{U}] & Estimation error \\
+$\discount$ & Discount factor & \TODO{value} & [0.90, 0.99] & Value judgment \\
+$\tau$ & Policy lag (years) & \TODO{value} & [\TODO{L}, \TODO{U}] & Implementation variation \\
+$\rho$ & Compliance rate & \TODO{value} & [0.60, 0.95] & Behavioral uncertainty \\
+$B$ & Total budget & \TODO{value} & [\TODO{L}, \TODO{U}] & Political feasibility \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%--- 8.2.1 OAT分析结果 ---
+\subsubsection{One-At-a-Time Analysis}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{figures/tornado_diagram.pdf}
+    \fbox{\parbox{0.85\textwidth}{\centering\vspace{4em}\TODO{Figure: Tornado Diagram showing parameter impact on key outcome}\vspace{4em}}}
+    \caption{Tornado diagram: Impact of parameter variations on policy outcome ($\outcome$)}
+    \label{fig:tornado}
+\end{figure}
+
+\textbf{Key Observations:}
+\begin{itemize}
+    \item \textbf{Most Sensitive:} \TODO{Parameter X} - A \TODO{10\%} change leads to \TODO{Y\%} outcome variation.
+    \item \textbf{Moderately Sensitive:} \TODO{Parameters} - \TODO{Description}.
+    \item \textbf{Robust:} \TODO{Parameters} - Outcomes remain stable under variation.
+\end{itemize}
+
+%--- 8.2.2 全局敏感性分析 ---
+\subsubsection{Global Sensitivity Analysis}
+
+Using Sobol variance-based decomposition, we compute first-order ($S_i$) and total-effect ($S_{Ti}$) sensitivity indices:
+
+\begin{table}[H]
+\centering
+\caption{Sobol Sensitivity Indices}
+\label{tab:sobol}
+\begin{tabular}{l c c c}
+\toprule
+\textbf{Parameter} & \textbf{$S_i$ (First-order)} & \textbf{$S_{Ti}$ (Total)} & \textbf{Interpretation} \\
+\midrule
+$\alpha_1$ & \TODO{value} & \TODO{value} & \TODO{High/Medium/Low influence} \\
+$\discount$ & \TODO{value} & \TODO{value} & \TODO{Interpretation} \\
+$\tau$ & \TODO{value} & \TODO{value} & \TODO{Interpretation} \\
+$\rho$ & \TODO{value} & \TODO{value} & \TODO{Interpretation} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Interaction Effects:} The gap between $S_i$ and $S_{Ti}$ for \TODO{parameters} indicates significant parameter interactions, suggesting \TODO{implication for policy design}.
+
+%=== 8.3 假设检验 ===
+\subsection{Assumption Testing}
+\label{sec:sensitivity_assumptions}
+
+We systematically test the robustness of key assumptions identified in \secref{sec:assumptions}:
+
+\begin{table}[H]
+\centering
+\caption{Assumption Robustness Testing}
+\label{tab:assumption_test}
+\small
+\begin{tabular}{l p{4cm} p{4cm} c}
+\toprule
+\textbf{Assumption} & \textbf{Alternative Tested} & \textbf{Result} & \textbf{Robust?} \\
+\midrule
+A3: Bounded rationality & Full rationality model & \TODO{Qualitative difference} & \TODO{Yes/Partial/No} \\
+A4: \TODO{Assumption} & \TODO{Alternative} & \TODO{Result} & \TODO{Yes/No} \\
+A6: Parameter stability & Regime-switching model & \TODO{Result} & \TODO{Yes/No} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%=== 8.4 情景压力测试 ===
+\subsection{Scenario Stress Testing}
+\label{sec:sensitivity_stress}
+
+We evaluate policy performance under adverse conditions:
+
+\textbf{Stress Scenario 1: Budget Shortfall}
+\begin{itemize}
+    \item \textit{Condition:} Budget reduced by \TODO{30\%}.
+    \item \textit{Result:} Recommended policy remains \TODO{optimal / second-best}; outcome degrades by \TODO{X\%}.
+    \item \textit{Adaptation:} Prioritize intervention in \TODO{high-impact regions/groups}.
+\end{itemize}
+
+\textbf{Stress Scenario 2: External Shock}
+\begin{itemize}
+    \item \textit{Condition:} \TODO{e.g., Economic recession reducing baseline by 15\%}.
+    \item \textit{Result:} Policy effectiveness \TODO{increases / decreases / unchanged}.
+    \item \textit{Adaptation:} \TODO{Recommended adjustment}.
+\end{itemize}
+
+\textbf{Stress Scenario 3: Implementation Failure}
+\begin{itemize}
+    \item \textit{Condition:} Compliance rate drops to \TODO{60\%}.
+    \item \textit{Result:} Outcome shortfall of \TODO{X\%} compared to expected.
+    \item \textit{Adaptation:} Strengthen enforcement mechanisms; consider incentive redesign.
+\end{itemize}
+
+%=== 8.5 鲁棒性综合评估 ===
+\subsection{Robustness Summary}
+\label{sec:sensitivity_summary}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{figures/robustness_heatmap.pdf}
+    \fbox{\parbox{0.65\textwidth}{\centering\vspace{4em}\TODO{Figure: Robustness Heatmap - Policy Performance Across Parameter Combinations}\vspace{4em}}}
+    \caption{Policy robustness heatmap: Performance variation across parameter space}
+    \label{fig:robustness}
+\end{figure}
+
+\textbf{Overall Assessment:}
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Robustness Conclusion}\\[0.5em]
+The recommended policy (Scenario \TODO{SX}) demonstrates \textbf{\TODO{high/moderate}} robustness:
+\begin{itemize}
+    \item Remains optimal or near-optimal in \TODO{X\%} of parameter combinations tested.
+    \item Performance degradation under worst-case conditions is bounded at \TODO{Y\%}.
+    \item Key risk factors requiring monitoring: \TODO{parameters/conditions}.
+\end{itemize}
+}}
+\end{center}

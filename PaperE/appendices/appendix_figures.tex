@@ -1,0 +1,154 @@
+% Appendix B: Additional Figures and Tables
+% 附录B：补充图表
+
+\section*{Appendix B: Additional Figures and Tables}
+\addcontentsline{toc}{section}{Appendix B: Additional Figures \& Tables}
+\label{appendix:figures}
+
+This appendix contains supplementary visualizations and detailed tables that support our main analysis.
+
+%=== B.1 完整指标数据表 ===
+\subsection*{B.1 Complete Indicator Data}
+
+\begin{longtable}{l c c c c c}
+    \caption{Detailed Sustainability Indicator Values by Scenario (End of Projection Period)} \\
+    \toprule
+    \textbf{Indicator} & \textbf{Unit} & \textbf{S1: BAU} & \textbf{S2: MOD} & \textbf{S3: AGG} & \textbf{S4: STRESS} \\
+    \midrule
+    \endfirsthead
+    \caption[]{(continued)} \\
+    \toprule
+    \textbf{Indicator} & \textbf{Unit} & \textbf{S1: BAU} & \textbf{S2: MOD} & \textbf{S3: AGG} & \textbf{S4: STRESS} \\
+    \midrule
+    \endhead
+    \bottomrule
+    \endfoot
+    
+    \multicolumn{6}{l}{\textit{\textbf{Environmental Pillar}}} \\
+    \TODO{GHG Emissions} & \TODO{MtCO$_2$eq} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Renewable Energy Share} & \TODO{\%} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Water Use Efficiency} & \TODO{m$^3$/\$} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Biodiversity Index} & \TODO{--} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Air Quality (PM2.5)} & \TODO{$\mu$g/m$^3$} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \midrule
+    
+    \multicolumn{6}{l}{\textit{\textbf{Economic Pillar}}} \\
+    \TODO{GDP per Capita} & \TODO{\$} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Green Jobs Created} & \TODO{thousands} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Sustainability Investment} & \TODO{\% GDP} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Cost-Effectiveness} & \TODO{ratio} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \midrule
+    
+    \multicolumn{6}{l}{\textit{\textbf{Social Pillar}}} \\
+    \TODO{Gini Coefficient} & \TODO{--} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Life Expectancy} & \TODO{years} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Education Index} & \TODO{--} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+    \TODO{Community Resilience} & \TODO{--} & \TODO{value} & \TODO{value} & \TODO{value} & \TODO{value} \\
+\end{longtable}
+
+%=== B.2 系统动力学详细输出 ===
+\subsection*{B.2 System Dynamics Detailed Outputs}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][0.30\textheight][c]{0.9\textwidth}{
+        \centering
+        \textbf{System Dynamics Phase Portrait}
+        \par\vspace{1em}
+        \small \TODO{Replace with phase portrait showing Environmental Stock vs. Economic Output trajectories for all four scenarios. Mark equilibrium points and tipping thresholds. Show convergence/divergence behavior.}
+    }}
+    \caption{Phase portrait of system dynamics trajectories across scenarios.}
+    \label{fig:phase_portrait}
+\end{figure}
+
+%=== B.3 Monte Carlo灵敏度分布 ===
+\subsection*{B.3 Monte Carlo Sensitivity Distributions}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][0.28\textheight][c]{0.9\textwidth}{
+        \centering
+        \textbf{Parameter Uncertainty Propagation}
+        \par\vspace{1em}
+        \small \TODO{Replace with probability density plots showing the distribution of composite sustainability scores for each scenario under 1000 Monte Carlo runs. Include 90\% confidence intervals and median values.}
+    }}
+    \caption{Monte Carlo simulation results showing uncertainty in sustainability scores.}
+    \label{fig:monte_carlo}
+\end{figure}
+
+%=== B.4 权重敏感性热力图 ===
+\subsection*{B.4 Weight Sensitivity Heatmap}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][0.28\textheight][c]{0.9\textwidth}{
+        \centering
+        \textbf{Two-Parameter Sensitivity Heatmap}
+        \par\vspace{1em}
+        \small \TODO{Replace with heatmap showing how composite sustainability score changes as two key parameters (e.g., environmental weight and discount rate) vary simultaneously. Color-code by magnitude and identify critical thresholds.}
+    }}
+    \caption{Two-parameter sensitivity heatmap for key model parameters.}
+    \label{fig:sensitivity_heatmap}
+\end{figure}
+
+%=== B.5 情景时间演化详图 ===
+\subsection*{B.5 Scenario Evolution Detail}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][0.30\textheight][c]{0.9\textwidth}{
+        \centering
+        \textbf{Detailed Scenario Comparison Over Time}
+        \par\vspace{1em}
+        \small \TODO{Replace with a multi-panel figure showing year-by-year evolution of:
+        \begin{itemize}
+            \item Panel 1: Environmental indicators
+            \item Panel 2: Economic indicators  
+            \item Panel 3: Social indicators
+            \item Panel 4: Composite sustainability score
+        \end{itemize}
+        Include confidence bands for AGG scenario to show uncertainty.}
+    }}
+    \caption{Comprehensive scenario evolution from baseline to 2050.}
+    \label{fig:scenario_detail}
+\end{figure}
+
+%=== B.6 AHP一致性检验 ===
+\subsection*{B.6 AHP Consistency Verification}
+
+\begin{table}[H]
+    \centering
+    \caption{AHP Pairwise Comparison Matrix and Consistency Check}
+    \label{tab:ahp_matrix}
+    \begin{tabular}{l c c c c c}
+        \toprule
+        & \textbf{Env} & \textbf{Econ} & \textbf{Social} & \textbf{Weight} & \textbf{Rank} \\
+        \midrule
+        \textbf{Environmental} & 1 & \TODO{a$_{12}$} & \TODO{a$_{13}$} & \TODO{$w_1$} & \TODO{rank} \\
+        \textbf{Economic} & \TODO{1/a$_{12}$} & 1 & \TODO{a$_{23}$} & \TODO{$w_2$} & \TODO{rank} \\
+        \textbf{Social} & \TODO{1/a$_{13}$} & \TODO{1/a$_{23}$} & 1 & \TODO{$w_3$} & \TODO{rank} \\
+        \midrule
+        \multicolumn{6}{l}{$\lambda_{\max}$ = \TODO{value}, CI = \TODO{value}, CR = \TODO{value} $< 0.10$ \checkmark} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+%=== B.7 数据来源详细说明 ===
+\subsection*{B.7 Detailed Data Source Documentation}
+
+\begin{table}[H]
+    \centering
+    \caption{Complete Data Source Reference}
+    \label{tab:data_sources_detail}
+    \begin{tabularx}{\textwidth}{l l X l}
+        \toprule
+        \textbf{Variable} & \textbf{Source} & \textbf{URL / Citation} & \textbf{Access Date} \\
+        \midrule
+        \TODO{Variable 1} & \TODO{Source} & \TODO{URL or citation} & \TODO{date} \\
+        \TODO{Variable 2} & \TODO{Source} & \TODO{URL or citation} & \TODO{date} \\
+        \TODO{Variable 3} & \TODO{Source} & \TODO{URL or citation} & \TODO{date} \\
+        \TODO{Variable 4} & \TODO{Source} & \TODO{URL or citation} & \TODO{date} \\
+        \TODO{Variable 5} & \TODO{Source} & \TODO{URL or citation} & \TODO{date} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}

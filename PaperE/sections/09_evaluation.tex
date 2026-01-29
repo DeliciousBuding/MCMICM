@@ -1,0 +1,131 @@
+% Section 9: Model Evaluation - Strengths and Weaknesses
+% 模型评估：优缺点分析
+
+\section{Model Evaluation: Strengths and Weaknesses}
+\label{sec:evaluation}
+
+% 【E题O奖要求】必须包含诚实、深入的优缺点分析
+
+%=== 9.1 模型优势 ===
+\subsection{Strengths}
+\label{subsec:strengths}
+
+Our sustainability-oriented decision framework offers several methodological and practical strengths:
+
+\begin{enumerate}[itemsep=0.5em]
+    
+    \item \textbf{Holistic Three-Pillar Assessment}
+    
+    Unlike single-objective optimization approaches, our framework explicitly integrates environmental, economic, and social dimensions, ensuring that trade-offs are visible rather than hidden. This aligns with the UN SDG principle of ``leaving no one behind.''
+    
+    \item \textbf{Systems Thinking via System Dynamics}
+    
+    The SD model captures feedback loops, time delays, and nonlinearities that simpler models miss. This enables identification of tipping points and leverage points critical for effective policy design.
+    
+    \item \textbf{Scenario-Based Robustness}
+    
+    By designing and comparing multiple scenarios (BAU, MOD, AGG, STRESS), we avoid over-reliance on point predictions and instead provide decision-makers with a range of plausible futures to consider.
+    
+    \item \textbf{Transparent Multi-Criteria Ranking}
+    
+    The TOPSIS method provides a clear, auditable ranking procedure. Combined with trade-off frontier visualization, stakeholders can understand \textit{why} certain alternatives are preferred.
+    
+    \item \textbf{Hybrid Weighting for Legitimacy}
+    
+    The AHP-Entropy combination balances expert judgment with data-driven objectivity, enhancing both scientific credibility and stakeholder buy-in.
+    
+    \item \textbf{Extensibility and Adaptability}
+    
+    The modular framework can be extended to incorporate additional indicators, scenarios, or regional specifications as new data becomes available or policy contexts evolve.
+    
+    \item \textbf{Policy Relevance}
+    
+    Our framework directly addresses the needs of decision-makers by translating technical analysis into actionable recommendations with implementation timelines and stakeholder-specific guidance.
+    
+\end{enumerate}
+
+%=== 9.2 模型局限 ===
+\subsection{Weaknesses}
+\label{subsec:weaknesses}
+
+We acknowledge the following limitations:
+
+\begin{enumerate}[itemsep=0.5em]
+    
+    \item \textbf{Data Availability and Quality}
+    
+    Sustainability indicators often suffer from measurement gaps, reporting inconsistencies, and time lags. Our analysis is constrained by available data, which may not fully capture all relevant dynamics.
+    
+    \textit{Mitigation:} We conducted sensitivity analysis to identify which data gaps most affect conclusions and prioritized indicators with robust data sources.
+    
+    \item \textbf{Model Complexity vs. Tractability Trade-off}
+    
+    While System Dynamics captures important feedbacks, our model necessarily simplifies real-world complexity. Some second-order effects and spatial heterogeneities may be underrepresented.
+    
+    \textit{Mitigation:} We validated model behavior against historical data where possible and tested structural robustness.
+    
+    \item \textbf{Linear Aggregation Limitations}
+    
+    The TOPSIS method assumes linear compensability---poor performance on one criterion can be offset by good performance on another. In reality, some environmental thresholds may be non-negotiable.
+    
+    \textit{Mitigation:} We supplement TOPSIS rankings with constraint-based screening (e.g., ``must not cross environmental tipping point'') and trade-off visualization.
+    
+    \item \textbf{Uncertainty in Long-Term Projections}
+    
+    Projecting to 2050 involves substantial uncertainty in technological change, policy evolution, and climate impacts that cannot be fully captured.
+    
+    \textit{Mitigation:} We report uncertainty bounds via Monte Carlo analysis and emphasize adaptive management recommendations.
+    
+    \item \textbf{Subjectivity in AHP Weights}
+    
+    Despite procedural rigor, expert-assigned weights inevitably reflect value judgments that may not represent all stakeholder perspectives.
+    
+    \textit{Mitigation:} We tested sensitivity to weight variations and reported rankings under multiple stakeholder profiles.
+    
+    \item \textbf{Implementation Gap}
+    
+    Our analysis assumes policies are implemented as designed. Real-world governance constraints, political economy factors, and capacity limitations may reduce actual effectiveness.
+    
+    \textit{Mitigation:} Policy recommendations include implementation feasibility considerations and adaptive management provisions.
+    
+\end{enumerate}
+
+%=== 9.3 与现有方法的比较 ===
+\subsection{Comparison with Alternative Approaches}
+\label{subsec:comparison}
+
+\begin{table}[H]
+    \centering
+    \caption{Comparison of Our Framework with Alternative Approaches}
+    \label{tab:comparison}
+    \begin{tabularx}{\textwidth}{l X X X}
+        \toprule
+        \textbf{Criterion} & \textbf{Our Framework} & \textbf{Pure Optimization} & \textbf{Qualitative Assessment} \\
+        \midrule
+        Multi-dimensionality & \checkmark Full 3-pillar & Partial (single objective) & \checkmark Full but subjective \\
+        Feedback dynamics & \checkmark Via SD model & Limited & Limited \\
+        Uncertainty handling & \checkmark Monte Carlo & Limited & Narrative scenarios \\
+        Transparency & \checkmark Explicit weights & Black-box optimization & High but unstructured \\
+        Actionability & \checkmark Tiered recommendations & Optimal solution only & General guidance \\
+        Scalability & Moderate & High & Low \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+%=== 9.4 未来改进方向 ===
+\subsection{Future Improvements}
+\label{subsec:future}
+
+Several extensions could enhance the framework:
+
+\begin{itemize}[itemsep=0.3em]
+    \item \textbf{Spatial Disaggregation:} Incorporate GIS-based analysis for regional heterogeneity.
+    
+    \item \textbf{Agent-Based Modeling:} Complement SD with ABM to capture stakeholder heterogeneity and emergent behaviors.
+    
+    \item \textbf{Real Options Analysis:} Value flexibility and adaptive management more formally.
+    
+    \item \textbf{Participatory Weighting:} Engage broader stakeholder groups in weight elicitation through structured deliberation.
+    
+    \item \textbf{Machine Learning Integration:} Use ML for pattern recognition in high-dimensional indicator data while preserving interpretability.
+\end{itemize}

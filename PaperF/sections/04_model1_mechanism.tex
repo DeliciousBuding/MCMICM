@@ -1,0 +1,184 @@
+% 04_model1_mechanism.tex - 系统机制模型
+% ICM Problem F - Policy Science
+
+\section{Model I: System Mechanism Analysis}
+\label{sec:model1}
+
+% 【写作指导】F题机制模型需要：
+% 1. 明确政策干预如何传导至最终结果
+% 2. 识别关键中介变量和反馈回路
+% 3. 支持情景分析和政策模拟
+
+%=== 4.1 模型概述 ===
+\subsection{Model Overview}
+\label{sec:model1_overview}
+
+To understand \textit{how} policy interventions translate into outcomes, we develop a \textbf{\TODO{e.g., System Dynamics / Causal Inference / Structural}} model that captures the mechanism pathways linking policy inputs to societal impacts.
+
+\textbf{Modeling Philosophy.} Our approach is guided by three principles:
+
+\begin{enumerate}
+    \item \textbf{Transparency:} All causal relationships are explicitly stated and empirically grounded.
+    \item \textbf{Modularity:} Sub-models can be updated independently as new evidence emerges.
+    \item \textbf{Policy Relevance:} Model outputs directly inform actionable policy levers.
+\end{enumerate}
+
+% 系统边界图
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        scale=0.9,
+        transform shape,
+        node distance=2cm,
+        stock/.style={rectangle, draw, thick, minimum width=2.5cm, minimum height=1cm, fill=blue!10, align=center},
+        flow/.style={rectangle, draw, minimum width=2cm, minimum height=0.6cm, fill=green!10, align=center},
+        cloud/.style={ellipse, draw, dashed, minimum width=2cm, fill=gray!10, align=center},
+        arrow/.style={->, >=stealth, thick},
+        feedback/.style={->, >=stealth, thick, dashed, red}
+    ]
+        % 外部输入
+        \node[cloud] (external) {External\\Factors};
+        
+        % 政策干预
+        \node[flow, below=of external, fill=policyblue!30] (policy) {Policy\\Intervention};
+        
+        % 中介变量
+        \node[stock, below left=1.5cm and 1cm of policy] (mech1) {\TODO{Mechanism 1}\\Stock};
+        \node[stock, below right=1.5cm and 1cm of policy] (mech2) {\TODO{Mechanism 2}\\Stock};
+        
+        % 结果
+        \node[stock, below=3.5cm of policy, fill=resultgreen!30] (outcome) {Policy\\Outcome};
+        
+        % 箭头
+        \draw[arrow] (external) -- (policy);
+        \draw[arrow] (policy) -- (mech1);
+        \draw[arrow] (policy) -- (mech2);
+        \draw[arrow] (mech1) -- (outcome);
+        \draw[arrow] (mech2) -- (outcome);
+        
+        % 反馈
+        \draw[feedback] (outcome.west) to[out=180, in=270] (mech1.south);
+        
+        % 标注
+        \node[right=0.3cm of mech2, font=\footnotesize] {Direct Effect};
+        \node[left=0.3cm of mech1, font=\footnotesize, red] {Feedback};
+    \end{tikzpicture}
+    \caption{System structure of the mechanism model}
+    \label{fig:system_structure}
+\end{figure}
+
+%=== 4.2 核心方程 ===
+\subsection{Core Equations}
+\label{sec:model1_equations}
+
+%--- 4.2.1 状态演化方程 ---
+\subsubsection{State Evolution Dynamics}
+
+The system state evolves according to the following difference equations:
+
+% 状态方程1
+\begin{equation}
+\stock_{i,t+1} = \stock_{i,t} + \Delta t \cdot \left[ \flow^{in}_{i,t} - \flow^{out}_{i,t} \right]
+\label{eq:state_evolution}
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $\stock_{i,t}$: System state (stock) for unit $i$ at time $t$
+    \item $\flow^{in}_{i,t}$: Inflow rate, determined by policy and external factors
+    \item $\flow^{out}_{i,t}$: Outflow rate, reflecting natural depletion or consumption
+\end{itemize}
+
+% 流量方程
+The inflow rate is modeled as a function of policy intensity:
+\begin{equation}
+\flow^{in}_{i,t} = \alpha_0 + \alpha_1 \cdot \policy_{i,t} + \alpha_2 \cdot \policy_{i,t}^2 + \beta \cdot \mathbf{X}_{i,t}
+\label{eq:inflow}
+\end{equation}
+% TODO: 根据具体问题调整函数形式
+
+The quadratic term $\alpha_2 \cdot \policy_{i,t}^2$ captures \textit{diminishing returns} or \textit{threshold effects} common in policy applications.
+
+%--- 4.2.2 反馈机制 ---
+\subsubsection{Feedback Mechanisms}
+
+We identify \TODO{N} key feedback loops that shape system behavior:
+
+\textbf{Feedback Loop 1: \TODO{Name, e.g., Reinforcing Growth}}
+
+The first feedback operates through \TODO{mechanism description}:
+% TODO: 添加反馈方程
+\begin{equation}
+\feedback_1 = \lambda_1 \cdot f(\stock_{t-\tau}) \cdot g(\outcome_{t-\tau})
+\label{eq:feedback1}
+\end{equation}
+
+where $\tau$ represents the policy lag (time delay before effects materialize).
+
+\textbf{Feedback Loop 2: \TODO{Name, e.g., Balancing Constraint}}
+
+\TODO{Description and equation for the second feedback loop}
+
+%--- 4.2.3 结果映射 ---
+\subsubsection{Outcome Mapping}
+
+Final policy outcomes are derived from system states through the mapping function:
+\begin{equation}
+\outcome_{i,t} = h(\stock_{i,t}, \mathbf{Z}_{i,t}; \boldsymbol{\theta})
+\label{eq:outcome}
+\end{equation}
+
+where $\mathbf{Z}_{i,t}$ represents contextual moderators and $\boldsymbol{\theta}$ is the parameter vector estimated from data.
+
+%=== 4.3 参数估计 ===
+\subsection{Parameter Estimation}
+\label{sec:model1_estimation}
+
+Model parameters are estimated using a combination of:
+
+\begin{enumerate}
+    \item \textbf{Literature Calibration:} Parameters with established empirical estimates are sourced from peer-reviewed studies (see \tabref{tab:param_sources}).
+    
+    \item \textbf{Statistical Estimation:} For novel parameters, we use \TODO{e.g., maximum likelihood estimation / Bayesian inference / system identification} on the dataset described in \secref{sec:data}.
+    
+    \item \textbf{Expert Elicitation:} Where data is sparse, we conduct structured expert consultation following \TODO{protocol, e.g., Delphi method}.
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{Parameter Estimates and Sources}
+\label{tab:param_sources}
+\small
+\begin{tabular}{l c c c l}
+\toprule
+\textbf{Parameter} & \textbf{Estimate} & \textbf{95\% CI} & \textbf{Method} & \textbf{Source} \\
+\midrule
+$\alpha_1$ & \TODO{value} & \TODO{[L, U]} & \TODO{MLE} & This study \\
+$\alpha_2$ & \TODO{value} & \TODO{[L, U]} & Literature & \cite{example2023policy} \\
+$\lambda_1$ & \TODO{value} & \TODO{[L, U]} & Expert & Panel consensus \\
+$\tau$ (lag) & \TODO{value} & \TODO{[L, U]} & Empirical & \TODO{source} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%=== 4.4 模型验证 ===
+\subsection{Model Validation}
+\label{sec:model1_validation}
+
+We validate the mechanism model through:
+
+\begin{enumerate}
+    \item \textbf{Structural Validity:} Expert review confirms that causal pathways align with domain knowledge.
+    
+    \item \textbf{Behavioral Validity:} Simulated system behavior reproduces known historical patterns (see \figref{fig:validation}).
+    
+    \item \textbf{Extreme Condition Testing:} Model behaves plausibly under boundary conditions (e.g., zero policy, maximum policy).
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{figures/model_validation.pdf}
+    \fbox{\parbox{0.75\textwidth}{\centering\vspace{4em}\TODO{Figure: Model Validation - Historical vs. Simulated}\vspace{4em}}}
+    \caption{Model validation: Comparison of historical data (solid) with model simulation (dashed)}
+    \label{fig:validation}
+\end{figure}

@@ -1,0 +1,73 @@
+% Section 3: Notations
+% 符号说明表：按类别组织，适应E题可持续性建模
+
+\section{Notations}
+\label{sec:notations}
+
+For clarity and consistency throughout this paper, we summarize the key symbols used in our sustainability assessment framework in Table~\ref{tab:notations}.
+
+\begin{table}[H]
+    \centering
+    \caption{Summary of Key Notations}
+    \label{tab:notations}
+    \begin{tabularx}{\textwidth}{c X c}
+        \toprule
+        \textbf{Symbol} & \textbf{Description} & \textbf{Unit} \\
+        \midrule
+        \multicolumn{3}{l}{\textit{\textbf{Index Sets}}} \\
+        $t$ & Time period index, $t \in \mathcal{T} = \{1, 2, \ldots, T\}$ & year \\
+        $i$ & Indicator index, $i \in \mathcal{I} = \{1, 2, \ldots, n\}$ & -- \\
+        $s$ & Scenario index, $s \in \mathcal{S} = \{\text{BAU}, \text{MOD}, \text{AGG}, \text{STRESS}\}$ & -- \\
+        $k$ & Stakeholder index, $k \in \mathcal{K}$ & -- \\
+        \midrule
+        \multicolumn{3}{l}{\textit{\textbf{Sustainability Indicators (Three Pillars)}}} \\
+        $E_i$ & $i$-th environmental indicator value & varies \\
+        $C_j$ & $j$-th economic indicator value & varies \\
+        $S_l$ & $l$-th social indicator value & varies \\
+        $\mathbf{X}$ & Aggregated indicator matrix, $\mathbf{X} \in \mathbb{R}^{n \times T}$ & -- \\
+        \midrule
+        \multicolumn{3}{l}{\textit{\textbf{Weighting and Aggregation}}} \\
+        $w_i$ & Weight assigned to indicator $i$, $\sum_i w_i = 1$ & -- \\
+        $w_i^{\text{AHP}}$ & AHP-derived subjective weight & -- \\
+        $w_i^{\text{Ent}}$ & Entropy-derived objective weight & -- \\
+        $\lambda$ & Combination coefficient for hybrid weighting, $\lambda \in [0,1]$ & -- \\
+        $U$ & Composite sustainability score, $U = \sum_i w_i \cdot \tilde{X}_i$ & -- \\
+        \midrule
+        \multicolumn{3}{l}{\textit{\textbf{System Dynamics Variables}}} \\
+        $\mathbf{S}(t)$ & Stock variables vector at time $t$ (e.g., resource stock, capital) & varies \\
+        $\mathbf{F}(t)$ & Flow variables vector at time $t$ (e.g., emissions rate, investment) & varies/yr \\
+        $\tau$ & Time delay parameter for feedback loops & year \\
+        $\kappa$ & Carrying capacity or system limit & varies \\
+        \midrule
+        \multicolumn{3}{l}{\textit{\textbf{Scenario Parameters}}} \\
+        $\pi_s$ & Policy intensity under scenario $s$ & \% or \$ \\
+        $\Delta_s(t)$ & Scenario-specific intervention magnitude at time $t$ & varies \\
+        $P_{\text{shock}}$ & Probability of extreme event (stress scenario) & -- \\
+        \midrule
+        \multicolumn{3}{l}{\textit{\textbf{Multi-Criteria Decision Analysis (MCDA)}}} \\
+        $\mathbf{D}$ & Decision matrix, $\mathbf{D} \in \mathbb{R}^{m \times n}$ (alternatives $\times$ criteria) & -- \\
+        $A^+, A^-$ & Ideal and anti-ideal solutions in TOPSIS & -- \\
+        $d_j^+, d_j^-$ & Distance to ideal/anti-ideal for alternative $j$ & -- \\
+        $C_j^*$ & Relative closeness coefficient for alternative $j$ & -- \\
+        \midrule
+        \multicolumn{3}{l}{\textit{\textbf{Economic Parameters}}} \\
+        $r$ & Social discount rate & \%/yr \\
+        $\text{NPV}$ & Net Present Value of intervention & \$ \\
+        $B/C$ & Benefit-Cost Ratio & -- \\
+        $\text{ROI}$ & Return on Investment for sustainability intervention & \% \\
+        \midrule
+        \multicolumn{3}{l}{\textit{\textbf{Sensitivity Analysis}}} \\
+        $\theta$ & Generic parameter subject to perturbation & varies \\
+        $\Delta \theta$ & Perturbation magnitude for sensitivity analysis & \% \\
+        $\eta_{\theta}$ & Sensitivity elasticity: $\eta = \frac{\partial U / U}{\partial \theta / \theta}$ & -- \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+% 补充说明
+\noindent\textbf{Normalization Convention.} Unless otherwise stated, all indicators are normalized to $[0, 1]$ using min-max scaling:
+\begin{equation}
+    \tilde{X}_i = \frac{X_i - X_i^{\min}}{X_i^{\max} - X_i^{\min}}
+    \label{eq:normalization}
+\end{equation}
+For ``negative'' indicators (where lower is better, e.g., pollution), we apply reverse scaling: $\tilde{X}_i = 1 - \frac{X_i - X_i^{\min}}{X_i^{\max} - X_i^{\min}}$.

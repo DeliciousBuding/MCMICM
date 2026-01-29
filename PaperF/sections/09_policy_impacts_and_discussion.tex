@@ -1,0 +1,195 @@
+% 09_policy_impacts_and_discussion.tex - 政策影响与讨论
+% ICM Problem F - Policy Science
+% 【F题核心特色章节】：溢出效应、系统稳定性、实施考量
+
+\section{Policy Impacts and Discussion}
+\label{sec:impacts}
+
+% 【写作指导】F题的独特价值在于：
+% 1. 超越直接效果，分析跨领域溢出
+% 2. 评估长期系统稳定性
+% 3. 提供可操作的实施路径
+
+%=== 9.1 直接政策效果 ===
+\subsection{Direct Policy Effects}
+\label{sec:impacts_direct}
+
+Building on the quantitative results (\secref{sec:results}), we interpret the direct policy effects:
+
+\textbf{Primary Outcome Achievement:}
+The recommended policy achieves \TODO{X\%} of the stated policy goal within the \TODO{T}-year horizon. Specifically:
+
+\begin{itemize}
+    \item \textbf{Magnitude:} \TODO{Outcome metric} improves from \TODO{baseline} to \TODO{target}.
+    \item \textbf{Timing:} Most gains materialize between years \TODO{X} and \TODO{Y}.
+    \item \textbf{Distribution:} Benefits are \TODO{progressively / regressively / evenly} distributed across \TODO{groups}.
+\end{itemize}
+
+%=== 9.2 溢出效应分析 ===
+\subsection{Spillover Effects Analysis}
+\label{sec:impacts_spillover}
+
+Policies rarely operate in isolation. We analyze cross-domain spillovers using a \textbf{systems mapping} approach:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        scale=0.85,
+        transform shape,
+        node distance=2cm,
+        policyarea/.style={ellipse, draw, thick, minimum width=2.5cm, minimum height=1.2cm, align=center},
+        arrow/.style={->, >=stealth, thick},
+        positive/.style={arrow, green!60!black},
+        negative/.style={arrow, red!60!black},
+        uncertain/.style={arrow, dashed, gray}
+    ]
+        % 核心领域
+        \node[policyarea, fill=policyblue!30] (core) {Target\\Domain};
+        
+        % 相关领域
+        \node[policyarea, fill=resultgreen!20, above left=1.5cm and 2cm of core] (domain1) {\TODO{Domain 1}\\e.g., Economy};
+        \node[policyarea, fill=warningorange!20, above right=1.5cm and 2cm of core] (domain2) {\TODO{Domain 2}\\e.g., Environment};
+        \node[policyarea, fill=riskred!20, below left=1.5cm and 2cm of core] (domain3) {\TODO{Domain 3}\\e.g., Social Equity};
+        \node[policyarea, fill=neutralgray!20, below right=1.5cm and 2cm of core] (domain4) {\TODO{Domain 4}\\e.g., Public Health};
+        
+        % 溢出箭头
+        \draw[positive] (core) -- node[above, sloped, font=\footnotesize] {+\TODO{effect}} (domain1);
+        \draw[negative] (core) -- node[above, sloped, font=\footnotesize] {$-$\TODO{effect}} (domain2);
+        \draw[positive] (core) -- node[below, sloped, font=\footnotesize] {+\TODO{effect}} (domain3);
+        \draw[uncertain] (core) -- node[below, sloped, font=\footnotesize] {?\TODO{uncertain}} (domain4);
+        
+        % 反馈
+        \draw[positive, bend left=20] (domain1) to (core);
+    \end{tikzpicture}
+    \caption{Cross-domain spillover map (+ positive, $-$ negative, ? uncertain)}
+    \label{fig:spillover_map}
+\end{figure}
+
+\textbf{Positive Spillovers:}
+\begin{enumerate}
+    \item \textbf{\TODO{Domain 1}:} \TODO{e.g., ``Economic stimulus from policy investment creates X jobs''}.
+    \item \textbf{\TODO{Domain 3}:} \TODO{e.g., ``Improved equity reduces social unrest risk''}.
+\end{enumerate}
+
+\textbf{Negative Spillovers (Trade-offs):}
+\begin{enumerate}
+    \item \textbf{\TODO{Domain 2}:} \TODO{e.g., ``Increased activity raises environmental footprint by Y\%''}.
+    \item \textbf{Mitigation:} \TODO{Recommended complementary policy or design modification}.
+\end{enumerate}
+
+\textbf{Uncertain Spillovers:}
+\begin{enumerate}
+    \item \textbf{\TODO{Domain 4}:} \TODO{e.g., ``Long-term health effects depend on behavioral adaptation''}.
+    \item \textbf{Monitoring Required:} We recommend \TODO{indicators to track}.
+\end{enumerate}
+
+%=== 9.3 长期系统稳定性 ===
+\subsection{Long-term System Stability}
+\label{sec:impacts_stability}
+
+We assess whether the recommended policy leads to \textbf{sustainable equilibrium} or potential \textbf{instabilities}:
+
+\textbf{Stability Analysis:}
+Using the system dynamics model (\secref{sec:model1}), we analyze equilibrium behavior:
+
+\begin{equation}
+\text{Equilibrium condition: } \frac{d\stock}{dt} = 0 \implies \flow^{in}(\policy^*, \stock^*) = \flow^{out}(\stock^*)
+\label{eq:equilibrium}
+\end{equation}
+
+% 稳定性判据
+The Jacobian eigenvalues at the policy-induced equilibrium are:
+\begin{equation}
+\lambda_1 = \TODO{value}, \quad \lambda_2 = \TODO{value}, \quad \ldots
+\label{eq:eigenvalues}
+\end{equation}
+
+Since all eigenvalues have \TODO{negative real parts / mixed signs}, the equilibrium is \TODO{asymptotically stable / unstable / conditionally stable}.
+
+\textbf{Phase Diagram:}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{figures/phase_diagram.pdf}
+    \fbox{\parbox{0.65\textwidth}{\centering\vspace{4em}\TODO{Figure: Phase Diagram showing system trajectories}\vspace{4em}}}
+    \caption{Phase diagram: System trajectories under recommended policy}
+    \label{fig:phase}
+\end{figure}
+
+\textbf{Stability Implications:}
+\begin{itemize}
+    \item \textbf{Self-Sustaining:} \TODO{Describe whether the policy creates conditions for continued success without ongoing intervention}.
+    \item \textbf{Reversal Risk:} \TODO{Describe conditions under which policy gains might reverse}.
+    \item \textbf{Tipping Points:} \TODO{Identify any critical thresholds where system behavior changes qualitatively}.
+\end{itemize}
+
+%=== 9.4 公平性与包容性 ===
+\subsection{Equity and Inclusion Considerations}
+\label{sec:impacts_equity}
+
+Beyond aggregate outcomes, we explicitly address distributional justice:
+
+\textbf{Equity Metrics:}
+\begin{table}[H]
+\centering
+\caption{Equity Assessment}
+\label{tab:equity}
+\begin{tabular}{l c c c}
+\toprule
+\textbf{Equity Dimension} & \textbf{Baseline} & \textbf{With Policy} & \textbf{Assessment} \\
+\midrule
+Geographic (Gini) & \TODO{value} & \TODO{value} & \TODO{Improved/Worsened} \\
+Income-based (Theil index) & \TODO{value} & \TODO{value} & \TODO{Assessment} \\
+Demographic (\TODO{specific group}) & \TODO{gap} & \TODO{gap} & \TODO{Assessment} \\
+Intergenerational & \TODO{metric} & \TODO{metric} & \TODO{Assessment} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Vulnerable Group Analysis:}
+\TODO{Discuss how the policy affects the most vulnerable populations. Identify any groups that may be inadvertently harmed and propose mitigations.}
+
+%=== 9.5 实施可行性 ===
+\subsection{Implementation Feasibility}
+\label{sec:impacts_implementation}
+
+Translating model recommendations into practice requires attention to:
+
+\textbf{1. Political Feasibility}
+\begin{itemize}
+    \item \textbf{Stakeholder Alignment:} \TODO{Which stakeholders support/oppose?}
+    \item \textbf{Political Capital Required:} \TODO{Low/Medium/High}
+    \item \textbf{Coalition Strategy:} \TODO{Recommended approach to build support}
+\end{itemize}
+
+\textbf{2. Administrative Capacity}
+\begin{itemize}
+    \item \textbf{Required Capabilities:} \TODO{List key implementation capacities}
+    \item \textbf{Capacity Gaps:} \TODO{Identify potential bottlenecks}
+    \item \textbf{Phased Rollout:} We recommend starting with \TODO{pilot regions/sectors} before national scale-up.
+\end{itemize}
+
+\textbf{3. Monitoring and Evaluation}
+\begin{itemize}
+    \item \textbf{Key Performance Indicators (KPIs):} \TODO{List 3-5 measurable indicators}
+    \item \textbf{Data Collection:} \TODO{Describe monitoring infrastructure needs}
+    \item \textbf{Adaptive Management:} We recommend policy review at \TODO{interval} with pre-specified adjustment triggers.
+\end{itemize}
+
+%=== 9.6 局限性讨论 ===
+\subsection{Limitations}
+\label{sec:impacts_limitations}
+
+We acknowledge the following limitations in our analysis:
+
+\begin{enumerate}
+    \item \textbf{Model Simplifications:} \TODO{e.g., ``Assumed homogeneous behavioral response across regions''}.
+    
+    \item \textbf{Data Constraints:} \TODO{e.g., ``Limited historical data for parameter estimation''}.
+    
+    \item \textbf{Scope Boundaries:} \TODO{e.g., ``Did not model international spillovers''}.
+    
+    \item \textbf{Uncertainty Quantification:} \TODO{e.g., ``Deep uncertainty in long-term projections beyond Year X''}.
+\end{enumerate}
+
+These limitations suggest caution in \TODO{specific contexts} and point to future research needs (\secref{sec:conclusion}).

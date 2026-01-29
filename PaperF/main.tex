@@ -1,0 +1,254 @@
+% MCM/ICM 2026 LaTeX 主控文件 - Problem F (Policy Science)
+% 编译方式：XeLaTeX + Biber（推荐用latexmk自动编译）
+% !TEX program = xelatex
+% !BIB program = biber
+
+\documentclass{mcmthesis}
+
+% 兼容性补丁：避免旧aux残留的chapter计数器导致hyperref报错
+\newcounter{chapter}
+\renewcommand{\thechapter}{\arabic{chapter}}
+
+% MCM题目配置（比赛时务必修改tcn为真实队号）
+\mcmsetup{
+    tcn = {2617892},
+    problem = {F},
+    sheet = true,
+    titleinsheet = true,
+    keywordsinsheet = true,
+    titlepage = false
+}
+
+% 目录开关
+\makeatletter
+\@ifundefined{showtoctrue}{}{\showtoctrue}
+\makeatother
+
+%=== 宏包加载 ===
+
+% 字体与排版
+\usepackage{palatino}
+\usepackage{microtype}
+\setlength{\emergencystretch}{2em}
+
+% 页面与布局
+\usepackage{lastpage}
+\usepackage{zref-abspage}
+\usepackage{float}
+\usepackage{geometry}
+\setlength{\headheight}{15pt}
+
+% 数学公式
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+
+% 定理环境
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+% 表格美化（政策报告常用）
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{colortbl}
+
+% 算法伪代码（顶会风格）
+\usepackage[ruled, vlined, linesnumbered]{algorithm2e}
+\SetAlgorithmName{Algorithm}{algorithm}{List of Algorithms}
+\SetKwInput{KwIn}{Input}
+\SetKwInput{KwOut}{Output}
+\SetKwInput{KwData}{Data}
+\SetKwInput{KwResult}{Result}
+
+% 代码高亮
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    tabsize=4
+}
+
+% 图形与颜色
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning, calc, fit, backgrounds, decorations.pathreplacing}
+
+% 列表与枚举（政策要点常用）
+\usepackage{enumitem}
+\setlist[enumerate]{itemsep=0pt, parsep=0pt}
+\setlist[itemize]{itemsep=0pt, parsep=0pt}
+
+% 超链接
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=green!50!black,
+    urlcolor=blue!80!black
+}
+
+% 目录格式调整
+\usepackage{tocloft}
+\setlength{\cftbeforesecskip}{2pt}
+\setlength{\cftbeforesubsecskip}{1pt}
+
+% 参考文献
+\usepackage[backend=biber, style=ieee, sorting=none]{biblatex}
+\addbibresource{ref.bib}
+
+% 加载共享宏定义
+\input{sections/_shared_macros.tex}
+
+%=== 自定义命令 ===
+
+% 正文页数计数器（实现 Page X of Y）
+\newcounter{mainpages}
+\makeatletter
+\newcommand{\savemainpages}{%
+    \immediate\write\@auxout{\string\setcounter{mainpages}{\the\value{page}}}%
+}
+\makeatother
+
+% 快捷引用命令
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+\newcommand{\eqnref}[1]{Eq.~(\ref{#1})}
+\newcommand{\algref}[1]{Algorithm~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+
+% TODO标记命令（用于标识待填内容）
+\newcommand{\TODO}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+% 政策备忘录专用环境
+\newenvironment{memorandum}{%
+    \begin{center}
+    \large\textbf{MEMORANDUM}
+    \end{center}
+    \vspace{0.5em}
+    \hrule
+    \vspace{0.5em}
+}{\vspace{0.5em}\hrule}
+
+%=== 文档元信息 ===
+
+\title{A Policy-Driven Modeling Framework for \\
+       \TODO{Problem F Topic: e.g., Resource Allocation / Social Intervention / Regulatory Design}}
+\author{Team \#2617892}
+
+%=== 正文开始 ===
+\begin{document}
+
+% ============================================
+% PART 0: Summary Sheet (摘要页，不计入页数)
+% ============================================
+\pagenumbering{arabic}
+\setcounter{page}{0}
+\pagestyle{empty}
+\input{sections/00_abstract.tex}
+\maketitle
+\thispagestyle{empty}
+
+% ============================================
+% PART 0.5: Policy Memorandum (政策备忘录)
+% ============================================
+\newpage
+\thispagestyle{empty}
+\input{sections/00_memo.tex}
+
+% ============================================
+% Table of Contents (目录页)
+% ============================================
+\newpage
+\setcounter{page}{1}
+\pagestyle{empty}
+\tableofcontents
+\thispagestyle{empty}
+
+% ============================================
+% 正文开始（从第3页开始显示页眉页码）
+% ============================================
+\newpage
+\setcounter{page}{3}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Team \#2617892}
+\fancyhead[R]{\small Page \thepage\ of \themainpages}
+\fancyfoot[C]{}
+
+%=== PART I: Policy Context & Problem Framing ===
+
+% Section 1: Introduction (政策背景与问题重述)
+\input{sections/01_introduction.tex}
+
+% Section 2: Project Definition and Assumptions (项目定义与假设)
+\input{sections/02_project_and_assumptions.tex}
+
+% Section 3: Data and Notation (数据与符号说明)
+\input{sections/03_data_and_notation.tex}
+
+%=== PART II: Mechanism & Policy Modeling ===
+
+% Section 4: System Mechanism Model (系统机制模型)
+\input{sections/04_model1_mechanism.tex}
+
+% Section 5: Policy Optimization Model (政策优化模型)
+\input{sections/05_model2_policy.tex}
+
+% Section 6: Solution Algorithm (求解算法)
+\input{sections/06_solution_and_algorithm.tex}
+
+%=== PART III: Results & Validation ===
+
+% Section 7: Results and Validation (结果与验证)
+\input{sections/07_results_and_validation.tex}
+
+% Section 8: Sensitivity and Robustness (灵敏度与鲁棒性)
+\input{sections/08_sensitivity_and_robustness.tex}
+
+%=== PART IV: Policy Implications & Conclusion ===
+
+% Section 9: Policy Impacts and Discussion (政策影响与讨论)
+\input{sections/09_policy_impacts_and_discussion.tex}
+
+% Section 10: Strengths and Weaknesses (优缺点分析)
+\input{sections/10_strengths_and_weaknesses.tex}
+
+% Section 11: Conclusion (结论)
+\input{sections/11_conclusion.tex}
+
+% ============================================
+% References (参考文献)
+% ============================================
+\newpage
+\nocite{*}
+\printbibliography[heading=bibintoc, title={References}]
+
+% 保存正文总页数
+\savemainpages
+
+% ============================================
+% Appendices (附录，不计入25页限制)
+% ============================================
+\clearpage
+\appendix
+\pagenumbering{gobble}
+\pagestyle{plain}
+
+\input{appendices/appendix_code.tex}
+\newpage
+\input{appendices/appendix_figures.tex}
+\newpage
+\input{appendices/12_ai_tool_report.tex}
+
+\end{document}
