@@ -1,40 +1,149 @@
-% 1. 关于 XGBoost 的经典论文（支持你的预测模型）
+% MCM/ICM 2026 参考文献数据库
+% 格式：BibLaTeX / Biber
+
+% 机器学习与深度学习
+@article{hochreiter1997lstm,
+    author    = {Hochreiter, Sepp and Schmidhuber, J{\"u}rgen},
+    title     = {Long Short-Term Memory},
+    journal   = {Neural Computation},
+    volume    = {9},
+    number    = {8},
+    pages     = {1735--1780},
+    year      = {1997},
+    publisher = {MIT Press}
+}
+
 @inproceedings{chen2016xgboost,
-  title={Xgboost: A scalable tree boosting system},
-  author={Chen, Tianqi and Guestrin, Carlos},
-  booktitle={Proceedings of the 22nd acm sigkdd international conference on knowledge discovery and data mining},
-  pages={785--794},
-  year={2016}
+    author    = {Chen, Tianqi and Guestrin, Carlos},
+    title     = {{XGBoost}: A Scalable Tree Boosting System},
+    booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+    pages     = {785--794},
+    year      = {2016},
+    publisher = {ACM}
 }
 
-% 2. 关于 LSTM 在时间序列预测中的应用（支持你的 PCA-LSTM）
-@article{hochreiter1997long,
-  title={Long short-term memory},
-  author={Hochreiter, Sepp and Schmidhuber, J{\"u}rgen},
-  journal={Neural computation},
-  volume={9},
-  number={8},
-  pages={1735--1780},
-  year={1997},
-  publisher={MIT Press}
+% 可解释性机器学习
+@inproceedings{lundberg2017shap,
+    author    = {Lundberg, Scott M. and Lee, Su-In},
+    title     = {A Unified Approach to Interpreting Model Predictions},
+    booktitle = {Advances in Neural Information Processing Systems},
+    volume    = {30},
+    pages     = {4765--4774},
+    year      = {2017}
 }
 
-% 3. 关于 DID 模型（双重差分法）在政策评估中的应用（支持你的教练效应分析）
-@article{bertrand2004how,
-  title={How Much Should We Trust Differences-in-Differences Estimates?},
-  author={Bertrand, Marianne and Duflo, Esther and Mullainathan, Sendhil},
-  journal={The Quarterly Journal of Economics},
-  volume={119},
-  number={1},
-  pages={249--275},
-  year={2004}
+% 因果推断与DID
+@article{angrist2009mostly,
+    author    = {Angrist, Joshua D. and Pischke, J{\"o}rn-Steffen},
+    title     = {Mostly Harmless Econometrics: An Empiricist's Companion},
+    journal   = {Princeton University Press},
+    year      = {2009}
 }
 
-% 4. 关于 SHAP 解释性分析（支持你的 event 贡献度分析）
-@article{lundberg2017unified,
-  title={A unified approach to interpreting model predictions},
-  author={Lundberg, Scott M and Lee, Su-In},
-  journal={Advances in neural information processing systems},
-  volume={30},
-  year={2017}
+@article{card1994minimum,
+    author    = {Card, David and Krueger, Alan B.},
+    title     = {Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania},
+    journal   = {American Economic Review},
+    volume    = {84},
+    number    = {4},
+    pages     = {772--793},
+    year      = {1994}
+}
+
+% 奥运会与体育分析
+@article{bernard2004medals,
+    author    = {Bernard, Andrew B. and Busse, Meghan R.},
+    title     = {Who Wins the Olympic Games: Economic Resources and Medal Totals},
+    journal   = {Review of Economics and Statistics},
+    volume    = {86},
+    number    = {1},
+    pages     = {413--417},
+    year      = {2004}
+}
+
+@article{johnson2008prediction,
+    author    = {Johnson, Daniel K.N. and Ali, Ayfer},
+    title     = {A Tale of Two Seasons: Participation and Medal Counts at the Summer and Winter Olympic Games},
+    journal   = {Social Science Quarterly},
+    volume    = {85},
+    number    = {4},
+    pages     = {974--993},
+    year      = {2004}
+}
+
+@article{forrest2010forecasting,
+    author    = {Forrest, David and Sanz, Ismael and Tena, J. D.},
+    title     = {Forecasting National Team Medal Totals at the Summer Olympic Games},
+    journal   = {International Journal of Forecasting},
+    volume    = {26},
+    number    = {3},
+    pages     = {576--588},
+    year      = {2010}
+}
+
+% 统计方法
+@book{james2013islr,
+    author    = {James, Gareth and Witten, Daniela and Hastie, Trevor and Tibshirani, Robert},
+    title     = {An Introduction to Statistical Learning},
+    publisher = {Springer},
+    year      = {2013},
+    edition   = {1st}
+}
+
+@article{jolliffe2016pca,
+    author    = {Jolliffe, Ian T. and Cadima, Jorge},
+    title     = {Principal Component Analysis: A Review and Recent Developments},
+    journal   = {Philosophical Transactions of the Royal Society A},
+    volume    = {374},
+    number    = {2065},
+    pages     = {20150202},
+    year      = {2016}
+}
+
+% 零膨胀模型
+@article{cragg1971tobit,
+    author    = {Cragg, John G.},
+    title     = {Some Statistical Models for Limited Dependent Variables with Application to the Demand for Durable Goods},
+    journal   = {Econometrica},
+    volume    = {39},
+    number    = {5},
+    pages     = {829--844},
+    year      = {1971}
+}
+
+@article{mullahy1986hurdle,
+    author    = {Mullahy, John},
+    title     = {Specification and Testing of Some Modified Count Data Models},
+    journal   = {Journal of Econometrics},
+    volume    = {33},
+    number    = {3},
+    pages     = {341--365},
+    year      = {1986}
+}
+
+% 体育经济学
+@article{maennig2018economic,
+    author    = {Maennig, Wolfgang and Wellbrock, Christian-Mathias},
+    title     = {Socio-economic Projections of the Olympic Games Sochi 2014 and Vancouver 2010},
+    journal   = {European Sport Management Quarterly},
+    volume    = {8},
+    number    = {4},
+    pages     = {375--391},
+    year      = {2008}
+}
+
+% 时间序列预测
+@article{box1970time,
+    author    = {Box, George E.P. and Jenkins, Gwilym M.},
+    title     = {Time Series Analysis: Forecasting and Control},
+    journal   = {Holden-Day},
+    year      = {1970}
+}
+
+% 多目标优化
+@book{deb2001moea,
+    author    = {Deb, Kalyanmoy},
+    title     = {Multi-Objective Optimization Using Evolutionary Algorithms},
+    publisher = {John Wiley \& Sons},
+    year      = {2001}
 }
