@@ -1,0 +1,125 @@
+% Section 4: Sustainability Indicator System
+% 可持续性指标体系：环境-经济-社会三支柱框架
+
+\section{Sustainability Indicator System}
+\label{sec:indicators}
+
+% 【E题核心建模组件】本节是O奖论文的标志性章节
+
+%=== 4.1 指标体系设计原则 ===
+\subsection{Design Principles}
+\label{subsec:indicator_principles}
+
+Our sustainability indicator system adheres to the following design principles, ensuring scientific rigor and practical relevance:
+
+\begin{enumerate}[itemsep=0.3em]
+    \item \textbf{Three-Pillar Coverage:} Indicators span environmental, economic, and social dimensions in alignment with the UN Sustainable Development Goals (SDGs) framework.
+    
+    \item \textbf{SMART Criteria:} Each indicator is \textbf{S}pecific, \textbf{M}easurable, \textbf{A}chievable, \textbf{R}elevant, and \textbf{T}ime-bound.
+    
+    \item \textbf{Data Availability:} Prioritize indicators with reliable, publicly accessible data sources to ensure reproducibility.
+    
+    \item \textbf{Sensitivity:} Indicators should be responsive to policy interventions within the modeling horizon.
+    
+    \item \textbf{Independence:} Minimize redundancy by selecting indicators that capture distinct aspects of sustainability.
+\end{enumerate}
+
+%=== 4.2 三支柱指标体系 ===
+\subsection{Three-Pillar Indicator Framework}
+\label{subsec:three_pillars}
+
+Table~\ref{tab:indicators} presents our hierarchical indicator system organized by pillar, sub-category, and specific metrics.
+
+\begin{table}[H]
+    \centering
+    \caption{Hierarchical Sustainability Indicator Framework}
+    \label{tab:indicators}
+    \begin{tabularx}{\textwidth}{l l X c c}
+        \toprule
+        \textbf{Pillar} & \textbf{Sub-Category} & \textbf{Indicator} & \textbf{Direction} & \textbf{Weight} \\
+        \midrule
+        \multirow{6}{*}{\rotatebox{90}{\textbf{Environmental}}} 
+        & Climate & \TODO{e.g., GHG Emissions (tCO$_2$eq)} & $\downarrow$ & \TODO{$w_1$} \\
+        & Climate & \TODO{e.g., Renewable Energy Share (\%)} & $\uparrow$ & \TODO{$w_2$} \\
+        & Resources & \TODO{e.g., Water Use Efficiency (m$^3$/\$)} & $\uparrow$ & \TODO{$w_3$} \\
+        & Resources & \TODO{e.g., Material Circularity Rate (\%)} & $\uparrow$ & \TODO{$w_4$} \\
+        & Ecosystem & \TODO{e.g., Biodiversity Index} & $\uparrow$ & \TODO{$w_5$} \\
+        & Pollution & \TODO{e.g., Air Quality Index (PM2.5)} & $\downarrow$ & \TODO{$w_6$} \\
+        \midrule
+        \multirow{5}{*}{\rotatebox{90}{\textbf{Economic}}} 
+        & Growth & \TODO{e.g., GDP per Capita (\$)} & $\uparrow$ & \TODO{$w_7$} \\
+        & Employment & \TODO{e.g., Green Job Creation (jobs/yr)} & $\uparrow$ & \TODO{$w_8$} \\
+        & Investment & \TODO{e.g., Sustainability Investment (\% GDP)} & $\uparrow$ & \TODO{$w_9$} \\
+        & Efficiency & \TODO{e.g., Cost-Effectiveness Ratio} & $\uparrow$ & \TODO{$w_{10}$} \\
+        & Risk & \TODO{e.g., Economic Vulnerability Index} & $\downarrow$ & \TODO{$w_{11}$} \\
+        \midrule
+        \multirow{5}{*}{\rotatebox{90}{\textbf{Social}}} 
+        & Equity & \TODO{e.g., Gini Coefficient} & $\downarrow$ & \TODO{$w_{12}$} \\
+        & Health & \TODO{e.g., Life Expectancy (years)} & $\uparrow$ & \TODO{$w_{13}$} \\
+        & Education & \TODO{e.g., Education Access Index} & $\uparrow$ & \TODO{$w_{14}$} \\
+        & Resilience & \TODO{e.g., Community Adaptive Capacity} & $\uparrow$ & \TODO{$w_{15}$} \\
+        & Participation & \TODO{e.g., Public Engagement Rate (\%)} & $\uparrow$ & \TODO{$w_{16}$} \\
+        \bottomrule
+    \end{tabularx}
+    \vspace{0.3em}
+    \footnotesize{Note: $\uparrow$ indicates ``higher is better''; $\downarrow$ indicates ``lower is better''.}
+\end{table}
+
+%=== 4.3 指标权重确定：AHP-熵权法混合 ===
+\subsection{Hybrid Weighting: AHP-Entropy Method}
+\label{subsec:weighting}
+
+We employ a hybrid weighting approach that combines \textbf{subjective expert judgment} (AHP) with \textbf{objective data-driven analysis} (Entropy Method) to ensure robustness and legitimacy.
+
+\subsubsection{Analytic Hierarchy Process (AHP)}
+The AHP derives weights through pairwise comparison of indicator importance by domain experts:
+
+\begin{enumerate}[itemsep=0.2em]
+    \item Construct pairwise comparison matrix $\mathbf{A} = [a_{ij}]$ where $a_{ij}$ represents the relative importance of indicator $i$ over $j$ on a 1--9 scale.
+    \item Compute the principal eigenvector $\mathbf{w}^{\text{AHP}}$ satisfying $\mathbf{A} \mathbf{w}^{\text{AHP}} = \lambda_{\max} \mathbf{w}^{\text{AHP}}$.
+    \item Verify consistency using the Consistency Ratio: $\text{CR} = \frac{\text{CI}}{\text{RI}} < 0.10$, where $\text{CI} = \frac{\lambda_{\max} - n}{n - 1}$.
+\end{enumerate}
+
+\subsubsection{Entropy Weighting Method}
+The entropy method derives weights based on information content in the data:
+
+\begin{equation}
+    e_i = -\frac{1}{\ln m} \sum_{j=1}^{m} p_{ij} \ln p_{ij}, \quad w_i^{\text{Ent}} = \frac{1 - e_i}{\sum_{k}(1 - e_k)}
+    \label{eq:entropy}
+\end{equation}
+where $p_{ij} = \tilde{X}_{ij} / \sum_j \tilde{X}_{ij}$ is the proportion of indicator $i$ for alternative $j$.
+
+\subsubsection{Hybrid Combination}
+The final weights combine both methods:
+\begin{equation}
+    w_i = \lambda \cdot w_i^{\text{AHP}} + (1 - \lambda) \cdot w_i^{\text{Ent}}, \quad \lambda \in [0, 1]
+    \label{eq:hybrid_weight}
+\end{equation}
+
+We set $\lambda = 0.5$ as a balanced default; sensitivity to $\lambda$ is examined in Section~\ref{sec:sensitivity}.
+
+%=== 4.4 复合可持续性得分计算 ===
+\subsection{Composite Sustainability Score}
+\label{subsec:composite_score}
+
+The composite sustainability score for alternative $j$ at time $t$ is computed as:
+
+\begin{equation}
+    U_j(t) = \underbrace{\sum_{i \in \mathcal{E}} w_i \cdot \tilde{E}_{ij}(t)}_{\text{Environmental Score}} + \underbrace{\sum_{i \in \mathcal{C}} w_i \cdot \tilde{C}_{ij}(t)}_{\text{Economic Score}} + \underbrace{\sum_{i \in \mathcal{S}} w_i \cdot \tilde{S}_{ij}(t)}_{\text{Social Score}}
+    \label{eq:composite}
+\end{equation}
+
+where $\tilde{E}$, $\tilde{C}$, $\tilde{S}$ are normalized indicator values within each pillar.
+
+% 指标体系可视化占位符
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][0.28\textheight][c]{0.9\textwidth}{
+        \centering
+        \textbf{Sustainability Indicator Hierarchy Diagram}
+        \par\vspace{1em}
+        \small \TODO{Replace with actual hierarchy diagram or radar chart showing the three pillars and their sub-indicators. Consider using a treemap, sunburst chart, or hierarchical tree structure.}
+    }}
+    \caption{Hierarchical structure of the three-pillar sustainability indicator system.}
+    \label{fig:indicator_hierarchy}
+\end{figure}

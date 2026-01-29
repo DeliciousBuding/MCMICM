@@ -1,0 +1,176 @@
+% Section 6: Scenario Design and Simulation
+% 情景设计与模拟：E题核心分析框架
+
+\section{Scenario Design and Simulation}
+\label{sec:scenarios}
+
+% 【E题核心】情景分析是O奖论文的必备组件
+
+%=== 6.1 情景设计原则 ===
+\subsection{Scenario Design Principles}
+\label{subsec:scenario_principles}
+
+Our scenario framework follows established best practices in sustainability assessment:
+
+\begin{enumerate}[itemsep=0.3em]
+    \item \textbf{Plausibility:} Each scenario is grounded in realistic policy options and technological trajectories.
+    
+    \item \textbf{Consistency:} Internal logic is maintained---policy choices align with socioeconomic assumptions.
+    
+    \item \textbf{Diversity:} Scenarios span the range of possible futures, from conservative to transformative.
+    
+    \item \textbf{Relevance:} Scenarios address the specific decision context of \TODO{target stakeholder/decision}.
+    
+    \item \textbf{Challenge:} At least one scenario stress-tests system resilience under extreme conditions.
+\end{enumerate}
+
+%=== 6.2 四大情景定义 ===
+\subsection{Four Representative Scenarios}
+\label{subsec:four_scenarios}
+
+We design four scenarios that span the policy option space:
+
+\begin{table}[H]
+    \centering
+    \caption{Summary of Scenario Specifications}
+    \label{tab:scenarios}
+    \begin{tabularx}{\textwidth}{l X X c}
+        \toprule
+        \textbf{Scenario} & \textbf{Policy Description} & \textbf{Key Parameters} & \textbf{Time Horizon} \\
+        \midrule
+        \textbf{S1: Business-as-Usual (BAU)} & 
+        Continuation of current policies with no additional interventions. Baseline for comparison. & 
+        \TODO{e.g., Current emission rates, existing regulations} & 
+        \TODO{2025--2050} \\
+        \addlinespace[0.5em]
+        
+        \textbf{S2: Moderate Intervention (MOD)} & 
+        Incremental policy adjustments aligned with current pledges (e.g., NDCs, existing commitments). & 
+        \TODO{e.g., 30\% emission reduction, moderate investment} & 
+        \TODO{2025--2050} \\
+        \addlinespace[0.5em]
+        
+        \textbf{S3: Aggressive Transition (AGG)} & 
+        Transformative policy shift toward sustainability. Ambitious targets aligned with 1.5°C pathway or equivalent. & 
+        \TODO{e.g., 70\% emission reduction, major investment} & 
+        \TODO{2025--2050} \\
+        \addlinespace[0.5em]
+        
+        \textbf{S4: Climate Shock (STRESS)} & 
+        Stress test: Baseline policies plus an extreme climate event (e.g., drought, flood, pandemic) occurring at \TODO{year}. & 
+        \TODO{e.g., 20\% productivity shock, emergency costs} & 
+        \TODO{2025--2050} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+%=== 6.3 情景参数化 ===
+\subsection{Scenario Parameterization}
+\label{subsec:scenario_params}
+
+Each scenario modifies the System Dynamics model through specific parameter adjustments:
+
+\subsubsection{Scenario S1: Business-as-Usual}
+\begin{align}
+    I_{\text{restoration}}(t) &= I_0 \quad \text{(constant at current level)} \label{eq:s1_invest} \\
+    P_{\text{pollution}}(t) &= P_0 \cdot (1 + g_p)^t \quad \text{(growing at historical rate } g_p \text{)} \label{eq:s1_pollution}
+\end{align}
+
+\subsubsection{Scenario S2: Moderate Intervention}
+% [TODO: Set r_mod and rho_mod values based on actual policy scenarios]
+\begin{align}
+    I_{\text{restoration}}(t) &= I_0 \cdot (1 + r_{\text{mod}})^t \quad \text{(moderate investment growth)} \label{eq:s2_invest} \\
+    P_{\text{pollution}}(t) &= P_0 \cdot (1 - \rho_{\text{mod}})^t \quad \text{(gradual reduction)} \label{eq:s2_pollution}
+\end{align}
+
+\subsubsection{Scenario S3: Aggressive Transition}
+% [TODO: Set r_agg and rho_agg values based on actual policy scenarios]
+\begin{align}
+    I_{\text{restoration}}(t) &= I_0 \cdot (1 + r_{\text{agg}})^t \quad \text{(ambitious investment growth)} \label{eq:s3_invest} \\
+    P_{\text{pollution}}(t) &= P_0 \cdot \exp(-\rho_{\text{agg}} \cdot t) \quad \text{(exponential reduction)} \label{eq:s3_pollution}
+\end{align}
+
+\subsubsection{Scenario S4: Climate Shock}
+% [TODO: Set sigma_shock and kappa_recovery values based on stress scenarios]
+\begin{equation}
+    Y(t) = Y_{\text{BAU}}(t) \cdot 
+    \begin{cases}
+        1 & \text{if } t < t_{\text{shock}} \\
+        (1 - \sigma_{\text{shock}}) \cdot \exp(\kappa_{\text{recovery}} \cdot (t - t_{\text{shock}})) & \text{if } t \geq t_{\text{shock}}
+    \end{cases}
+    \label{eq:s4_shock}
+\end{equation}
+
+%=== 6.4 模拟结果 ===
+\subsection{Simulation Results}
+\label{subsec:simulation_results}
+
+% 核心结果图表占位符
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \fbox{\parbox[c][0.22\textheight][c]{\textwidth}{
+            \centering
+            \textbf{(a) Environmental Quality Trajectories}
+            \par\vspace{0.5em}
+            \small \TODO{Time-series plot showing $E_{\text{stock}}(t)$ for all four scenarios. Highlight tipping point if BAU crosses threshold.}
+        }}
+        \caption{Environmental stock under four scenarios}
+        \label{fig:scenario_env}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \fbox{\parbox[c][0.22\textheight][c]{\textwidth}{
+            \centering
+            \textbf{(b) Economic Output Trajectories}
+            \par\vspace{0.5em}
+            \small \TODO{Time-series plot showing $Y(t)$ for all four scenarios. Show initial cost of AGG but long-term benefits.}
+        }}
+        \caption{Economic output under four scenarios}
+        \label{fig:scenario_econ}
+    \end{subfigure}
+    
+    \vspace{0.5cm}
+    
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \fbox{\parbox[c][0.22\textheight][c]{\textwidth}{
+            \centering
+            \textbf{(c) Social Well-being Trajectories}
+            \par\vspace{0.5em}
+            \small \TODO{Time-series plot showing $W(t)$ for all four scenarios.}
+        }}
+        \caption{Social well-being under four scenarios}
+        \label{fig:scenario_social}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \fbox{\parbox[c][0.22\textheight][c]{\textwidth}{
+            \centering
+            \textbf{(d) Composite Sustainability Score}
+            \par\vspace{0.5em}
+            \small \TODO{Time-series plot showing $U(t)$ for all four scenarios.}
+        }}
+        \caption{Composite sustainability score}
+        \label{fig:scenario_composite}
+    \end{subfigure}
+    \caption{System Dynamics simulation results across four scenarios (2025--2050).}
+    \label{fig:scenario_results}
+\end{figure}
+
+%=== 6.5 关键发现 ===
+\subsection{Key Findings}
+\label{subsec:scenario_findings}
+
+\TODO{Summarize the key insights from scenario comparison. Example structure:}
+
+\begin{enumerate}[itemsep=0.4em]
+    \item \textbf{BAU Unsustainability:} Under Business-as-Usual, environmental quality crosses the tipping point by \TODO{year}, triggering \TODO{consequence}.
+    
+    \item \textbf{Moderate vs. Aggressive Trade-offs:} MOD achieves \TODO{X\%} improvement in sustainability score but requires \TODO{Y\%} less investment than AGG. However, AGG avoids \TODO{specific risk}.
+    
+    \item \textbf{Shock Resilience:} The STRESS scenario reveals that systems under AGG recover \TODO{Z times faster} than under BAU, demonstrating the resilience value of sustainability investments.
+    
+    \item \textbf{Temporal Dynamics:} The ``green paradox'' is observed: AGG shows \TODO{short-term cost description} but yields net benefits by \TODO{breakeven year}.
+\end{enumerate}
