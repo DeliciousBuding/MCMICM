@@ -1,7 +1,5 @@
-% ============================================================================
-%                        Section 4: The Mathematical Model
-%                              数学模型构建
-% ============================================================================
+% Section 4: The Mathematical Model
+% 数学模型构建
 % 【写作指导 - 核心章节！】
 %
 % ▶ 逻辑流程（必须遵循）：
@@ -24,17 +22,13 @@
 % ▶ 图表要求：
 %   - 模型框架图（flowchart）几乎是 Outstanding 论文的标配
 %   - 用 TikZ 绘制或 PowerPoint/Visio 导出 PDF
-% ============================================================================
-
 \section{Mathematical Model}
 \label{sec:model}
 
 % 【提示】开篇先给一个模型的 high-level overview
 In this section, we present our mathematical model for addressing the problem. We first formulate the problem mathematically, then derive the objective function, and finally design an efficient algorithm to solve it.
 
-% ============================================================================
-%                        4.1 问题形式化
-% ============================================================================
+% 4.1 问题形式化
 \subsection{Problem Formulation}
 \label{subsec:formulation}
 
@@ -88,9 +82,7 @@ Finally, a downstream gradient-boosting regressor $g(\cdot)$ (XGBoost) maps $\ma
     Compute point estimate $\hat{M}_{i,t}$ (e.g., mean of $\hat{M}^{(b)}_{i,t}$) and set $\mathrm{CI}^{95\%}_{i,t}$ as the 2.5\%--97.5\% quantiles across $\{\hat{M}^{(b)}_{i,t}\}_{b=1}^{\mathcal{B}}$\;
 \end{algorithm}
 
-% ============================================================================
-%                        4.2 目标函数
-% ============================================================================
+% 4.2 目标函数
 \subsection{Objective Function}
 \label{subsec:objective}
 
@@ -119,9 +111,7 @@ The optimization problem can be compactly written as:
 
 where $\mathbf{L}$ is the graph Laplacian matrix capturing the network structure.
 
-% ============================================================================
-%                        4.3 约束条件
-% ============================================================================
+% 4.3 约束条件
 \subsection{Constraints}
 \label{subsec:constraints}
 
@@ -148,9 +138,7 @@ where $B$ is the total available budget or resource.
 \end{equation}
 where $\bar{x}_i$ is the maximum capacity at node $i$.
 
-% ============================================================================
-%                        4.4 求解算法
-% ============================================================================
+% 4.4 求解算法
 \subsection{Solution Algorithm}
 \label{subsec:algorithm}
 
@@ -222,9 +210,7 @@ Given the convex nature of our objective function (due to the positive semi-defi
     \Return{$\mathbf{x}$}\;
 \end{algorithm}
 
-% ============================================================================
-%                        4.5 算法复杂度分析
-% ============================================================================
+% 4.5 算法复杂度分析
 \subsection{Complexity Analysis}
 \label{subsec:complexity}
 

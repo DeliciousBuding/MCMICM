@@ -26,9 +26,7 @@
 \@ifundefined{showtoctrue}{}{\showtoctrue}
 \makeatother
 
-% ============================================================================
-%                              宏包加载区
-% ============================================================================
+% 宏包加载区
 
 % --- 字体与排版 ---
 \usepackage{palatino}
@@ -102,9 +100,7 @@
 \usepackage[backend=biber, style=ieee, sorting=none]{biblatex}
 \addbibresource{ref.bib}
 
-% ============================================================================
-%                          自定义计数器与命令
-% ============================================================================
+% 自定义计数器与命令
 
 % --- 正文页数计数器（实现 "Page X of Y" 功能）---
 \newcounter{mainpages}          % 保存正文总页数
@@ -124,24 +120,20 @@
 \newcommand{\algref}[1]{Algorithm~\ref{#1}} % 算法引用
 \newcommand{\secref}[1]{Section~\ref{#1}}   % 章节引用
 
-% ============================================================================
-%                              文档元信息
-% ============================================================================
+% 文档元信息
 
 \title{A Data-Driven Multi-Objective Optimization Framework for \\
        Sustainable Resource Allocation: An MCM 2026 Approach}
 \author{Team \#2617892}
 
-% ============================================================================
-%                              正文开始
-% ============================================================================
+% 正文开始
 \begin{document}
 
 % 页码策略：从 Summary 起连续计数；Summary/目录隐藏页码但计入总页数
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-% ========================== PART 0: 摘要页 ==========================
+% PART 0: 摘要页
 % 【说明】mcmthesis 的 \maketitle 会自动生成官方 Summary Sheet
 % 摘要内容在 sections/00_abstract.tex 中定义
 % Summary Sheet：隐藏页码但保留计数
@@ -150,14 +142,14 @@
 \maketitle
 \thispagestyle{empty}
 
-% ========================== PART 1: 目录页 ==========================
+% PART 1: 目录页
 % 【重要】目录页使用罗马数字编号 (i, ii, ...)，不计入 25 页限制
 \newpage
 \pagestyle{empty}
 \tableofcontents
 \thispagestyle{empty}
 
-% ========================== PART 2: 正文 ==========================
+% PART 2: 正文
 % 【重要】正文从阿拉伯数字 1 开始，显示 "Page X of Y"
 \newpage
 \setcounter{page}{\numexpr\value{abspage}+1\relax}
@@ -185,7 +177,7 @@
 % 【关键】保存正文总页数
 \savemainpages
 
-% ========================== PART 3: 附录 ==========================
+% PART 3: 附录
 % 【说明】附录不计入 25 页限制，AI Report 单独编页
 \clearpage
 \appendix
@@ -193,5 +185,4 @@
 \pagestyle{plain}
 \input{appendices/ai_report.tex}
 
-% ============================================================================
 \end{document}

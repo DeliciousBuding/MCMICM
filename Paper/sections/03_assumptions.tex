@@ -1,16 +1,11 @@
-% ============================================================================
-%                     Section 3: Assumptions and Notations
-%                          假设条件与符号说明
-% ============================================================================
+% Section 3: Assumptions and Notations
+% 假设条件与符号说明
 % 写作约定：假设需可追溯（给出理由），符号表用 tabularx 自动换行并保持全篇一致。
-% ============================================================================
 
 \section{Assumptions and Notations}
 \label{sec:assumptions}
 
-% ============================================================================
-%                          3.1 基本假设
-% ============================================================================
+% 3.1 基本假设
 \subsection{Basic Assumptions}
 % 【提示】问题重述不要直接复制原题，要用专业术语（如"多目标优化"、"时间序列预测"）进行转述。
 % 【格式】使用 H1, H2... 编号，便于后文引用 "由假设 H3 可知..."
@@ -24,28 +19,20 @@ To establish a reasonable and solvable mathematical model, we make the following
     
     \textit{Rationale:} The official dataset from COMAP is assumed to undergo quality control. Missing values, if any, are handled in our preprocessing pipeline (see Section~\ref{sec:data}).
     
-    % -----------------------------------------------------------------------
-    
     \item \textbf{Temporal Stability Assumption.}
     The underlying patterns and trends observed in historical data remain consistent during the prediction horizon.
     
     \textit{Rationale:} Short-term forecasting (e.g., 1--5 years) typically does not experience drastic structural changes unless major disruptions occur.
-    
-    % -----------------------------------------------------------------------
     
     \item \textbf{Independence Assumption.}
     The observations are independently and identically distributed (i.i.d.) within each time window.
     
     \textit{Rationale:} This is a standard assumption for many statistical and machine learning models, enabling the use of classical estimators.
     
-    % -----------------------------------------------------------------------
-    
     \item \textbf{Policy Lag Assumption.}
     There exists a time delay between policy implementation and observable effects.
     
     \textit{Rationale:} Government policies typically require administrative processes, public communication, and behavioral adaptation periods before measurable impacts emerge.
-    
-    % -----------------------------------------------------------------------
     
     \item \textbf{External Shock Exclusion.}
     We assume no major external shocks (e.g., pandemics, wars, natural disasters) occur during the modeling period.
@@ -58,9 +45,7 @@ To establish a reasonable and solvable mathematical model, we make the following
 % \subsubsection{Problem-Specific Assumptions}
 % ...
 
-% ============================================================================
-%                          3.2 符号说明
-% ============================================================================
+% 3.2 符号说明
 \subsection{Notations}
 \label{subsec:notations}
 
