@@ -3,7 +3,7 @@
     "latex-workshop.latex.outDir": "build",
     "latex-workshop.view.pdf.viewer": "tab",
     "latex-workshop.view.pdf.editorTab.side": "right",
-    "latex-workshop.latex.recipe.default": "lastUsed",
+    "latex-workshop.latex.recipe.default": "xe->bib->xe->xe",
     "latex-workshop.latex.autoClean.run": "onBuilt",
     "latex-workshop.latex.tools": [
         {
@@ -13,7 +13,7 @@
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
-                "-output-directory=build",
+                "-output-directory=%OUTDIR%",
                 "%DOC%"
             ]
         },
@@ -21,7 +21,7 @@
             "name": "biber",
             "command": "biber",
             "args": [
-                "--output-directory=build",
+                "--output-directory=%OUTDIR%",
                 "%DOCFILE%"
             ]
         }
@@ -38,20 +38,20 @@
         }
     ],
     "files.exclude": {
-        "*.aux": true,
-        "*.fdb_latexmk": true,
-        "*.fls": true,
-        "*.log": true,
-        "*.out": true,
-        "*.run.xml": true,
-        "*.bcf": true,
-        "*.blg": true,
-        "*.bbl": true,
-        "*.toc": true,
-        "*.loa": true,
-        "*.lof": true,
-        "*.lot": true,
-        "*.bcf-SAVE-ERROR": true,
-        "*.*.gz": true
+        "build/": false,
+        "**/*.aux": true,
+        "**/*.fdb_latexmk": true,
+        "**/*.fls": true,
+        "**/*.log": true,
+        "**/*.out": true,
+        "**/*.run.xml": true,
+        "**/*.bcf": true,
+        "**/*.blg": true,
+        "**/*.bbl": true,
+        "**/*.toc": true,
+        "**/*.loa": true,
+        "**/*.lof": true,
+        "**/*.lot": true,
+        "**/*.gz": true
     }
 }
