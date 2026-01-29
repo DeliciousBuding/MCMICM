@@ -1,0 +1,36 @@
+% Section 2: Assumptions and Justifications
+% 假设条件及其合理性说明
+
+\section{Assumptions and Justifications}
+\label{sec:assumptions}
+
+To establish a reasonable and solvable mathematical model, we make the following assumptions. Each assumption is justified with a brief rationale.
+
+\begin{enumerate}[label=\textbf{H\arabic*.}, leftmargin=2em, itemsep=0.6em]
+    
+    \item \textbf{Data Integrity Assumption.}
+    The provided dataset is complete and representative of the real-world scenario.
+    
+    \textit{Justification:} The official dataset from COMAP is assumed to undergo quality control. Missing values, if any, are handled in our preprocessing pipeline.
+    
+    \item \textbf{Temporal Stability Assumption.}
+    The underlying patterns and trends observed in historical data remain consistent during the prediction horizon.
+    
+    \textit{Justification:} Short-term forecasting (e.g., 1--2 Olympic cycles) typically does not experience drastic structural changes unless major disruptions occur.
+    
+    \item \textbf{Independence Assumption.}
+    The observations are independently and identically distributed (i.i.d.) within each time window.
+    
+    \textit{Justification:} This is a standard assumption for many statistical and machine learning models, enabling the use of classical estimators.
+    
+    \item \textbf{Policy Lag Assumption.}
+    There exists a time delay between policy implementation and observable effects.
+    
+    \textit{Justification:} Government policies typically require administrative processes, public communication, and behavioral adaptation periods before measurable impacts emerge.
+    
+    \item \textbf{External Shock Exclusion.}
+    We assume no major external shocks (e.g., pandemics, wars, natural disasters) occur during the modeling period.
+    
+    \textit{Justification:} Such events are inherently unpredictable and would require scenario-based analysis beyond the scope of this competition.
+
+\end{enumerate}

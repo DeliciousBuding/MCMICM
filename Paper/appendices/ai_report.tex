@@ -1,91 +1,73 @@
 % Appendix: AI Tools Usage Disclosure
-% AI 工具使用声明（2026 规则必读）
-% 【重要警告 - 2026 年规则严格！】
-%
-% 填写要点：逐条列出工具、对应章节/任务与具体用途；避免空泛描述。
-%
-% ▶ 关键原则：
-%   "所有数学推导、模型设计、创新点必须是原创"
-%   "AI 仅作为效率工具，不替代核心思考"
+% 附录：AI工具使用声明（按COMAP 2026要求）
 
-\section*{Use of AI}
-\addcontentsline{toc}{section}{Use of AI}
+\section*{AI Report}
+\addcontentsline{toc}{section}{AI Report}
 \label{appendix:ai}
 
-% 【说明】根据 COMAP 2026 官方要求，必须提交 AI 使用声明
-In accordance with the COMAP 2026 rules, we hereby disclose all uses of artificial intelligence (AI) tools during the preparation of this paper.
+In accordance with COMAP 2026 rules, we disclose all uses of artificial intelligence (AI) tools during the preparation of this paper.
 
-% AI 使用详细记录表
+% AI工具总览
+\subsection*{AI Tools Used}
+\label{subsec:ai_tools}
 
-% 【重要】使用 tabularx 让 Description 列自动换行，避免手动断行
+\begin{itemize}[itemsep=0.3em]
+    \item \textbf{ChatGPT-4o} -- Language polishing and grammar checking
+    \item \textbf{GitHub Copilot} -- Code assistance for data preprocessing scripts
+    \item \textbf{Claude 3.5 Sonnet} -- LaTeX formatting and notation organization
+    \item \textbf{DeepL Translator} -- Technical term translation (Chinese $\leftrightarrow$ English)
+\end{itemize}
+
+% 各章节AI使用明细
+\subsection*{AI Usage by Section/Task}
+\label{subsec:ai_usage}
+
 \begin{table}[H]
     \centering
-    \caption{Detailed AI Usage Log (Per COMAP 2026 Requirements)}
+    \caption{Detailed AI Usage Log}
     \label{tab:ai_disclosure}
     \begin{tabularx}{\textwidth}{l l X}
         \toprule
-        \textbf{AI Tool} & \textbf{Section / Task} & \textbf{Specific Usage Description} \\
+        \textbf{AI Tool} & \textbf{Section/Task} & \textbf{Specific Usage} \\
         \midrule
-        % --- 示例条目（请根据实际情况修改）---
-        ChatGPT-4o & Abstract & 
-        Used for polishing English grammar and improving sentence fluency. All technical content was written by team members. \\
-        \addlinespace[0.5em]
-        
-        GitHub Copilot & Section 5 (Code) & 
-        Assisted in writing Python scripts for data preprocessing and visualization. All algorithmic logic was designed by the team. \\
-        \addlinespace[0.5em]
-        
-        Claude 3.5 Sonnet & Section 4 (Model) & 
-        Helped organize mathematical notations and check LaTeX formatting. Model derivations are original work. \\
-        \addlinespace[0.5em]
-        
-        Gemini 1.5 Pro & Data Analysis & 
-        Used to generate initial exploratory plots from the dataset. Final figures were recreated by our team with custom styling. \\
-        \addlinespace[0.5em]
-        
-        DeepL Translator & Throughout & 
-        Assisted in translating technical terms between Chinese and English. All final text was reviewed and revised by team members. \\
+        ChatGPT-4o & Abstract & Polishing English grammar and improving fluency. All technical content written by team. \\
+        \addlinespace[0.4em]
+        GitHub Copilot & Code (Appendix A) & Assisted in writing Python preprocessing scripts. Algorithmic logic designed by team. \\
+        \addlinespace[0.4em]
+        Claude 3.5 Sonnet & Model Section & Organized mathematical notations and checked LaTeX. Derivations are original. \\
+        \addlinespace[0.4em]
+        DeepL & Throughout & Translated technical terms. All text reviewed and revised by team. \\
         \bottomrule
     \end{tabularx}
 \end{table}
 
-% 原创性声明
-\subsection*{Declaration of Originality}
-\label{subsec:originality}
+% 验证与人工监督
+\subsection*{Verification \& Human Oversight}
+\label{subsec:verification}
 
-% 【模板文本 - 可根据需要修改】
-We, the members of Team \#2617892, hereby declare that:
-
-\begin{enumerate}[label=\arabic*., itemsep=0.5em]
-    \item \textbf{Core Intellectual Work:} All problem analysis, mathematical modeling, algorithm design, and innovative contributions presented in this paper are the \textbf{original work} of our team members.
-    
-    \item \textbf{AI as Auxiliary Tool:} AI tools were used solely as auxiliary aids for improving language quality, formatting documents, and accelerating repetitive coding tasks. \textbf{No AI was used to generate core mathematical derivations or modeling ideas.}
-    
-    \item \textbf{Human Oversight:} All AI-generated content was carefully reviewed, verified, and often substantially modified by team members before inclusion in the final paper.
-    
-    \item \textbf{Code Verification:} All code assisted by AI tools was independently tested and validated by our team to ensure correctness and reproducibility.
-    
-    \item \textbf{Academic Integrity:} We have read and understood the COMAP 2026 rules regarding AI usage and academic integrity. We affirm that this disclosure is complete and accurate.
+\begin{enumerate}[itemsep=0.4em]
+    \item \textbf{Human Review:} All AI-generated content was carefully reviewed, verified, and often substantially modified before inclusion.
+    \item \textbf{Code Testing:} All code assisted by AI tools was independently tested to ensure correctness and reproducibility.
+    \item \textbf{Mathematical Verification:} All derivations were manually verified by team members.
 \end{enumerate}
 
-% 补充说明（可选）
-\subsection*{Additional Notes}
-\label{subsec:ai_notes}
+% 原创性声明
+\subsection*{Originality / Responsibility Statement}
+\label{subsec:originality}
 
-% 【提示】如有特殊情况，在此说明
-\begin{itemize}[itemsep=0.3em]
-    \item The raw conversation logs with AI tools are available upon request for verification purposes.
-    \item Total estimated AI-assisted work: approximately 15\% of the paper content (primarily language polishing and code formatting).
-    \item All figures in this paper were generated using Python (Matplotlib/Seaborn) with code written or reviewed by team members.
-\end{itemize}
+We, Team \#2617892, hereby declare:
 
-% 签名区域（可选）
+\begin{enumerate}[itemsep=0.4em]
+    \item \textbf{Core Intellectual Work:} All problem analysis, mathematical modeling, algorithm design, and innovative contributions are the \textbf{original work} of our team.
+    
+    \item \textbf{AI as Auxiliary Tool:} AI tools were used solely as auxiliary aids for language quality, formatting, and repetitive coding. \textbf{No AI was used to generate core derivations or modeling ideas.}
+    
+    \item \textbf{Academic Integrity:} We have read and understood COMAP 2026 rules regarding AI usage. This disclosure is complete and accurate.
+\end{enumerate}
+
 \vspace{1cm}
 \noindent\rule{\textwidth}{0.4pt}
 
 \noindent
 \textbf{Team \#2617892}\\
 Date: \today
-
-% 【注意】实际提交时，日期应为比赛截止日期
-% Date: February 10, 2026

@@ -1,0 +1,45 @@
+% Section 3: Notations
+% 符号说明表
+
+\section{Notations}
+\label{sec:notations}
+
+For clarity and consistency throughout this paper, we summarize the key symbols used in our models in Table~\ref{tab:notations}.
+
+\begin{table}[H]
+    \centering
+    \caption{Summary of Key Notations}
+    \label{tab:notations}
+    \begin{tabularx}{\textwidth}{c X c}
+        \toprule
+        \textbf{Symbol} & \textbf{Description} & \textbf{Unit} \\
+        \midrule
+        % 基本索引
+        $i$ & Index of a National Olympic Committee (NOC) & -- \\
+        $t$ & Olympic cycle / year index & year \\
+        $\mathcal{I}$ & Set of NOCs, $|\mathcal{I}| = N$ & -- \\
+        $\mathcal{T}$ & Set of observed cycles/years, $|\mathcal{T}| = T$ & -- \\
+        \midrule
+        % 预测目标
+        $M^{\mathrm{gold}}_{i,t}$ & Observed number of gold medals for NOC $i$ at time $t$ & medals \\
+        $M^{\mathrm{tot}}_{i,t}$ & Observed number of total medals for NOC $i$ at time $t$ & medals \\
+        $\hat{M}_{i,t}$ & Model prediction of medal count (gold or total) & medals \\
+        $\mathrm{CI}^{95\%}_{i,t}$ & 95\% predictive interval for $\hat{M}_{i,t}$ & medals \\
+        \midrule
+        % PCA-LSTM 参数
+        $\mathbf{x}_{i,t} \in \mathbb{R}^{p}$ & Raw feature vector for NOC $i$ at time $t$ & mixed \\
+        $\mathbf{W} \in \mathbb{R}^{p \times k}$ & PCA loading matrix (top-$k$ principal directions) & -- \\
+        $\mathbf{z}_{i,t} \in \mathbb{R}^{k}$ & PCA scores, $\mathbf{z}_{i,t} = \mathbf{W}^\top \mathbf{x}_{i,t}$ & -- \\
+        $L$ & LSTM look-back window length & cycles \\
+        $\mathbf{h}_{i,t}$ & LSTM hidden representation for NOC $i$ at time $t$ & -- \\
+        $\Theta_{\mathrm{LSTM}}$ & Trainable parameters of the LSTM & -- \\
+        \midrule
+        % DID 参数
+        $Y_{i,t}$ & Outcome variable in DID (e.g., medal growth) & varies \\
+        $\mathrm{Treat}_i$ & Treatment indicator: 1 if NOC $i$ adopts intervention & -- \\
+        $\mathrm{Post}_t$ & Post-intervention indicator: 1 for periods after policy & -- \\
+        $\beta_{\mathrm{DID}}$ & DID coefficient (average treatment effect) & varies \\
+        $\alpha_i,\ \delta_t$ & NOC and time fixed effects & -- \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
