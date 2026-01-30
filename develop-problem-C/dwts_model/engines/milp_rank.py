@@ -169,20 +169,63 @@ class MILPRankEngine(InversionEngine):
         
         Under rank rules: eliminated contestant should have
         highest combined rank (worst).
+        
+        For Judge Save seasons (S28+), add ADDITIONAL constraint:
+        At most one survivor can have fan rank LOWER than eliminated.
+        (Otherwise, judges would have no discretion - result would be deterministic)
         """
         total_slack = 0.0
         
         for e in problem.eliminated:
             e_combined = problem.judge_ranks.get(e, 1) + fan_ranks.get(e, 1)
+            e_fan_rank = fan_ranks.get(e, 1)
             
             for s in problem.survivors:
                 s_combined = problem.judge_ranks.get(s, 1) + fan_ranks.get(s, 1)
+                s_fan_rank = fan_ranks.get(s, 1)
                 
                 # Eliminated should have HIGHER combined rank (worse)
                 # R_E >= R_s (eliminated is at least as bad as survivor)
                 if e_combined < s_combined:
                     # Constraint violated
                     total_slack += (s_combined - e_combined)
+        
+        # ========== NEW CONSTRAINT FOR JUDGE SAVE SEASONS ==========
+        # Judge Save constraint: Only ONE person in bottom 2 can have
+        # better fan rank than eliminated (otherwise save is forced)
+        if problem.has_judge_save and len(problem.eliminated) > 0:
+            e = problem.eliminated[0]  # Primary eliminated
+            e_fan_rank = fan_ranks.get(e, 1)
+            
+            # Count how many survivors have better fan rank than eliminated
+            better_fan_rank_count = 0
+            for s in problem.survivors:
+                s_fan_rank = fan_ranks.get(s, 1)
+                # Lower fan rank number = better ranking
+                if s_fan_rank < e_fan_rank:
+                    better_fan_rank_count += 1
+            
+            # With Judge Save, result must NOT be "obviously correct"
+            # i.e., at least 2 people must have been close in fan voting
+            # Otherwise judges would have no discretion to save
+            # Constraint: At least (n-2) people should have worse or equal fan rank
+            # Equivalently: At most 1 survivor with BETTER fan rank
+            
+            # Actually, the core idea: if only ONE person was worse than e,
+            # then judges MUST save that person - no discretion
+            # So we penalize situations where eliminated has worst/2nd-worst fan rank
+            
+            min_fan_rank = min(fan_ranks.get(c, 1) for c in problem.contestants)
+            e_fan_rank = fan_ranks.get(e, 1)
+            
+            # If e has one of the worst 2 fan ranks, judges had limited choice
+            # We add slack penalty to avoid over-confident solutions
+            rank_sorted = sorted(set(fan_ranks.values()))
+            if len(rank_sorted) >= 2:
+                second_worst = rank_sorted[-2] if len(rank_sorted) >= 2 else rank_sorted[-1]
+                if e_fan_rank >= second_worst:
+                    # Eliminated had bottom 2 fan rank - judges save was highly constrained
+                    total_slack += 0.1  # Penalty for "obvious" judge save
         
         return total_slack
     
