@@ -172,8 +172,8 @@ class DWTSDataLoader:
                 contestant_scores = season_scores[season_scores['contestant'] == contestant]
                 
                 # Check for score after elimination (should be 0)
-                if status == 'eliminated' and elim_week:
-                    for week in range(elim_week + 1, self.MAX_WEEKS + 1):
+                if status == 'eliminated' and pd.notna(elim_week):
+                    for week in range(int(elim_week) + 1, self.MAX_WEEKS + 1):
                         week_data = contestant_scores[contestant_scores['week'] == week]
                         if len(week_data) > 0 and not week_data.iloc[0]['all_na']:
                             if week_data.iloc[0]['total_score'] > 0:
@@ -183,8 +183,8 @@ class DWTSDataLoader:
                                 )
                 
                 # Check for 0 score before elimination (potential withdrew)
-                if status == 'eliminated' and elim_week:
-                    for week in range(1, elim_week):
+                if status == 'eliminated' and pd.notna(elim_week):
+                    for week in range(1, int(elim_week)):
                         week_data = contestant_scores[contestant_scores['week'] == week]
                         if len(week_data) > 0 and not week_data.iloc[0]['all_na']:
                             if week_data.iloc[0]['total_score'] == 0:

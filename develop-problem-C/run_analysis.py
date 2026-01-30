@@ -328,17 +328,17 @@ class DWTSAnalysisPipeline:
         
         # Generate memo
         memo = reporter.generate_mechanism_recommendation_memo(mechanism_evaluation)
-        with open(self.output_dir / 'producer_memo.txt', 'w') as f:
+        with open(self.output_dir / 'producer_memo.txt', 'w', encoding='utf-8') as f:
             f.write(memo)
         
         # Generate LaTeX tables
         latex_table = reporter.generate_model_summary_latex(self.inversion_results)
-        with open(self.output_dir / 'results_table.tex', 'w') as f:
+        with open(self.output_dir / 'results_table.tex', 'w', encoding='utf-8') as f:
             f.write(latex_table)
         
         # Save plot generation code
         plot_code = visualizer.generate_matplotlib_code('ghost_data')
-        with open(self.output_dir / 'figures' / 'plot_ghost_data.py', 'w') as f:
+        with open(self.output_dir / 'figures' / 'plot_ghost_data.py', 'w', encoding='utf-8') as f:
             f.write("import pandas as pd\ndf = pd.read_csv('ghost_data.csv')\n" + plot_code)
         
         self.log("  Generated: producer_memo.txt, results_table.tex, plot data files")
