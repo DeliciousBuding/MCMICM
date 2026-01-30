@@ -72,6 +72,34 @@ These mismatches are \emph{not} evidence of manipulation---they are \textbf{succ
 Our Dual-Core Engine achieves \textbf{perfect consistency ($S^* = 0$) for 32 of 34 seasons}. The two exceptions (S32--S33) are correctly flagged as rule-opacity events, not model failures. No alternative approach matches this combination of coverage and interpretability.
 \end{tcolorbox}
 
+\subsection{Monte Carlo Audit Results}
+\label{subsec:mc_evaluation}
+
+We run constraint-consistent Monte Carlo sampling on all 298 eliminations to quantify Popularity Dissonance probabilities.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/mc_probability_distribution.pdf}
+    \caption{\textbf{Distribution of Popularity Dissonance Probabilities.} Histogram + KDE show the overall fairness landscape with a median near 0.53.}
+    \label{fig:mc_distribution}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/mc_season_evolution.pdf}
+    \caption{\textbf{Evolution Across Seasons.} Mean $P(\text{Wrongful})$ with 95\% CI reveals higher dissonance in rank-rule eras (S1--S2, S28+).}
+    \label{fig:mc_season_evolution}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/mc_confidence_intervals.pdf}
+    \caption{\textbf{Top Cases with Confidence Intervals.} The most likely dissonant eliminations include several judge-save era weeks.}
+    \label{fig:mc_top_cases}
+\end{figure}
+
+\input{sections/mc_summary_statistics.tex}
+
 \subsection{Computational Efficiency}
 
 Total runtime: \textbf{19.8 sec} on standard laptop (i7, 16GB RAM). Per-episode LP solve: $<0.1$ sec. This enables \textbf{real-time pre-broadcast checking}---run the consistency audit before results air.

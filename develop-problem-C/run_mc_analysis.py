@@ -24,7 +24,7 @@ def _tighten_rank_intervals(
     tightening_factor: float = 0.12
 ) -> Dict[str, Tuple[float, float]]:
     """
-    [PLAN A] Tighten intervals for rank-rule seasons.
+    Heuristic regularization: tighten intervals for rank-rule seasons.
     
     Rank-rule seasons have naturally wider feasible regions because
     fan vote rankings are latent variables with weak inference constraints.
@@ -78,7 +78,9 @@ def _tighten_rank_intervals(
 def run_mc_robustness_analysis(
     seasons=None,
     n_samples=10000,
-    output_file='mc_robustness_results.csv'
+    output_file='mc_robustness_results.csv',
+    use_regularization: bool = False,
+    tightening_factor: float = 0.12
 ):
     """
     Run Monte Carlo robustness analysis for all eliminations.
@@ -87,11 +89,14 @@ def run_mc_robustness_analysis(
         seasons: List of seasons to analyze (None = all)
         n_samples: Number of Monte Carlo samples per elimination
         output_file: Output CSV filename
+        use_regularization: Apply heuristic interval tightening (rank seasons only)
+        tightening_factor: Interval tightening factor when regularization is enabled
     """
     print("=" * 60)
     print("MONTE CARLO ROBUSTNESS ANALYSIS")
     print("=" * 60)
     print(f"Samples per elimination: {n_samples}")
+    print(f"Heuristic regularization: {'ON' if use_regularization else 'OFF'}")
     print()
     
     # Load data
@@ -153,13 +158,12 @@ def run_mc_robustness_analysis(
                     else:
                         interval_bounds[contestant] = (0.01, 0.99)
                 
-                # [PLAN A] For rank-rule seasons, tighten intervals by 12% (empirical)
-                # This accounts for MILP constraint information that LP doesn't capture
-                if method == 'rank':
+                # Optional regularization (empirical tightening for rank-rule seasons)
+                if method == 'rank' and use_regularization:
                     interval_bounds = _tighten_rank_intervals(
                         interval_bounds=interval_bounds,
                         week_context=week_ctx,
-                        tightening_factor=0.12  # 12% reduction in width
+                        tightening_factor=tightening_factor
                     )
                 
                 # Run Monte Carlo analysis
@@ -170,7 +174,8 @@ def run_mc_robustness_analysis(
                         eliminated=eliminated,
                         week_context=week_ctx,
                         interval_bounds=interval_bounds,
-                        voting_method=method
+                        voting_method=method,
+                        has_judges_save=context.has_judges_save
                     )
                     
                     all_results.append({
@@ -185,6 +190,8 @@ def run_mc_robustness_analysis(
                         'n_samples': mc_result.n_samples,
                         'wrongful_count': mc_result.wrongful_count,
                         'correct_count': mc_result.correct_count,
+                        'attempts': mc_result.attempts,
+                        'acceptance_rate': mc_result.acceptance_rate,
                         'classification': mc_result.get_classification(threshold=0.05),
                         'fan_vote_lower': mc_result.fan_vote_lower,
                         'fan_vote_upper': mc_result.fan_vote_upper,
@@ -201,7 +208,7 @@ def run_mc_robustness_analysis(
     output_path = OUTPUT_DIR / output_file
     df.to_csv(output_path, index=False)
     
-    print(f"\n✓ Results saved to: {output_path}")
+    print(f"\nOK Results saved to: {output_path}")
     
     # Print summary statistics
     print("\n" + "=" * 60)
@@ -283,6 +290,17 @@ if __name__ == '__main__':
         action='store_true',
         help='Compare with interval-robust method'
     )
+    parser.add_argument(
+        '--regularize',
+        action='store_true',
+        help='Apply heuristic regularization (interval tightening) for rank seasons'
+    )
+    parser.add_argument(
+        '--tightening-factor',
+        type=float,
+        default=0.12,
+        help='Interval tightening factor when --regularize is set (default: 0.12)'
+    )
     
     args = parser.parse_args()
     
@@ -298,7 +316,9 @@ if __name__ == '__main__':
     # Run analysis
     results_df = run_mc_robustness_analysis(
         seasons=seasons,
-        n_samples=args.samples
+        n_samples=args.samples,
+        use_regularization=args.regularize,
+        tightening_factor=args.tightening_factor
     )
     
     if args.compare:

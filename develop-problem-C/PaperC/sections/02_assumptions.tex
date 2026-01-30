@@ -3,6 +3,8 @@
 \section{Assumptions}
 \label{sec:assumptions}
 
+\subsection{Assumptions}
+
 \begin{enumerate}[label=\textbf{H\arabic*.}, leftmargin=2em, itemsep=0.3em]
     
     \item \textbf{Sincere Voting.} Viewers vote for favorites, not strategically.
@@ -20,3 +22,20 @@
     \item \textbf{Model-Data Mismatch Detection.} Unmodeled factors (e.g., judge save subjectivity, rule variations) manifest as constraint slack $S^* > 0$.
 
 \end{enumerate}
+
+\subsection{Evaluation Metrics Definition}
+To resolve the conflict between ``Inversion Logic'' and ``Fairness Assessment,'' we decouple our metrics into two dimensions:
+
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{Rule Consistency (Feasibility Constraint):} This is the hard constraint for our Layer 2 inversion. We assume the DWTS scoring system operates honestly according to its rules. Therefore, any valid generated sample (parallel universe) must satisfy:
+    \begin{equation}
+    \text{Outcome}_{\text{simulated}} \equiv \text{Outcome}_{\text{observed}}
+    \end{equation}
+    This means in our simulation, the eliminated contestant \textit{must} have the lowest total score (or satisfy the specific elimination criteria of that week). Samples violating this are discarded.
+
+    \item \textbf{Popularity Dissonance (Audit Metric):} This is our core measure for ``Wrongful Elimination'' in Layer 3. We investigate whether the eliminated contestant violated the audience's will, \textit{conditional on} the rules being followed.
+    \begin{equation}
+    \text{IsWrongful} \iff V_{\text{fan, eliminated}} > \min(\{V_{\text{fan, 1}}, ..., V_{\text{fan, n}}\})
+    \end{equation}
+    \textit{Interpretation:} Although the contestant was eliminated due to the lowest total score (Rule Consistent), they did not actually receive the fewest fan votes (Popularity Dissonance).
+\end{itemize}

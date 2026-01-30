@@ -23,7 +23,9 @@ print()
 run_mc_robustness_analysis(
     seasons=[28, 29, 30, 31, 32, 33, 34],
     n_samples=1000,
-    output_file='test_plan_a_results.csv'
+    output_file='test_plan_a_results.csv',
+    use_regularization=True,
+    tightening_factor=0.12
 )
 
 # Load and analyze results
@@ -40,4 +42,4 @@ print(f"Percentage: {(df['fan_vote_upper'] - df['fan_vote_lower'] > 0.95).sum() 
 print(f"\nClassification distribution:")
 print(df['classification'].value_counts())
 
-print("\n✓ Test complete! Results saved to: outputs/test_plan_a_results.csv")
+print("\nOK Test complete! Results saved to: outputs/test_plan_a_results.csv")

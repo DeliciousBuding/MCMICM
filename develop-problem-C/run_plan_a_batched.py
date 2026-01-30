@@ -27,12 +27,14 @@ for season_list, batch_name in batches:
     df = run_mc_robustness_analysis(
         seasons=season_list,
         n_samples=5000,
-        output_file=f'temp_batch_{season_list[0]}_{season_list[-1]}.csv'
+        output_file=f'temp_batch_{season_list[0]}_{season_list[-1]}.csv',
+        use_regularization=True,
+        tightening_factor=0.12
     )
     
     if df is not None:
         all_results.append(df)
-        print(f"✓ Batch complete ({len(df)} eliminations)")
+        print(f"OK Batch complete ({len(df)} eliminations)")
     else:
         print(f"⚠ Batch failed")
 
@@ -56,6 +58,6 @@ if all_results:
     print(f"\nClassification distribution:")
     print(final_df['classification'].value_counts())
     
-    print("\n✓ Full analysis complete!")
+    print("\nOK Full analysis complete!")
 else:
     print("\n✗ All batches failed")

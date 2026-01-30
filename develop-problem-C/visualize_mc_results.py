@@ -89,7 +89,7 @@ def plot_probability_distribution(df: pd.DataFrame, output_path: str = 'figures/
     
     plt.tight_layout()
     plt.savefig(output_path, bbox_inches='tight')
-    print(f"✓ Saved: {output_path}")
+    print(f"OK Saved: {output_path}")
     plt.close()
 
 
@@ -152,7 +152,7 @@ def plot_season_evolution(df: pd.DataFrame, output_path: str = 'figures/mc_seaso
     
     plt.tight_layout()
     plt.savefig(output_path, bbox_inches='tight')
-    print(f"✓ Saved: {output_path}")
+    print(f"OK Saved: {output_path}")
     plt.close()
 
 
@@ -199,7 +199,7 @@ def plot_confidence_intervals(df: pd.DataFrame, top_n: int = 20,
     
     plt.tight_layout()
     plt.savefig(output_path, bbox_inches='tight')
-    print(f"✓ Saved: {output_path}")
+    print(f"OK Saved: {output_path}")
     plt.close()
 
 
@@ -261,7 +261,7 @@ def plot_voting_method_comparison(df: pd.DataFrame,
     
     plt.tight_layout()
     plt.savefig(output_path, bbox_inches='tight')
-    print(f"✓ Saved: {output_path}")
+    print(f"OK Saved: {output_path}")
     plt.close()
 
 
@@ -318,7 +318,7 @@ def plot_classification_breakdown(df: pd.DataFrame,
     
     plt.tight_layout()
     plt.savefig(output_path, bbox_inches='tight')
-    print(f"✓ Saved: {output_path}")
+    print(f"OK Saved: {output_path}")
     plt.close()
 
 
@@ -406,7 +406,7 @@ def plot_interval_width_analysis(df: pd.DataFrame,
     
     plt.tight_layout()
     plt.savefig(output_path, bbox_inches='tight')
-    print(f"✓ Saved: {output_path}")
+    print(f"OK Saved: {output_path}")
     plt.close()
 
 
@@ -465,7 +465,7 @@ def generate_summary_table(df: pd.DataFrame,
     with open(output_path, 'w') as f:
         f.write(latex_table)
     
-    print(f"✓ Saved: {output_path}")
+    print(f"OK Saved: {output_path}")
     
     return summary_df
 
@@ -498,7 +498,7 @@ def main():
     print(summary_df.to_string(index=False))
     
     print("\n" + "=" * 60)
-    print("✓ All visualizations complete!")
+    print("OK All visualizations complete!")
     print("=" * 60)
     print(f"\nOutput files:")
     print(f"  - Figures: {FIGURES_DIR}/")

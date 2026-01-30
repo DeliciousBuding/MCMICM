@@ -130,7 +130,8 @@ def run_sensitivity_analysis(
                             eliminated=eliminated,
                             week_context=week_ctx,
                             interval_bounds=interval_bounds,
-                            voting_method='rank'
+                            voting_method='rank',
+                            has_judges_save=context.has_judges_save
                         )
                         
                         # Calculate interval width

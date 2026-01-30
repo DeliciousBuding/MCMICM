@@ -209,6 +209,20 @@ When our system reports $S^* > 0$, it has \emph{successfully identified} that so
 \textbf{S32--S33 are not errors in our model---they are successful detections of rule ambiguity.} The Judges' Save mechanism, while adding dramatic tension, reduces outcome predictability. Consider publishing save criteria (e.g., ``cumulative improvement score'') to restore transparency.
 \end{tcolorbox}
 
+\subsection{Probabilistic Audit via Monte Carlo Sampling}
+\label{subsec:mc_sampling}
+
+\subsubsection{Constraint-Consistent Sampling}
+Since Layer 2 outputs independent intervals $[L_i, U_i]$ (Hyperrectangle), independent sampling within these bounds may yield vectors that violate inter-variable constraints (e.g., total score rankings). To ensure validity, we employ a \textbf{Rejection Sampling} strategy:
+\begin{enumerate}
+    \item \textbf{Proposal:} Generate a candidate vote vector $V$ within the hyperrectangle.
+    \item \textbf{Acceptance Check:} Accept $V$ if and only if it reproduces the observed elimination result (and observed ranks, if available).
+    \item \textbf{Audit:} For accepted samples, calculate the Popularity Dissonance.
+\end{enumerate}
+
+\subsubsection{Heuristic Regularization (Conservative Estimation)}
+In rank-rule seasons, some inferred intervals can be nearly uninformative (width $\approx 1.0$). To handle these degenerate cases, we optionally apply \textbf{heuristic regularization}: a small, symmetric tightening of intervals based on judge-rank extremity. This step is used \emph{only} for sensitivity analysis and conservative estimates; baseline results are reported without regularization.
+
 % 4.6 结果汇总
 \subsection{Summary}
 
