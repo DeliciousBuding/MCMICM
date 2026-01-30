@@ -1,0 +1,247 @@
+% Appendix A: Key Code
+% 附录A：核心代码
+
+\section*{Appendix A: Key Code}
+\addcontentsline{toc}{section}{Appendix A: Key Code}
+\label{appendix:code}
+
+This appendix presents the core implementation of our analytical framework. Full code is available in our supplementary materials.
+
+% A.1 数据预处理
+\subsection*{A.1 Data Loading and Preprocessing (ETL Module)}
+
+\begin{lstlisting}[language=Python, caption={DWTS data loader with FSM-based cleaning}]
+import pandas as pd
+import numpy as np
+from typing import Dict, List, Tuple
+
+class DWTSDataLoader:
+    """Load and clean DWTS competition data using FSM rules."""
+    
+    def __init__(self, filepath: str):
+        self.raw_df = pd.read_csv(filepath)
+        self.cleaned_df = None
+        
+    def clean_data(self) -> pd.DataFrame:
+        """Apply FSM-based data cleaning."""
+        df = self.raw_df.copy()
+        
+        # Standardize column names
+        df.columns = df.columns.str.lower().str.replace(' ', '_')
+        
+        # Parse season number
+        df['season_num'] = df['season'].str.extract(r'(\d+)').astype(int)
+        
+        # Determine disclosure type
+        df['disclosure_type'] = np.where(
+            df['season_num'].between(3, 27), 'percent', 'rank'
+        )
+        
+        # Parse judge scores (handle various formats)
+        df['judge_total'] = df['judges_scores'].apply(self._parse_judge_score)
+        
+        self.cleaned_df = df
+        return df
+    
+    def _parse_judge_score(self, score_str: str) -> float:
+        """Parse judge scores from various string formats."""
+        if pd.isna(score_str):
+            return np.nan
+        # Handle "8+7+8+9" or "32/40" formats
+        if '+' in str(score_str):
+            return sum(map(float, str(score_str).split('+')))
+        elif '/' in str(score_str):
+            return float(str(score_str).split('/')[0])
+        return float(score_str)
+\end{lstlisting}
+
+% A.2 LP 核心引擎
+\subsection*{A.2 Linear Programming Inversion Engine}
+
+\begin{lstlisting}[language=Python, caption={LP-based fan vote bound computation}]
+from scipy.optimize import linprog
+import numpy as np
+
+class LPInversionEngine:
+    """Infer fan vote bounds via Linear Programming."""
+    
+    def __init__(self, epsilon: float = 0.01):
+        self.epsilon = epsilon  # Minimum vote floor
+        
+    def compute_bounds(self, judge_scores: np.ndarray, 
+                       eliminated_idx: int) -> Dict:
+        """Compute min/max bounds for each contestant's vote share."""
+        n = len(judge_scores)
+        j_bar = np.mean(judge_scores)
+        
+        # Build elimination constraints: v_E - v_i <= (J_i - J_E) / J_bar
+        A_ub = []
+        b_ub = []
+        for i in range(n):
+            if i != eliminated_idx:
+                constraint = np.zeros(n)
+                constraint[eliminated_idx] = 1
+                constraint[i] = -1
+                A_ub.append(constraint)
+                b_ub.append((judge_scores[i] - judge_scores[eliminated_idx]) / j_bar)
+        
+        # Equality constraint: sum(v) = 1
+        A_eq = np.ones((1, n))
+        b_eq = np.array([1.0])
+        
+        # Bounds: v_i >= epsilon
+        bounds = [(self.epsilon, 1.0) for _ in range(n)]
+        
+        # Compute bounds for each contestant
+        results = {'bounds': [], 'feasible': True}
+        for i in range(n):
+            c_min = np.zeros(n); c_min[i] = 1
+            c_max = np.zeros(n); c_max[i] = -1
+            
+            res_min = linprog(c_min, A_ub, b_ub, A_eq, b_eq, bounds)
+            res_max = linprog(c_max, A_ub, b_ub, A_eq, b_eq, bounds)
+            
+            if res_min.success and res_max.success:
+                results['bounds'].append((res_min.fun, -res_max.fun))
+            else:
+                results['feasible'] = False
+                results['bounds'].append((None, None))
+        
+        return results
+\end{lstlisting}
+
+% A.3 生存分析
+\subsection*{A.3 Cox Proportional Hazards Analysis}
+
+\begin{lstlisting}[language=Python, caption={Survival analysis with lifelines}]
+from lifelines import CoxPHFitter
+import pandas as pd
+
+class SurvivalAnalyzer:
+    """Cox PH model for elimination risk analysis."""
+    
+    def __init__(self):
+        self.model = CoxPHFitter()
+        
+    def fit(self, df: pd.DataFrame, 
+            duration_col: str = 'weeks_survived',
+            event_col: str = 'eliminated') -> None:
+        """Fit Cox model to DWTS survival data."""
+        covariates = ['avg_judge_score', 'avg_fan_vote', 
+                     'celebrity_type', 'prior_fame', 'pro_dancer_id']
+        
+        # One-hot encode categoricals
+        df_model = pd.get_dummies(df[covariates + [duration_col, event_col]], 
+                                   drop_first=True)
+        
+        self.model.fit(df_model, duration_col=duration_col, 
+                       event_col=event_col)
+        
+    def get_hazard_ratios(self) -> pd.DataFrame:
+        """Extract hazard ratios with confidence intervals."""
+        summary = self.model.summary
+        summary['HR'] = np.exp(summary['coef'])
+        summary['HR_lower'] = np.exp(summary['coef'] - 1.96 * summary['se(coef)'])
+        summary['HR_upper'] = np.exp(summary['coef'] + 1.96 * summary['se(coef)'])
+        return summary[['HR', 'HR_lower', 'HR_upper', 'p']]
+\end{lstlisting}
+
+% A.4 机制设计
+\subsection*{A.4 Weighted Borda Count Mechanism}
+
+\begin{lstlisting}[language=Python, caption={Borda mechanism with counterfactual simulation}]
+import numpy as np
+
+class BordaMechanism:
+    """Weighted Borda Count voting mechanism."""
+    
+    def __init__(self, alpha: float = 0.6):
+        self.alpha = alpha  # Judge weight
+        
+    def compute_scores(self, judge_scores: np.ndarray, 
+                       fan_votes: np.ndarray) -> np.ndarray:
+        """Compute normalized Borda scores."""
+        # Min-max normalize
+        j_norm = (judge_scores - judge_scores.min()) / \
+                 (judge_scores.max() - judge_scores.min() + 1e-8)
+        v_norm = (fan_votes - fan_votes.min()) / \
+                 (fan_votes.max() - fan_votes.min() + 1e-8)
+        
+        return self.alpha * j_norm + (1 - self.alpha) * v_norm
+    
+    def simulate_elimination(self, judge_scores: np.ndarray,
+                            fan_votes: np.ndarray) -> int:
+        """Return index of contestant to eliminate (lowest score)."""
+        scores = self.compute_scores(judge_scores, fan_votes)
+        return np.argmin(scores)
+    
+    def counterfactual_analysis(self, historical_data: List[Dict],
+                                current_system_elim: List[int]) -> Dict:
+        """Compare wrongful eliminations: current vs Borda."""
+        wrongful_current = 0
+        wrongful_borda = 0
+        
+        for week_data, actual_elim in zip(historical_data, current_system_elim):
+            borda_elim = self.simulate_elimination(
+                week_data['judge'], week_data['fan'])
+            
+            # Check if actual elimination was "wrongful"
+            fan_rank_actual = np.argsort(week_data['fan'])[::-1].tolist()
+            if actual_elim != borda_elim:
+                if fan_rank_actual.index(actual_elim) < \
+                   fan_rank_actual.index(borda_elim):
+                    wrongful_current += 1
+        
+        return {
+            'wrongful_current': wrongful_current,
+            'wrongful_borda': wrongful_borda,
+            'reduction': 1 - wrongful_borda / max(wrongful_current, 1)
+        }
+\end{lstlisting}
+
+% A.5 异常检测
+\subsection*{A.5 Anomaly Detection via Constraint Slack}
+
+\begin{lstlisting}[language=Python, caption={Money Plot: constraint slack analysis}]
+def compute_slack(judge_scores, eliminated_idx, epsilon):
+    """Compute minimum constraint violation (slack) at given epsilon."""
+    n = len(judge_scores)
+    j_bar = np.mean(judge_scores)
+    
+    # Add slack variable to make LP always feasible
+    # Minimize: s (slack)
+    # Subject to: original constraints + s * 1 >= violation
+    
+    c = np.zeros(n + 1)
+    c[-1] = 1  # Minimize slack
+    
+    A_ub = []
+    b_ub = []
+    for i in range(n):
+        if i != eliminated_idx:
+            constraint = np.zeros(n + 1)
+            constraint[eliminated_idx] = 1
+            constraint[i] = -1
+            constraint[-1] = -1  # Slack relaxation
+            A_ub.append(constraint)
+            b_ub.append((judge_scores[i] - judge_scores[eliminated_idx]) / j_bar)
+    
+    bounds = [(epsilon, 1.0) for _ in range(n)] + [(0, None)]
+    A_eq = np.zeros((1, n + 1))
+    A_eq[0, :n] = 1
+    b_eq = np.array([1.0])
+    
+    res = linprog(c, A_ub, b_ub, A_eq, b_eq, bounds)
+    return res.x[-1] if res.success else float('inf')
+
+def generate_money_plot(all_seasons_data, epsilon_range):
+    """Generate slack vs epsilon plot for all seasons."""
+    results = {}
+    for season, data in all_seasons_data.items():
+        slacks = []
+        for eps in epsilon_range:
+            slack = compute_slack(data['judge'], data['elim_idx'], eps)
+            slacks.append(slack)
+        results[season] = slacks
+    return results
+\end{lstlisting}

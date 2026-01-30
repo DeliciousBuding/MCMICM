@@ -1,0 +1,167 @@
+% Section 4: Model 1 - Fan Vote Inversion (Dual-Core Engine)
+% 模型一：粉丝投票反演（LP/CP 双核引擎）
+
+\section{Model 1: Fan Vote Inversion via Dual-Core Engine}
+\label{sec:model1}
+
+% 4.1 问题形式化
+\subsection{Problem Formulation}
+\label{subsec:model1_formulation}
+
+Let $\mathcal{C}_{s,w} = \{1, 2, \ldots, n\}$ denote the set of active contestants in season $s$, week $w$. We observe:
+\begin{itemize}[itemsep=0.2em]
+    \item Judge scores $\mathbf{J} = (J_1, J_2, \ldots, J_n)$
+    \item Elimination outcome $E \in \mathcal{C}_{s,w}$ (the contestant sent home)
+    \item For rank seasons: fan vote ranks $\mathbf{r} = (r_1, r_2, \ldots, r_n)$
+\end{itemize}
+
+\noindent We seek to infer the latent fan vote shares $\mathbf{v} = (v_1, v_2, \ldots, v_n)$ satisfying:
+\begin{equation}
+    \label{eq:vote_simplex}
+    \sum_{i=1}^{n} v_i = 1, \quad v_i \geq \epsilon \quad \forall i,
+\end{equation}
+where $\epsilon > 0$ is a minimum share floor (default: 1\%).
+
+% 4.2 百分比披露季（LP 核心）
+\subsection{Percent Seasons: Linear Programming Core}
+\label{subsec:lp_core}
+
+For seasons S3--S27, where production disclosed some vote percentage information, we formulate fan vote inference as a \textbf{Linear Programming (LP) feasibility problem}.
+
+\subsubsection{Elimination Constraint}
+Under the standard DWTS rule, the contestant with the lowest combined score (judge + fan) is eliminated:
+\begin{equation}
+    \label{eq:combined_score}
+    C_i = \frac{J_i}{\bar{J}} + v_i,
+\end{equation}
+where $\bar{J} = \frac{1}{n}\sum_j J_j$ normalizes judge scores. The elimination constraint becomes:
+\begin{equation}
+    \label{eq:elimination_constraint}
+    C_E \leq C_i \quad \forall i \neq E.
+\end{equation}
+
+Substituting \eqnref{eq:combined_score} into \eqnref{eq:elimination_constraint}:
+\begin{equation}
+    \label{eq:lp_elimination}
+    v_E - v_i \leq \frac{J_i - J_E}{\bar{J}} \quad \forall i \neq E.
+\end{equation}
+
+\subsubsection{LP Formulation}
+To find tight bounds on each $v_i$, we solve:
+\begin{equation}
+    \label{eq:lp_bounds}
+    v_i^{\min} = \min_{\mathbf{v}} v_i, \quad v_i^{\max} = \max_{\mathbf{v}} v_i
+\end{equation}
+subject to constraints \eqnref{eq:vote_simplex} and \eqnref{eq:lp_elimination}.
+
+\begin{algorithm}[H]
+    \caption{LP-Based Fan Vote Bound Computation}
+    \label{alg:lp_bounds}
+    \KwIn{Judge scores $\mathbf{J}$, eliminated contestant $E$, floor $\epsilon$}
+    \KwOut{Feasible intervals $\{[v_i^{\min}, v_i^{\max}]\}_{i=1}^{n}$}
+    
+    Construct constraint matrix $\mathbf{A}$ from \eqnref{eq:lp_elimination}\;
+    Add simplex constraint: $\mathbf{1}^\top \mathbf{v} = 1$\;
+    Add floor constraints: $v_i \geq \epsilon$ for all $i$\;
+    
+    \For{$i \leftarrow 1$ \KwTo $n$}{
+        $v_i^{\min} \leftarrow \text{LP\_solve}(\min v_i \mid \mathbf{A}\mathbf{v} \leq \mathbf{b})$\;
+        $v_i^{\max} \leftarrow \text{LP\_solve}(\max v_i \mid \mathbf{A}\mathbf{v} \leq \mathbf{b})$\;
+    }
+    \Return $\{[v_i^{\min}, v_i^{\max}]\}$\;
+\end{algorithm}
+
+% 4.3 排名披露季（CP 核心）
+\subsection{Rank Seasons: Constraint Programming Core}
+\label{subsec:cp_core}
+
+For seasons S1--S2 and S28--S34, only ordinal rankings are disclosed (e.g., ``Contestant A was 1st in fan votes, B was 2nd, ...'').
+
+\subsubsection{Rank Ordering Constraints}
+Let $r_i$ denote contestant $i$'s fan vote rank (1 = highest). The ordering constraints are:
+\begin{equation}
+    \label{eq:rank_ordering}
+    r_i < r_j \implies v_i > v_j.
+\end{equation}
+
+\subsubsection{CP Formulation}
+We use \textbf{Constraint Programming (CP)} with interval arithmetic to enumerate feasible vote distributions:
+
+\begin{equation}
+    \label{eq:cp_formulation}
+    \begin{aligned}
+        \text{Find:} \quad & \mathbf{v} \in [0, 1]^n \\
+        \text{s.t.} \quad & \sum_i v_i = 1 \\
+        & v_i \geq \epsilon \quad \forall i \\
+        & v_i > v_j \quad \forall (i, j): r_i < r_j \\
+        & C_E \leq C_i \quad \forall i \neq E
+    \end{aligned}
+\end{equation}
+
+The CP solver propagates constraints to prune the search space, returning either a feasible assignment or proving infeasibility.
+
+% 4.4 规则自适应约束生成
+\subsection{Rule-Adaptive Constraint Generation}
+\label{subsec:rule_adaptive}
+
+DWTS production rules have evolved significantly across 34 seasons. Our engine incorporates:
+
+\begin{table}[H]
+    \centering
+    \caption{Rule Changes Across DWTS Seasons}
+    \label{tab:rule_changes}
+    \begin{tabular}{llp{8cm}}
+        \toprule
+        \textbf{Seasons} & \textbf{Rule} & \textbf{Constraint Modification} \\
+        \midrule
+        S1--S2 & Rank-only & Use CP core instead of LP \\
+        S3--S27 & Percent disclosed & Standard LP with elimination constraints \\
+        S28+ & Rank-only + Judge Save & Add save veto: if $r_E \leq 2$, judges may override \\
+        Various & Double elimination & Two contestants eliminated per week \\
+        Various & Immunity & First-week contestants exempt from elimination \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% 4.5 异常检测：Money Plot
+\subsection{Anomaly Detection via Constraint Sensitivity}
+\label{subsec:anomaly_detection}
+
+We define the \textbf{slack variable} $S^*(\epsilon)$ as the minimum constraint violation when the LP/CP system is infeasible:
+\begin{equation}
+    \label{eq:slack}
+    S^*(\epsilon) = \min_{\mathbf{v}, s \geq 0} s \quad \text{s.t.} \quad \mathbf{A}\mathbf{v} \leq \mathbf{b} + s \cdot \mathbf{1}.
+\end{equation}
+
+\noindent\textbf{Interpretation:}
+\begin{itemize}[itemsep=0.2em]
+    \item $S^*(\epsilon) = 0$: Feasible---the season's eliminations are explainable by standard voting logic.
+    \item $S^*(\epsilon) > 0$: Infeasible---some external factor (production intervention, voting irregularity) is required to explain outcomes.
+\end{itemize}
+
+\figref{fig:money_plot} shows $S^*(\epsilon)$ across all 34 seasons for $\epsilon \in [0\%, 10\%]$:
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{Normal seasons:} $S^* = 0$ throughout the range (green lines).
+    \item \textbf{S32:} $S^* = 2.0$ even at $\epsilon = 0\%$---a ``hard anomaly.''
+    \item \textbf{S33:} $S^* = 1.0$ at $\epsilon = 0\%$---another hard anomaly.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/fig_anomaly_detection.pdf}
+    \caption{The ``Money Plot'': Constraint slack $S^*(\epsilon)$ vs.\ minimum vote floor $\epsilon$ for all 34 seasons. S32 and S33 exhibit positive slack even at $\epsilon = 0$, indicating infeasibility that standard elimination logic cannot explain.}
+    \label{fig:money_plot}
+\end{figure}
+
+% 4.6 结果汇总
+\subsection{Inversion Results Summary}
+\label{subsec:model1_results}
+
+Applying our dual-core engine to all 34 seasons yields:
+
+\begin{itemize}[itemsep=0.3em]
+    \item \textbf{Coverage:} 32 of 34 seasons (94.1\%) produce feasible fan vote distributions.
+    \item \textbf{Anomalies:} S32 and S33 are flagged as hard anomalies requiring external explanation.
+    \item \textbf{Bound Tightness:} Median interval width $v_i^{\max} - v_i^{\min} = 8.3\%$ across all contestant-weeks.
+    \item \textbf{Point Estimates:} We use interval midpoints $\hat{v}_i = (v_i^{\min} + v_i^{\max}) / 2$ for downstream analysis.
+\end{itemize}

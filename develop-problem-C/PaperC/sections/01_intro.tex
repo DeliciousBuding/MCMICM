@@ -1,0 +1,79 @@
+% Section 1: Introduction
+% 引言部分
+
+\section{Introduction}
+\label{sec:intro}
+
+% 1.1 背景与动机
+\subsection{Background and Motivation}
+\label{subsec:background}
+
+\emph{Dancing with the Stars} (DWTS) premiered on ABC in June 2005 and has since become one of the longest-running reality competition franchises in American television history, spanning 34 seasons through 2025. The show pairs celebrities---drawn from sports, entertainment, politics, and social media---with professional ballroom dancers, who compete in weekly performances judged on technical merit and artistic expression. A panel of expert judges assigns scores (typically on a 1--10 or 1--40 scale), which are then combined with viewer votes to determine elimination outcomes.
+
+The central \textbf{information asymmetry} that motivates this study: while judge scores are publicly announced, \emph{individual fan vote shares are never disclosed}. Viewers know only the aggregate outcome---which contestant is eliminated---but not the underlying vote distribution that produced it. This opacity creates several downstream challenges:
+
+\begin{itemize}[itemsep=0.3em]
+    \item \textbf{For producers:} Without diagnostic tools, anomalous voting patterns (manipulation, coordinated campaigns, technical failures) may go undetected until post-broadcast controversy.
+    \item \textbf{For advertisers:} Accurate popularity estimates inform sponsorship valuations; current reliance on social media proxies introduces measurement error.
+    \item \textbf{For researchers:} Fan voting behavior in competitive reality TV offers a natural laboratory for studying collective decision-making, but the lack of outcome data has limited empirical inquiry.
+\end{itemize}
+
+% 1.2 问题描述
+\subsection{Problem Statement}
+\label{subsec:problem}
+
+We address the following interconnected questions, corresponding to the five tasks specified in the 2026 MCM Problem C:
+
+\begin{enumerate}
+    \item \textbf{Fan Vote Inference (Task 1):} Given observed eliminations and known judge scores, can we reconstruct plausible fan vote distributions? What structural assumptions (e.g., minimum vote share, consistency across weeks) are necessary?
+    
+    \item \textbf{Rule Change Impact (Task 2):} How do production rule modifications (immunity windows, double eliminations, judge saves) affect model identifiability and inferred vote dynamics?
+    
+    \item \textbf{Success Factor Analysis (Task 3):} What celebrity attributes (profession, prior fame, partner assignment) predict survival? Can we quantify the ``professional dancer effect''?
+    
+    \item \textbf{Mechanism Evaluation (Task 4):} Does the current voting system produce ``fair'' outcomes? We operationalize fairness as the frequency of eliminating contestants who would have survived under alternative aggregation rules.
+    
+    \item \textbf{Mechanism Design (Task 5):} Can we propose a modified voting scheme that improves fairness while maintaining viewer engagement incentives?
+\end{enumerate}
+
+% 1.3 我们的贡献
+\subsection{Our Contributions}
+\label{subsec:contributions}
+
+This paper makes the following contributions:
+
+\begin{enumerate}
+    \item \textbf{Dual-Core Inversion Engine:} We develop a hybrid solver combining Linear Programming (for percent-disclosed seasons) and Constraint Programming (for rank-only seasons), processing all 34 US seasons with rule-adaptive constraint generation.
+    
+    \item \textbf{Anomaly Detection Framework:} We introduce a sensitivity-based diagnostic (the ``Money Plot'') that identifies S32 and S33 as \emph{infeasible} under any non-trivial fan vote floor, suggesting external shocks not captured by standard elimination logic.
+    
+    \item \textbf{Cox Survival Analysis:} We apply proportional hazards modeling to quantify elimination risk drivers, finding that professional dancer partner explains 42.9\% of variance---a larger effect than celebrity type or prior fame.
+    
+    \item \textbf{Weighted Borda Count Mechanism:} We propose a hybrid scoring rule ($0.6 \times \text{Judge} + 0.4 \times \text{Fan}$) that reduces ``wrongful elimination'' by 92.5\% in counterfactual simulation while preserving the viewer engagement that sustains the show's advertising revenue.
+    
+    \item \textbf{Actionable Intelligence:} We deliver a ``Safety Net Protocol'' memo to DWTS producers recommending pre-broadcast feasibility checks to flag anomalies before public controversy.
+\end{enumerate}
+
+% 1.4 论文结构
+\subsection{Paper Organization}
+\label{subsec:organization}
+
+The remainder of this paper is organized as follows:
+\begin{itemize}[itemsep=0.2em]
+    \item \secref{sec:assumptions}: Assumptions and justifications
+    \item \secref{sec:notations}: Notation table
+    \item \secref{sec:model1}: Model 1---Fan Vote Inversion (LP/CP dual-core engine)
+    \item \secref{sec:model2}: Model 2---Survival Analysis and Feature Importance
+    \item \secref{sec:model3}: Model 3---Mechanism Design (Weighted Borda Count)
+    \item \secref{sec:sensitivity}: Sensitivity and Robustness Analysis
+    \item \secref{sec:evaluation}: Model Evaluation and Validation
+    \item \secref{sec:conclusion}: Conclusions and Recommendations
+\end{itemize}
+
+% 【流程图位置】
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.95\textwidth]{figures/fig_workflow.pdf}
+%     \caption{Overview of our analytical framework: from raw DWTS data through fan vote inversion, survival analysis, and mechanism design.}
+%     \label{fig:workflow}
+% \end{figure}

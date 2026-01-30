@@ -1,0 +1,61 @@
+% Section 3: Notations
+% 符号说明表
+
+\section{Notations}
+\label{sec:notations}
+
+For clarity and consistency throughout this paper, we summarize the key symbols used in our models in Table~\ref{tab:notations}.
+
+\begin{table}[H]
+    \centering
+    \caption{Summary of Key Notations}
+    \label{tab:notations}
+    \begin{tabularx}{\textwidth}{c X c}
+        \toprule
+        \textbf{Symbol} & \textbf{Description} & \textbf{Unit/Range} \\
+        \midrule
+        % 基本索引
+        $s$ & Season index & $s \in \{1, 2, \ldots, 34\}$ \\
+        $w$ & Week (episode) index within a season & $w \in \{1, \ldots, W_s\}$ \\
+        $i$ & Contestant index & -- \\
+        $\mathcal{C}_{s,w}$ & Set of active contestants in season $s$, week $w$ & -- \\
+        $n_{s,w}$ & Number of active contestants, $|\mathcal{C}_{s,w}|$ & -- \\
+        \midrule
+        % 观测变量
+        $J_{i,w}$ & Judge score for contestant $i$ in week $w$ & [0, 40] \\
+        $\bar{J}_w$ & Average judge score in week $w$, $\bar{J}_w = \frac{1}{n_{s,w}}\sum_i J_{i,w}$ & [0, 40] \\
+        $E_w$ & Index of eliminated contestant in week $w$ & -- \\
+        $r^{\mathrm{fan}}_{i,w}$ & Fan vote rank for contestant $i$ (1 = highest) & $\{1, \ldots, n_{s,w}\}$ \\
+        \midrule
+        % 潜在变量（推断目标）
+        $v_{i,w}$ & Fan vote share for contestant $i$ in week $w$ & $[0, 1]$, $\sum_i v_{i,w} = 1$ \\
+        $\hat{v}_{i,w}$ & Inferred (point estimate) fan vote share & $[0, 1]$ \\
+        $[v^{\min}_{i,w}, v^{\max}_{i,w}]$ & Feasible interval for $v_{i,w}$ via LP bounds & $[0, 1]$ \\
+        \midrule
+        % 模型参数
+        $\epsilon$ & Minimum vote share floor (sensitivity parameter) & $[0, 0.1]$ \\
+        $S^*(\epsilon)$ & Slack variable at optimum for floor $\epsilon$ (anomaly metric) & $\geq 0$ \\
+        $\alpha$ & Weight on judge score in hybrid mechanism & default 0.6 \\
+        $\beta$ & Weight on fan vote in hybrid mechanism, $\beta = 1 - \alpha$ & default 0.4 \\
+        \midrule
+        % 生存分析
+        $T_i$ & Survival time (weeks survived) for contestant $i$ & weeks \\
+        $\delta_i$ & Censoring indicator: 1 if eliminated, 0 if survived to finale & -- \\
+        $\lambda(t \mid \mathbf{x}_i)$ & Hazard function for contestant $i$ at time $t$ & -- \\
+        $\mathrm{HR}_k$ & Hazard ratio for covariate $k$ & -- \\
+        \midrule
+        % 机制设计
+        $\widetilde{J}_i$ & Min-max normalized judge score for contestant $i$ & $[0, 1]$ \\
+        $\widetilde{V}_i$ & Min-max normalized fan vote for contestant $i$ & $[0, 1]$ \\
+        $S_i^{\mathrm{Borda}}$ & Weighted Borda score, $S_i = \alpha \widetilde{J}_i + \beta \widetilde{V}_i$ & $[0, 1]$ \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\noindent\textbf{Indexing Conventions.}
+\begin{itemize}[itemsep=0.2em]
+    \item Seasons are numbered chronologically: S1 (2005) through S34 (2025).
+    \item Weeks are numbered starting from the first competition episode (excluding any premiere without elimination).
+    \item \emph{Percent seasons} (S3--S27): Production disclosed vote \emph{percentages} in some form.
+    \item \emph{Rank seasons} (S1--S2, S28--S34): Only ordinal \emph{rankings} are revealed.
+\end{itemize}

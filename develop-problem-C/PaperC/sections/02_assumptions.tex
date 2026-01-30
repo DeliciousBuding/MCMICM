@@ -1,0 +1,46 @@
+% Section 2: Assumptions and Justifications
+% 假设条件及其合理性说明
+
+\section{Assumptions and Justifications}
+\label{sec:assumptions}
+
+To establish a reasonable and solvable mathematical model for the DWTS fan vote inference problem, we make the following assumptions. Each assumption is justified with a brief rationale.
+
+\begin{enumerate}[label=\textbf{H\arabic*.}, leftmargin=2em, itemsep=0.6em]
+    
+    \item \textbf{Rational Voting Assumption.}
+    Viewers cast votes sincerely based on their preferences; strategic voting (e.g., voting for weak competitors to eliminate threats) is negligible.
+    
+    \textit{Justification:} While strategic voting exists in theory, empirical evidence from fan forums suggests the vast majority of DWTS viewers vote for their favorite contestant rather than tactically~\cite{dwts_voting_analysis}.
+    
+    \item \textbf{Elimination Truthfulness Assumption.}
+    The announced elimination outcomes accurately reflect the application of stated voting rules (judge scores combined with fan votes).
+    
+    \textit{Justification:} Any systematic deviation would constitute fraud; we model such deviations as \emph{anomalies} to be detected rather than assumed away.
+    
+    \item \textbf{Vote Share Regularity Assumption.}
+    Each contestant receives a non-trivial minimum vote share $\epsilon > 0$ in any week they compete.
+    
+    \textit{Justification:} Even unpopular contestants have supporters; a zero vote share is implausible given millions of viewers. We treat $\epsilon$ as a sensitivity parameter (default: 1\%).
+    
+    \item \textbf{Rule Documentation Accuracy.}
+    Production rules (immunity windows, double eliminations, judge saves) documented in official sources accurately describe the actual voting mechanics.
+    
+    \textit{Justification:} We cross-reference multiple sources (Wikipedia, official ABC press releases, fan archives) to verify rule changes. Discrepancies are flagged for manual review.
+    
+    \item \textbf{Judge Score Independence.}
+    Judge scores are determined independently of fan vote information, which is not revealed to judges before scoring.
+    
+    \textit{Justification:} DWTS production protocol ensures judges score performances before any vote tallying occurs.
+    
+    \item \textbf{Temporal Independence Within Weeks.}
+    Fan voting behavior in week $w$ does not directly depend on unobserved vote shares from week $w-1$ (only on observable outcomes like eliminations and scores).
+    
+    \textit{Justification:} Since individual vote shares are never published, fans cannot condition their votes on this hidden information. They observe only survival/elimination outcomes.
+    
+    \item \textbf{External Shock Detectability.}
+    Major external shocks (production interventions, voting system failures, scandal-driven viewer mobilization) manifest as constraint infeasibility in our inversion model.
+    
+    \textit{Justification:} Our anomaly detection framework is designed to flag seasons where standard elimination logic cannot explain outcomes, which we interpret as evidence of external shocks.
+
+\end{enumerate}
