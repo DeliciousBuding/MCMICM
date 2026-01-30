@@ -6,23 +6,21 @@
 ╠═════════════════════╪════════════════╪════════════════════════════════╣
 ║ Old System (Actual) │      51        │ Current DWTS rules             ║
 ║ Soft Floor (Failed) │      94        │ Too aggressive, backfired      ║
-║ Borda Count (New)   │      3         │ 60/40 weighted, 92.5% better ║
+║ Borda Count (New)   │      TBD       │ Balanced 60/40 weighting       ║
 ╠══════════════════════════════════════════════════════════════════════╣
 ║                       ANOMALY DETECTION                               ║
 ╠══════════════════════════════════════════════════════════════════════╣
-║ Season │ Status   │ S* at 0%   │ Interpretation                      ║
+║ Season │ Status   │ Threshold  │ Interpretation                      ║
 ╠════════╪══════════╪════════════╪═════════════════════════════════════╣
-║  S1    │ Normal   │ 0.0        │ Stable under all constraints        ║
-║  S10   │ Normal   │ 0.0        │ Stable under all constraints        ║
-║  S20   │ Normal   │ 0.0        │ Stable under all constraints        ║
-║  S27   │ Normal   │ 0.0        │ Bobby Bones - controversial but OK  ║
-║  S32   │ ANOMALY  │ 2.0        │ ⚠️ Data integrity issue detected    ║
-║  S33   │ ANOMALY  │ 1.0        │ ⚠️ Data integrity issue detected    ║
+║  S1    │ Normal   │ >1.2%      │ Stable under realistic constraints  ║
+║  S10   │ Normal   │ >1.2%      │ Stable under realistic constraints  ║
+║  S30   │ ANOMALY  │ ~0.1%      │ Fails almost immediately            ║
+║  S32   │ ANOMALY  │ ~0.1%      │ Fails almost immediately            ║
+║  S33   │ ANOMALY  │ ~0.1%      │ Fails almost immediately            ║
 ╚══════════════════════════════════════════════════════════════════════╝
 
-KEY INSIGHT: S32 and S33 are mathematically distinguishable anomalies.
-Even with NO constraints (0% minimum vote), their elimination results
-are INCONSISTENT with their judge scores.
+KEY INSIGHT: Anomalous seasons (S30, S32, S33) are mathematically
+distinguishable from normal seasons. They require near-zero fan votes
+for some contestants to explain the elimination results.
 
 This is NOT a model failure - it's SUCCESSFUL ANOMALY DETECTION!
-The model acts as a "forensic auditor" for data integrity.

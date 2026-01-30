@@ -126,6 +126,33 @@ SCIENCE_JOURNAL = [
     '#BB0021',  # 深红
 ]
 
+# =============================================================================
+# DWTS Paper Palette - 论文级统一配色方案
+# =============================================================================
+# 遵循原则：
+# 1. 全文只用 3 个高饱和色担任角色（baseline / proposed / warning）
+# 2. 其余信息用浅色 + 透明度 + 线型表达
+# 3. 黄色只用于小标注、箭头、关键数字点
+
+DWTS_PAPER_PALETTE = {
+    "proposed": "#219EBC",   # 青蓝 - 新机制/推荐方案
+    "baseline": "#02304A",   # 藏蓝 - 原机制/基准
+    "warning":  "#FA8600",   # 深橙 - 警示/失败/不匹配
+    "warning2": "#FF9E02",   # 亮橙 - 次级警示（更轻）
+    "fill":     "#90C9E7",   # 浅蓝 - 填充配合 alpha 0.25-0.35 使用
+    "accent":   "#FEB705",   # 黄色 - 仅用于小标注，不做主色
+    "aux":      "#136783",   # 深青 - 辅助数据
+}
+
+# DWTS 颜色列表形式（用于 matplotlib cycler）
+DWTS_COLORS = [
+    '#219EBC',  # proposed - 青蓝
+    '#02304A',  # baseline - 藏蓝
+    '#FA8600',  # warning - 深橙
+    '#136783',  # aux - 深青
+    '#FF9E02',  # warning2 - 亮橙
+]
+
 # 热力图配色方案
 HEATMAP_COLORS = {
     'viridis': 'viridis',      # 紫-绿-黄
@@ -173,6 +200,8 @@ def get_color_palette(name='academic', n_colors=None):
         'blue_gradient': BLUE_GRADIENT,
         'red_gradient': RED_GRADIENT,
         'green_gradient': GREEN_GRADIENT,
+        'dwts': DWTS_COLORS,  # DWTS Paper Palette
+        'dwts_paper': list(DWTS_PAPER_PALETTE.values()),
     }
     
     if name not in palettes:
@@ -227,7 +256,8 @@ def show_all_palettes():
     palettes = [
         'academic', 'nature', 'warm', 'cool', 'colorblind',
         'scientific', 'nature_journal', 'science_journal',
-        'blue_gradient', 'red_gradient', 'green_gradient'
+        'blue_gradient', 'red_gradient', 'green_gradient',
+        'dwts', 'dwts_paper'
     ]
     
     fig, axes = plt.subplots(len(palettes), 1, figsize=(12, len(palettes) * 0.8))

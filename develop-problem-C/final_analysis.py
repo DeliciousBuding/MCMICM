@@ -16,6 +16,9 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+# 导入统一调色板
+from dwts_model.paper_palette import PALETTE, apply_paper_style
+
 OUTPUT_DIR = Path('outputs')
 FIGURES_DIR = OUTPUT_DIR / 'figures'
 FIGURES_DIR.mkdir(parents=True, exist_ok=True)
@@ -188,7 +191,7 @@ def simulate_weighted_borda_count(w_judge=0.6, w_fan=0.4):
     # Create visualization
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     
-    # Left: Three-way comparison
+    # Left: Three-way comparison - 使用统一调色板
     ax1 = axes[0]
     systems = ['Old System\n(Actual)', 'Soft Floor\n(Failed)', 'Weighted Percent\n(Proposed)']
     robbed_counts = [
@@ -196,35 +199,38 @@ def simulate_weighted_borda_count(w_judge=0.6, w_fan=0.4):
         results['soft_floor']['robbed'],
         results['borda_count']['robbed']
     ]
-    colors = ['#3498db', '#e74c3c', '#2ecc71']
-    bars = ax1.bar(systems, robbed_counts, color=colors, edgecolor='black', linewidth=2)
+    # baseline=藏蓝, warning=深橙, proposed=青蓝
+    colors = [PALETTE['baseline'], PALETTE['warning'], PALETTE['proposed']]
+    bars = ax1.bar(systems, robbed_counts, color=colors, edgecolor=PALETTE['aux'], linewidth=1.5)
     ax1.set_ylabel('Definite-Wrongful Eliminations', fontsize=11)
     ax1.set_title('Task 5: Mechanism Comparison\n(Lower is Better)', fontsize=13, fontweight='bold')
+    apply_paper_style(ax1)
     
     for bar, count in zip(bars, robbed_counts):
         ax1.annotate(str(count), (bar.get_x() + bar.get_width()/2, count),
                     ha='center', va='bottom', fontsize=14, fontweight='bold')
     
-    # Add improvement annotation
+    # Add improvement annotation - 使用统一调色板
     if improvement > 0:
         ax1.annotate(f'↓ {improvement} fewer', 
                     xy=(2, borda_robbed), xytext=(2.3, borda_robbed + 15),
-                    fontsize=10, color='#27ae60', fontweight='bold',
-                    arrowprops=dict(arrowstyle='->', color='#27ae60'))
+                    fontsize=10, color=PALETTE['proposed'], fontweight='bold',
+                    arrowprops=dict(arrowstyle='->', color=PALETTE['proposed']))
     
-    # Right: Outcome change distribution
+    # Right: Outcome change distribution - 使用统一调色板
     ax2 = axes[1]
     changed_df = comparison_df[comparison_df['outcome_changed']]
     change_by_season = comparison_df.groupby('season')['outcome_changed'].mean() * 100
     
-    ax2.bar(change_by_season.index, change_by_season.values, color='#9b59b6', 
-            edgecolor='black', alpha=0.8)
-    ax2.axhline(y=change_by_season.mean(), color='#e74c3c', linestyle='--', 
+    ax2.bar(change_by_season.index, change_by_season.values, color=PALETTE['proposed'], 
+            edgecolor=PALETTE['aux'], alpha=0.85, linewidth=0.8)
+    ax2.axhline(y=change_by_season.mean(), color=PALETTE['warning'], linestyle='--', 
                 linewidth=2, label=f'Average: {change_by_season.mean():.1f}%')
     ax2.set_xlabel('Season', fontsize=11)
     ax2.set_ylabel('Weeks with Different Outcome (%)', fontsize=11)
     ax2.set_title('How Often Weighted Percent Changes Outcomes', fontsize=13, fontweight='bold')
     ax2.legend()
+    apply_paper_style(ax2)
     
     plt.tight_layout()
     plt.savefig(FIGURES_DIR / 'fig_task5_borda_comparison.png', bbox_inches='tight')

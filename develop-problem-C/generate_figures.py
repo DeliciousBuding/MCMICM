@@ -1,6 +1,7 @@
 """
 DWTS Visualization Script
 生成论文所需的核心图表
+使用统一论文级配色方案
 """
 import pandas as pd
 import numpy as np
@@ -11,6 +12,13 @@ import sys
 
 # Add dwts_model to path
 sys.path.insert(0, str(Path(__file__).parent))
+
+# 导入统一调色板
+from dwts_model.paper_palette import (
+    PALETTE, VOTING_METHODS, MECHANISMS, DATA_STATES,
+    get_season_color, get_season_colors, apply_paper_style,
+    LEGEND_LABELS, LINE_STYLES, BAR_STYLES, FILL_STYLES
+)
 
 # 设置中文字体和样式
 plt.rcParams['font.family'] = ['DejaVu Sans', 'SimHei', 'sans-serif']
@@ -129,16 +137,11 @@ def plot_inconsistency_spectrum():
     
     fig, ax = plt.subplots(figsize=(12, 5))
     
-    # 按投票方法着色
-    colors = []
-    for _, row in df.iterrows():
-        season = row['season']
-        if season <= 2 or season >= 28:
-            colors.append('#e74c3c')  # 红色 - rank method
-        else:
-            colors.append('#3498db')  # 蓝色 - percent method
+    # 按投票方法着色 - 使用统一调色板
+    colors = get_season_colors(df['season'].tolist())
     
-    bars = ax.bar(df['season'], df['inconsistency_score'], color=colors, edgecolor='black', linewidth=0.5)
+    bars = ax.bar(df['season'], df['inconsistency_score'], color=colors, 
+                  edgecolor=PALETTE['aux'], linewidth=0.8)
     
     # 标记高不一致性季节
     for i, row in df.iterrows():
@@ -153,11 +156,12 @@ def plot_inconsistency_spectrum():
     ax.set_title('Model Fit: Inconsistency Score by Season', fontsize=14, fontweight='bold')
     ax.set_xticks(range(1, 35))
     ax.set_xlim(0.5, 34.5)
-    ax.axhline(y=0, color='gray', linestyle='--', alpha=0.5)
+    ax.axhline(y=0, color=PALETTE['aux'], linestyle='--', alpha=0.5)
+    apply_paper_style(ax)
     
-    # 图例
-    rank_patch = mpatches.Patch(color='#e74c3c', label='Rank Method (S1-2, S28+)')
-    pct_patch = mpatches.Patch(color='#3498db', label='Percent Method (S3-27)')
+    # 图例 - 使用统一调色板
+    rank_patch = mpatches.Patch(color=PALETTE['baseline'], label=LEGEND_LABELS['rank'])
+    pct_patch = mpatches.Patch(color=PALETTE['proposed'], label=LEGEND_LABELS['percent'])
     ax.legend(handles=[rank_patch, pct_patch], loc='upper right')
     
     plt.tight_layout()
@@ -187,7 +191,8 @@ def plot_reversal_heatmap():
     
     fig, ax = plt.subplots(figsize=(14, 10))
     
-    cmap = plt.cm.colors.ListedColormap(['#f0f0f0', '#e74c3c'])
+    # 使用统一调色板: 浅色=无逆转, 警示色=逆转
+    cmap = plt.cm.colors.ListedColormap([PALETTE['fill'], PALETTE['warning']])
     im = ax.imshow(matrix, cmap=cmap, aspect='auto', interpolation='nearest')
     
     ax.set_xticks(range(max_week))
@@ -204,10 +209,11 @@ def plot_reversal_heatmap():
     ax.set_yticks(np.arange(-0.5, len(seasons), 1), minor=True)
     ax.grid(which='minor', color='white', linestyle='-', linewidth=1)
     
-    # 图例
-    no_rev = mpatches.Patch(color='#f0f0f0', label='Same Outcome')
-    rev = mpatches.Patch(color='#e74c3c', label='Would Reverse')
+    # 图例 - 使用统一调色板
+    no_rev = mpatches.Patch(color=PALETTE['fill'], label='Same Outcome')
+    rev = mpatches.Patch(color=PALETTE['warning'], label='Would Reverse')
     ax.legend(handles=[no_rev, rev], loc='upper right', bbox_to_anchor=(1.15, 1))
+    apply_paper_style(ax, grid_alpha=0)
     
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'fig2_reversal_heatmap.png', bbox_inches='tight')
@@ -224,20 +230,15 @@ def plot_counterfactual_comparison():
     
     fig, ax = plt.subplots(figsize=(12, 5))
     
-    # 按投票方法着色
-    colors = []
-    for season in df['season']:
-        if season <= 2 or season >= 28:
-            colors.append('#e74c3c')
-        else:
-            colors.append('#3498db')
+    # 按投票方法着色 - 使用统一调色板
+    colors = get_season_colors(df['season'].tolist())
     
     bars = ax.bar(df['season'], df['reversal_rate'] * 100, color=colors, 
-                  edgecolor='black', linewidth=0.5, alpha=0.8)
+                  edgecolor=PALETTE['aux'], linewidth=0.8, alpha=0.9)
     
-    # 平均线
+    # 平均线 - 使用基准色
     avg_rate = df['reversal_rate'].mean() * 100
-    ax.axhline(y=avg_rate, color='#2c3e50', linestyle='--', linewidth=2, 
+    ax.axhline(y=avg_rate, color=PALETTE['baseline'], linestyle='--', linewidth=2, 
                label=f'Average: {avg_rate:.1f}%')
     
     ax.set_xlabel('Season', fontsize=12)
@@ -247,16 +248,17 @@ def plot_counterfactual_comparison():
     ax.set_xticks(df['season'])
     ax.set_ylim(0, 105)
     
-    # 标注争议季节
+    # 标注争议季节 - 使用警示色
     controversy_seasons = [2, 4, 11, 27]  # Jerry Rice, Billy Ray, Bristol Palin, Bobby Bones
     for s in controversy_seasons:
         if s in df['season'].values:
             rate = df[df['season'] == s]['reversal_rate'].values[0] * 100
             ax.annotate(f'S{s}', (s, rate), textcoords="offset points", 
                        xytext=(0, 8), ha='center', fontsize=9, fontweight='bold',
-                       color='#8e44ad')
+                       color=PALETTE['warning'])
     
     ax.legend(loc='upper right')
+    apply_paper_style(ax)
     
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'fig3_counterfactual_rates.png', bbox_inches='tight')
@@ -277,18 +279,19 @@ def plot_fan_vote_distribution():
     
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     
-    # 左图：直方图
+    # 左图：直方图 - 使用统一调色板
     ax1 = axes[0]
-    ax1.hist(df['fan_vote_estimate'], bins=50, color='#3498db', edgecolor='black', 
-             alpha=0.7, density=True)
-    ax1.axvline(x=df['fan_vote_estimate'].mean(), color='#e74c3c', linestyle='--', 
+    ax1.hist(df['fan_vote_estimate'], bins=50, color=PALETTE['proposed'], 
+             edgecolor=PALETTE['aux'], alpha=0.7, density=True)
+    ax1.axvline(x=df['fan_vote_estimate'].mean(), color=PALETTE['warning'], linestyle='--', 
                 linewidth=2, label=f"Mean: {df['fan_vote_estimate'].mean():.3f}")
-    ax1.axvline(x=df['fan_vote_estimate'].median(), color='#2ecc71', linestyle='--', 
+    ax1.axvline(x=df['fan_vote_estimate'].median(), color=PALETTE['baseline'], linestyle='--', 
                 linewidth=2, label=f"Median: {df['fan_vote_estimate'].median():.3f}")
     ax1.set_xlabel('Estimated Fan Vote Share', fontsize=12)
     ax1.set_ylabel('Density', fontsize=12)
     ax1.set_title('Distribution of Inferred Fan Votes', fontsize=14, fontweight='bold')
     ax1.legend()
+    apply_paper_style(ax1)
     
     # 右图：按周的箱线图
     ax2 = axes[1]
@@ -297,13 +300,22 @@ def plot_fan_vote_distribution():
     
     bp = ax2.boxplot(week_data, patch_artist=True)
     for patch in bp['boxes']:
-        patch.set_facecolor('#3498db')
+        patch.set_facecolor(PALETTE['proposed'])
         patch.set_alpha(0.7)
+        patch.set_edgecolor(PALETTE['aux'])
+    for whisker in bp['whiskers']:
+        whisker.set_color(PALETTE['aux'])
+    for cap in bp['caps']:
+        cap.set_color(PALETTE['aux'])
+    for median in bp['medians']:
+        median.set_color(PALETTE['warning'])
+        median.set_linewidth(2)
     
     ax2.set_xlabel('Week', fontsize=12)
     ax2.set_ylabel('Estimated Fan Vote Share', fontsize=12)
     ax2.set_title('Fan Vote Distribution by Week', fontsize=14, fontweight='bold')
     ax2.set_xticklabels([f'W{i}' for i in range(1, len(week_data)+1)])
+    apply_paper_style(ax2)
     
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'fig4_fan_vote_distribution.png', bbox_inches='tight')
@@ -332,19 +344,21 @@ def plot_pro_dancer_effect():
     
     fig, ax = plt.subplots(figsize=(12, 8))
     
-    # 水平条形图
+    # 水平条形图 - 使用辅助色
     y_pos = range(len(dancer_stats))
     bars = ax.barh(y_pos, dancer_stats['avg_placement'], 
                    xerr=dancer_stats['std_placement'] / np.sqrt(dancer_stats['n_partners']),
-                   color='#9b59b6', alpha=0.7, edgecolor='black', capsize=3)
+                   color=PALETTE['aux'], alpha=0.85, edgecolor=PALETTE['baseline'], 
+                   capsize=3, linewidth=0.8)
     
     ax.set_yticks(y_pos)
     ax.set_yticklabels(dancer_stats['ballroom_partner'])
     ax.set_xlabel('Average Placement (lower is better)', fontsize=12)
     ax.set_title('Professional Dancer Effect on Partner Placement', fontsize=14, fontweight='bold')
     ax.invert_xaxis()  # 反转x轴，让更好的名次在右边
+    apply_paper_style(ax)
     
-    # 添加样本量注释
+    # 添加样本量注释 - 使用标注色
     for i, (_, row) in enumerate(dancer_stats.iterrows()):
         ax.annotate(f'n={int(row["n_partners"])}', 
                    (row['avg_placement'] - 0.3, i),
@@ -378,30 +392,32 @@ def plot_voting_method_comparison():
     
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
     
-    # 左图：逆转率对比
+    # 左图：逆转率对比 - 使用统一调色板
     ax1 = axes[0]
     methods = ['Percent\n(S3-27)', 'Rank\n(S1-2, S28+)']
     reversals = [pct_reversals * 100, rank_reversals * 100]
-    bars1 = ax1.bar(methods, reversals, color=['#3498db', '#e74c3c'], 
-                    edgecolor='black', linewidth=1.5)
+    bars1 = ax1.bar(methods, reversals, color=[PALETTE['proposed'], PALETTE['baseline']], 
+                    edgecolor=PALETTE['aux'], linewidth=1.2)
     ax1.set_ylabel('Average Reversal Rate (%)', fontsize=12)
     ax1.set_title('Sensitivity to Method Change', fontsize=14, fontweight='bold')
     for bar, val in zip(bars1, reversals):
         ax1.annotate(f'{val:.1f}%', (bar.get_x() + bar.get_width()/2, val),
                     ha='center', va='bottom', fontsize=12, fontweight='bold')
     ax1.set_ylim(0, max(reversals) * 1.2)
+    apply_paper_style(ax1)
     
-    # 右图：不一致性对比
+    # 右图：不一致性对比 - 使用统一调色板
     ax2 = axes[1]
     inconsistencies = [pct_inconsistency, rank_inconsistency]
-    bars2 = ax2.bar(methods, inconsistencies, color=['#3498db', '#e74c3c'],
-                    edgecolor='black', linewidth=1.5)
+    bars2 = ax2.bar(methods, inconsistencies, color=[PALETTE['proposed'], PALETTE['baseline']],
+                    edgecolor=PALETTE['aux'], linewidth=1.2)
     ax2.set_ylabel('Average Inconsistency Score (S*)', fontsize=12)
     ax2.set_title('Model Fit Quality', fontsize=14, fontweight='bold')
     for bar, val in zip(bars2, inconsistencies):
         ax2.annotate(f'{val:.2f}', (bar.get_x() + bar.get_width()/2, val + 0.02),
                     ha='center', va='bottom', fontsize=12, fontweight='bold')
     ax2.set_ylim(0, max(inconsistencies) * 1.3 + 0.1)
+    apply_paper_style(ax2)
     
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'fig6_method_comparison.png', bbox_inches='tight')
@@ -440,12 +456,12 @@ def plot_controversy_case_study():
         season_df = season_df.merge(avg_scores, on='celebrity_name', how='left')
         season_df = season_df.sort_values('placement')
         
-        # 绘制
-        colors = ['#e74c3c' if name.lower() in n.lower() else '#3498db' 
+        # 绘制 - 使用统一调色板: 争议选手用警示色, 其他用主色
+        colors = [PALETTE['warning'] if name.lower() in n.lower() else PALETTE['proposed'] 
                   for n in season_df['celebrity_name']]
         
         bars = ax.barh(range(len(season_df)), season_df['avg_score'], color=colors,
-                       edgecolor='black', alpha=0.8)
+                       edgecolor=PALETTE['aux'], alpha=0.85, linewidth=0.8)
         
         ax.set_yticks(range(len(season_df)))
         ax.set_yticklabels([f"{row['placement']}. {row['celebrity_name'][:15]}" 
@@ -453,14 +469,15 @@ def plot_controversy_case_study():
         ax.set_xlabel('Average Judge Score', fontsize=11)
         ax.set_title(f'Season {season}: {description}', fontsize=12, fontweight='bold')
         ax.invert_yaxis()
+        apply_paper_style(ax)
         
-        # 标注争议选手
+        # 标注争议选手 - 使用警示色
         controversy_row = season_df[season_df['celebrity_name'].str.contains(name.split()[0], case=False)]
         if len(controversy_row) > 0:
             placement = controversy_row['placement'].values[0]
             ax.annotate('← Controversy', 
                        (controversy_row['avg_score'].values[0], placement - 1),
-                       fontsize=10, color='#e74c3c', fontweight='bold')
+                       fontsize=10, color=PALETTE['warning'], fontweight='bold')
     
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'fig7_controversy_cases.png', bbox_inches='tight')
@@ -481,7 +498,9 @@ def plot_survival_curve():
     
     fig, ax = plt.subplots(figsize=(10, 6))
     
-    colors = plt.cm.Set1(np.linspace(0, 1, len(top_dancers)))
+    # 使用统一调色板的颜色序列
+    survival_colors = [PALETTE['proposed'], PALETTE['baseline'], PALETTE['warning'], 
+                       PALETTE['aux'], PALETTE['warning2']]
     
     for i, dancer in enumerate(top_dancers):
         dancer_df = df[df['ballroom_partner'] == dancer]
@@ -494,7 +513,7 @@ def plot_survival_curve():
             survival.append(survived)
         
         ax.step(range(1, max_week + 1), survival, where='mid', 
-                label=f'{dancer} (n={len(dancer_df)})', color=colors[i], linewidth=2)
+                label=f'{dancer} (n={len(dancer_df)})', color=survival_colors[i], linewidth=2)
     
     ax.set_xlabel('Week', fontsize=12)
     ax.set_ylabel('Survival Probability', fontsize=12)
@@ -502,7 +521,7 @@ def plot_survival_curve():
     ax.set_xlim(1, 11)
     ax.set_ylim(0, 1.05)
     ax.legend(loc='lower left', fontsize=9)
-    ax.grid(True, alpha=0.3)
+    apply_paper_style(ax)
     
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / 'fig8_survival_curves.png', bbox_inches='tight')

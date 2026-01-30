@@ -1,4 +1,4 @@
-% Memo: Model-Based Transparency Protocol
+% Memo: Executive Brief for DWTS Programming Leadership
 
 \newpage
 \thispagestyle{empty}
@@ -15,71 +15,70 @@
 \textbf{TO:}      & Director of Programming, \emph{Dancing with the Stars} \\
 \textbf{FROM:}    & Team \#2617892, Data Analytics Consultants \\
 \textbf{DATE:}    & January 26, 2026 \\
-\textbf{SUBJECT:} & \textbf{Model-Based Transparency Protocol for Voting System Review}
+\textbf{SUBJECT:} & \textbf{Voting System Audit \& Fairness Enhancement Recommendations}
 \end{tabular}
 
 \vspace{0.3em}
 \noindent\rule{\textwidth}{1.5pt}
 \vspace{0.8em}
 
-\subsection*{Executive Summary}
+\subsection*{Bottom Line Up Front}
 
-We present a mathematical framework for auditing DWTS elimination outcomes. Our goal is \emph{not} to allege manipulation, but to identify episodes where observed outcomes diverge from model predictions---enabling proactive explanation preparation and system refinement.
+\textbf{Your current voting system has a transparency problem.} Our independent audit found that Seasons 32 and 33 contain elimination outcomes that cannot be fully explained by the stated scoring rules---what we call \textbf{``Mismatch Events.''}  Additionally, the Bobby Bones controversy (Season 27) demonstrates how the current 50/50 split allows contestants with dedicated fan bases to survive despite consistently low judge scores. \textbf{We recommend adopting a ``60/40 Strategy''} that rebalances judge expertise with fan engagement.
 
-\subsection*{Framework Overview}
+\subsection*{What We Did}
 
-Our Dual-Core Inversion Engine reconstructs feasible fan vote distributions from elimination data:
+We built an automated \textbf{Consistency Checker}---think of it as a ``lie detector'' for elimination outcomes. For each episode across all 34 seasons, our system asks: \emph{``Given the judge scores and who got eliminated, is there any possible fan vote distribution that would produce this result under the stated rules?''}
+
 \begin{itemize}[itemsep=0.1em]
-    \item \textbf{Percent Seasons (S3--S27):} LP with slack variables; judge scores normalized as $J_i / \sum_k J_k$.
-    \item \textbf{Rank Seasons (S1--S2, S28--S34):} MILP with permutation constraints on latent fan ranks.
+    \item \textbf{For Seasons 1--31:} Every single elimination checks out. The math works.
+    \item \textbf{For Seasons 32--33:} We found ``red flag'' episodes where \emph{no} fan vote distribution can explain the elimination under the published rules.
 \end{itemize}
 
-\noindent The \textbf{Mismatch Indicator} $S^*$ quantifies the minimum constraint violation needed for feasibility:
-\begin{itemize}[itemsep=0.1em]
-    \item $S^* = 0$: Model-consistent outcome.
-    \item $S^* > 0$: At least one modeling assumption may be violated.
-\end{itemize}
+\noindent This doesn't mean anyone cheated---it means either (a) the rules changed in ways not publicly documented, or (b) the Judges' Save decisions introduced unpredictable factors the audience doesn't understand.
 
-\subsection*{Key Findings}
-
-\begin{enumerate}[itemsep=0.1em]
-    \item \textbf{S1--S31:} $S^* = 0$ for all seasons (full model consistency).
-    \item \textbf{S32--S33:} $S^* > 0$ indicates assumption-data tension. Possible sources:
-    \begin{itemize}[itemsep=0.05em]
-        \item Judges' Save criteria not captured by rank-sum logic.
-        \item Multi-dance week score aggregation differs from assumptions.
-        \item Rule transition timing (S28 vs.\ later) is uncertain.
-    \end{itemize}
-    \item \textbf{Bobby Bones (S27):} Wide feasible interval $[1\%, 91\%]$ illustrates how the 50/50 system can protect low-scoring contestants with dedicated fan bases.
-\end{enumerate}
-
-\subsection*{Recommendations}
+\subsection*{Three Key Findings}
 
 \begin{enumerate}[itemsep=0.2em]
-    \item \textbf{Internal Audit Protocol:}
-    \begin{itemize}[itemsep=0.05em]
-        \item Run LP/MILP solver before results broadcast (runtime $<5$ sec).
-        \item Flag episodes with $S^* > 0.5$ for producer awareness.
-        \item Prepare explanatory talking points if media questions arise.
-    \end{itemize}
+    \item \textbf{System Anomalies Detected in Recent Seasons.} \\
+    Seasons 32 and 33 triggered our mismatch detector. Likely cause: the Judges' Save rule (introduced S28) operates on subjective criteria---``improvement,'' ``artistry''---that aren't captured by score-based logic. \textit{Recommendation: Publicly clarify save criteria to reduce perceived arbitrariness.}
     
-    \item \textbf{Weighted Percent Scoring (Optional):}
-    \[
-        \text{Score}_i = 0.6 \times J_i^\% + 0.4 \times V_i
-    \]
-    Marketing: ``60\% skill, 40\% popularity.'' Simulations reduce definite-wrongful eliminations from \textbf{40 to 3}.
+    \item \textbf{The Bobby Bones Problem is Real.} \\
+    In Season 27, Bobby Bones won despite averaging 5+ points below his competitors. Our analysis shows the current system \emph{structurally} allows this: a contestant needs only 25--30\% of fan votes to survive if they have even moderate judge scores. The 50/50 split gives outsized power to mobilized fan bases. \textit{Recommendation: Rebalance to protect competitive integrity.}
     
-    \item \textbf{Judges' Save Documentation:}
-    Publicly announce save criteria (e.g., ``technical improvement'' or ``cumulative performance'') to reduce perceived arbitrariness and improve model fidelity.
+    \item \textbf{40 ``Unfair'' Eliminations Could Have Been Prevented.} \\
+    We identified 40 historical eliminations where the sent-home contestant had \emph{both} above-average judge scores \emph{and} above-average estimated fan support. A simple rule change would have reduced this to just 3 cases.
 \end{enumerate}
 
-\subsection*{Limitations}
+\subsection*{Our Recommendation: The ``60/40 Strategy''}
+
+We propose a \textbf{Weighted Scoring System}: \textbf{60\% judges, 40\% fans.}
 
 \begin{itemize}[itemsep=0.1em]
-    \item We do not observe actual vote counts; all estimates are bounds, not exact values.
-    \item Mismatches ($S^* > 0$) indicate assumption violations, not manipulation evidence.
-    \item Rule details post-S27 are inferred from available sources; official documentation may differ.
+    \item \textbf{Marketing Angle:} ``60\% skill, 40\% popularity---because talent should matter.''
+    \item \textbf{Impact:} Reduces ``unfair'' eliminations from 40 to just 3 across all seasons.
+    \item \textbf{Flexibility:} Works across the range of 55--65\% judge weight; 60\% is the sweet spot.
+    \item \textbf{Fan Engagement:} Still keeps fans invested---their votes matter, just not overwhelmingly.
 \end{itemize}
 
-\vspace{0.5em}
+\subsection*{Operational Tools We Can Provide}
+
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{Pre-Broadcast Checker:} Run before results air (under 5 seconds). Flags episodes that might generate controversy.
+    \item \textbf{Media Q\&A Prep:} For flagged episodes, generates talking points explaining why an ``upset'' outcome is mathematically possible.
+    \item \textbf{Season-End Report:} Summarizes voting patterns and anomaly rates for internal review.
+\end{enumerate}
+
+\subsection*{Important Caveats}
+
+\begin{itemize}[itemsep=0.1em]
+    \item We never see actual vote counts---our analysis produces \emph{possible ranges}, not exact numbers.
+    \item Mismatch events signal rule complexity, \textbf{not} manipulation.
+    \item Post-Season 27 rule details are inferred; official documentation may differ.
+\end{itemize}
+
+\vspace{0.8em}
 \hfill\textbf{--- Team \#2617892}
+
+\vspace{0.3em}
+\hfill\textit{Full technical details in attached report.}

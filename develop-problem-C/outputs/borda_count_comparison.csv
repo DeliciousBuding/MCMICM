@@ -61,7 +61,7 @@ season,week,old_eliminated,borda_eliminated,outcome_changed,old_was_high_scorer,
 9,1,Ashley Hamiliton,Ashley Hamiliton,False,False,False
 9,2,Kathy Ireland,Kathy Ireland,False,False,False
 9,3,Debi Mazar,Tom DeLay,True,False,False
-9,4,Chuck Liddell,Louie Vito,True,False,False
+9,4,Chuck Liddell,Michael Irvin,True,False,False
 9,5,Natalie Coughlin,Michael Irvin,True,False,False
 9,6,Melissa Joan Hart,Michael Irvin,True,False,False
 9,7,Mark Dacascos,Mark Dacascos,False,False,False
@@ -155,7 +155,7 @@ season,week,old_eliminated,borda_eliminated,outcome_changed,old_was_high_scorer,
 20,4,Michael Sam,Chris Soules,True,False,False
 20,5,Suzanne Somers,Robert Herjavec,True,False,False
 20,6,Patti LaBelle,Robert Herjavec,True,False,False
-20,7,Willow Shields,Robert Herjavec,True,True,False
+20,7,Willow Shields,Chris Soules,True,True,False
 20,8,Robert Herjavec,Robert Herjavec,False,False,False
 20,9,Nastia Liukin,Rumer Willis,True,True,False
 21,2,Victor Espinoza,Chaka Khan,True,False,False
@@ -241,7 +241,7 @@ season,week,old_eliminated,borda_eliminated,outcome_changed,old_was_high_scorer,
 31,8,Heidi D'Amelio,Vinny Guadagnino,True,False,False
 31,9,Trevor Donovan,Trevor Donovan,False,False,False
 32,1,Matt Walsh,Tyson Beckford,True,False,False
-32,2,Jamie Lynn Spears,Jamie Lynn Spears,False,False,False
+32,2,Jamie Lynn Spears,Mauricio Umansky,True,False,False
 32,3,Tyson Beckford,Tyson Beckford,False,False,False
 32,4,Adrian Peterson,Adrian Peterson,False,False,False
 32,5,Mira Sorvino,Harry Jowsey,True,False,False

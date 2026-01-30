@@ -18,6 +18,9 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+# 导入统一调色板
+from dwts_model.paper_palette import PALETTE, apply_paper_style
+
 OUTPUT_DIR = Path('outputs')
 FIGURES_DIR = OUTPUT_DIR / 'figures'
 FIGURES_DIR.mkdir(parents=True, exist_ok=True)
@@ -54,27 +57,29 @@ def analyze_fan_vote_distribution():
     # Plot histogram
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     
-    # Left: Full distribution
+    # Left: Full distribution - 使用统一调色板
     ax1 = axes[0]
-    ax1.hist(df['fan_vote_estimate'], bins=50, color='#3498db', edgecolor='black', alpha=0.7)
-    ax1.axvline(x=0.01, color='red', linestyle='--', linewidth=2, label='1% threshold')
-    ax1.axvline(x=0.99, color='red', linestyle='--', linewidth=2)
+    ax1.hist(df['fan_vote_estimate'], bins=50, color=PALETTE['proposed'], edgecolor=PALETTE['aux'], alpha=0.8)
+    ax1.axvline(x=0.01, color=PALETTE['warning'], linestyle='--', linewidth=2, label='1% threshold')
+    ax1.axvline(x=0.99, color=PALETTE['warning'], linestyle='--', linewidth=2)
     ax1.set_xlabel('Estimated Fan Vote Share', fontsize=12)
     ax1.set_ylabel('Frequency', fontsize=12)
     ax1.set_title('Distribution of Inferred Fan Votes\n(CURRENT - Potentially Overfitted)', 
                   fontsize=12, fontweight='bold')
     ax1.legend()
+    apply_paper_style(ax1)
     
-    # Right: Log scale to see extremes
+    # Right: Log scale to see extremes - 使用统一调色板
     ax2 = axes[1]
     # Clip to avoid log(0)
     clipped = df['fan_vote_estimate'].clip(lower=1e-6, upper=1-1e-6)
-    ax2.hist(np.log10(clipped), bins=50, color='#e74c3c', edgecolor='black', alpha=0.7)
-    ax2.axvline(x=np.log10(0.01), color='blue', linestyle='--', linewidth=2, label='1% threshold')
+    ax2.hist(np.log10(clipped), bins=50, color=PALETTE['warning'], edgecolor=PALETTE['aux'], alpha=0.8)
+    ax2.axvline(x=np.log10(0.01), color=PALETTE['baseline'], linestyle='--', linewidth=2, label='1% threshold')
     ax2.set_xlabel('Log10(Fan Vote Share)', fontsize=12)
     ax2.set_ylabel('Frequency', fontsize=12)
     ax2.set_title('Log-Scale Distribution\n(Shows extreme values)', fontsize=12, fontweight='bold')
     ax2.legend()
+    apply_paper_style(ax2)
     
     plt.tight_layout()
     plt.savefig(FIGURES_DIR / 'risk1_overfitting_check.png', bbox_inches='tight')
@@ -406,28 +411,31 @@ def simulate_new_system():
     # Create visualization
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
     
-    # Left: Robbed goddess comparison
+    # Left: Robbed goddess comparison - 使用统一调色板
     ax1 = axes[0]
     systems = ['Old System\n(Actual DWTS)', 'New System\n(Tiered Threshold)']
     robbed_counts = [len(results['old_system']['robbed']), len(results['new_system']['robbed'])]
-    colors = ['#e74c3c', '#2ecc71']
-    bars = ax1.bar(systems, robbed_counts, color=colors, edgecolor='black', linewidth=2)
+    colors = [PALETTE['baseline'], PALETTE['proposed']]
+    bars = ax1.bar(systems, robbed_counts, color=colors, edgecolor=PALETTE['aux'], linewidth=1.5)
     ax1.set_ylabel('Count', fontsize=12)
     ax1.set_title('"Robbed Goddesses"\n(High-Fan Contestants Eliminated)', fontsize=12, fontweight='bold')
     for bar, count in zip(bars, robbed_counts):
         ax1.annotate(str(count), (bar.get_x() + bar.get_width()/2, count),
                     ha='center', va='bottom', fontsize=14, fontweight='bold')
+    apply_paper_style(ax1)
     
-    # Right: Outcome change rate by season
+    # Right: Outcome change rate by season - 使用统一调色板
     ax2 = axes[1]
     change_by_season = comparison_df.groupby('season')['outcome_changed'].mean() * 100
-    ax2.bar(change_by_season.index, change_by_season.values, color='#9b59b6', edgecolor='black')
+    ax2.bar(change_by_season.index, change_by_season.values, color=PALETTE['proposed'], 
+            edgecolor=PALETTE['aux'], alpha=0.85, linewidth=0.8)
     ax2.set_xlabel('Season', fontsize=12)
     ax2.set_ylabel('Outcome Change Rate (%)', fontsize=12)
     ax2.set_title('How Often New System\nWould Change Eliminations', fontsize=12, fontweight='bold')
-    ax2.axhline(y=change_by_season.mean(), color='red', linestyle='--', 
+    ax2.axhline(y=change_by_season.mean(), color=PALETTE['warning'], linestyle='--', linewidth=2,
                 label=f'Average: {change_by_season.mean():.1f}%')
     ax2.legend()
+    apply_paper_style(ax2)
     
     plt.tight_layout()
     plt.savefig(FIGURES_DIR / 'risk3_mechanism_simulation.png', bbox_inches='tight')

@@ -78,21 +78,58 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes, arrows, positioning, calc}
 
+% =============================================================================
+% DWTS Paper Palette - 统一配色方案
+% =============================================================================
+\definecolor{dwts-proposed}{HTML}{219EBC}   % 青蓝 - 新机制/推荐
+\definecolor{dwts-baseline}{HTML}{02304A}   % 藏蓝 - 基准/原机制
+\definecolor{dwts-warning}{HTML}{FA8600}    % 深橙 - 警示/不匹配
+\definecolor{dwts-warning2}{HTML}{FF9E02}   % 亮橙 - 次级警示
+\definecolor{dwts-fill}{HTML}{90C9E7}       % 浅蓝 - 填充/区间
+\definecolor{dwts-accent}{HTML}{FEB705}     % 黄色 - 小标注
+\definecolor{dwts-aux}{HTML}{136783}        % 深青 - 辅助
+
 % 列表与枚举
 \usepackage{enumitem}
 \setlist[enumerate]{itemsep=0pt, parsep=0pt}
 
-% 彩色框（用于重点内容）
+% 彩色框（用于重点内容）- 使用统一配色
 \usepackage{tcolorbox}
 \tcbuselibrary{skins, breakable}
 
-% 超链接（最后加载）
+% 预定义 tcolorbox 样式
+\newtcolorbox{proposedbox}[1][]{
+    colback=dwts-proposed!10!white,
+    colframe=dwts-proposed!80!black,
+    fonttitle=\bfseries,
+    #1
+}
+\newtcolorbox{warningbox}[1][]{
+    colback=dwts-warning!10!white,
+    colframe=dwts-warning!80!black,
+    fonttitle=\bfseries,
+    #1
+}
+\newtcolorbox{baselinebox}[1][]{
+    colback=dwts-baseline!5!white,
+    colframe=dwts-baseline!70!black,
+    fonttitle=\bfseries,
+    #1
+}
+\newtcolorbox{insightbox}[1][]{
+    colback=dwts-fill!30!white,
+    colframe=dwts-aux!80!black,
+    fonttitle=\bfseries,
+    #1
+}
+
+% 超链接（最后加载）- 使用统一配色
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
-    linkcolor=black,
-    citecolor=green!50!black,
-    urlcolor=blue!80!black
+    linkcolor=dwts-baseline,
+    citecolor=dwts-aux,
+    urlcolor=dwts-proposed
 }
 
 % 目录格式调整（紧凑行距）
