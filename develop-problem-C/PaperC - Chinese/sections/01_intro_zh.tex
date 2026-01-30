@@ -5,29 +5,36 @@
 
 \subsection{研究背景}
 
-《与星共舞》（DWTS）自2005年以来已经播出34季，将名人与专业舞者进行配对。评委评分是公开的，但\textbf{个人观众投票份额从未被直接公开}。相反，部分信息通过投票系统间接透露：百分比规则季（第3-27季）采用基于百分比的评分方式，综合得分由规则定义；而排名规则季（第1-2季、第28季起）仅公开综合排名。这形成了一个\emph{反问题}：从可观测的淘汰结果中重构潜在的观众投票分布。
+《与星共舞》（DWTS）是一项将名人与专业舞者配对的长期竞赛。尽管评委的评分是公开的，但决定淘汰结果的\textbf{个人观众投票份额从未被披露}。这种信息的不对称性催生了诸如第27季（Bobby Bones获胜引发巨大争议）及第32季评委拯救规则引发的长期公众讨论。从公开的计分规则和观测到的淘汰结果中逆推背后的观众偏好，构成了一个典型的\textbf{数学反问题}。
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{figures/figure1.jpg}
+    \vspace{-1em}
+    \caption{我们的反演引擎概览（左侧）与主要研究成果（右侧）：展示了从基于线性规划（LP）+ 混合整数规划（MILP）的观众投票推断到生存分析及机制设计的完整流程。}
+    \label{fig:intro_summary}
+\end{figure}
 
 \subsection{问题陈述}
 
-我们解决五个相互关联的问题（MCM问题C任务）：
-\begin{enumerate}[itemsep=0.1em]
-    \item \textbf{观众投票推断：}从淘汰结果重构合理的观众投票分布。
-    \item \textbf{规则变更影响：}豁免权、双淘汰和评委拯救如何影响推断？
-    \item \textbf{成功因素：}什么因素预测生存（职业、舞伴、名气）？
-    \item \textbf{机制评估：}当前系统是否产生``公平''的结果？
-    \item \textbf{机制设计：}我们能否在保持观众参与度的同时提高公平性？
-\end{enumerate}
+本研究旨在解决以下五个核心任务：
+\begin{itemize}[nosep]
+    \item \textbf{观众投票推断：} 如何从各季（S1--S34）观测到的淘汰结果中反演开出的合理观众投票区间？
+    \item \textbf{规则演进评估：} 豁免权、双淘汰及评委拯救机制如何改变计分博弈的约束空间？
+    \item \textbf{生存因子识别：} 通过对推断数据的生存分析，哪些因素（舞伴、名气、评分）最能预测生存周期？
+    \item \textbf{机制效能审计：} 历史上哪些淘汰案例被视为“不公平”？这种不公平是系统性的吗？
+    \item \textbf{评分方案优化：} 能否通过机制设计降低“错误淘汰率”，同时兼顾收视率与专业公平性？
+\end{itemize}
 
-\subsection{主要贡献}
+\vfill
 
-\begin{enumerate}[itemsep=0.1em]
-    \item \textbf{双核引擎：}LP（百分比规则季）+ MILP（排名规则季）用于观众投票推断。
-    \item \textbf{模型-数据不匹配检测：}识别出第32/33季存在非零约束松弛量——揭示了第28季以后规则变更带来的数学复杂性。
-    \item \textbf{生存分析：}专业舞者是主导预测因子（LRT $\chi^2 = 47.3$，$\Delta C = 0.09$）。
-    \item \textbf{加权百分比系统：}将确定性错误淘汰从40减少到3。
-    \item \textbf{透明协议：}提供平衡娱乐性和公平性的可操作建议。
-\end{enumerate}
+\subsection{我们的贡献}
 
-\subsection{论文结构}
+\begin{itemize}[nosep]
+    \item \textbf{双核反演引擎：} 开发了针对百分比规则（LP）和排名规则（MILP）的专用推断核。
+    \item \textbf{结构性不匹配识别：} 通过松弛指标分析，首次量化并指出了S32--S33季中存在的模型-数据不匹配现象。
+    \item \textbf{关键生存因子：} 发现专业舞伴的影响力（$\chi^2=47.3$）显著高于名人初始名气。
+    \item \textbf{帕累托优化机制：} 提出了加权百分比规则，将“确认的错误淘汰”数量减少了92.5%。
+\end{itemize}
 
-\secref{sec:assumptions}：假设；\secref{sec:notations}：符号说明；\secref{sec:model1}：观众投票反演；\secref{sec:model2}：生存分析；\secref{sec:model3}：机制设计；\secref{sec:sensitivity}：敏感性分析；\secref{sec:evaluation}：模型评估；\secref{sec:conclusion}：结论。
+\clearpage

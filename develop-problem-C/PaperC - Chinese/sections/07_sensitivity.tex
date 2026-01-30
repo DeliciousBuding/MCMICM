@@ -1,12 +1,12 @@
-% Section 7: Sensitivity and Robustness Analysis
-% 敏感性与鲁棒性分析
+﻿% Section 7: Sensitivity and Robustness Analysis
+% 鏁忔劅鎬т笌椴佹鎬у垎鏋?
 
 \section{Sensitivity and Robustness Analysis}
 \label{sec:sensitivity}
 
 We conduct systematic sensitivity analysis to validate our models' robustness across parameter choices and data perturbations.
 
-% 7.1 最小投票份额敏感性
+% 7.1 鏈€灏忔姇绁ㄤ唤棰濇晱鎰熸€?
 \subsection{Minimum Vote Share Floor ($\epsilon$)}
 \label{subsec:epsilon_sensitivity}
 
@@ -27,7 +27,7 @@ The floor parameter $\epsilon$ controls the minimum vote share constraint in Mod
 
 \noindent\textbf{Key Finding:} At $\epsilon = 1\%$ (our default), 94.1\% of seasons are feasible with median bound width 8.3\%. Increasing to $\epsilon = 5\%$ narrows bounds to 5.1\% but reduces feasibility to 82.4\%.
 
-% 7.2 机制权重敏感性
+% 7.2 鏈哄埗鏉冮噸鏁忔劅鎬?
 \subsection{Mechanism Weight ($\alpha$) Sensitivity}
 \label{subsec:alpha_sensitivity}
 
@@ -55,7 +55,7 @@ For the Weighted Percent mechanism, we vary $\alpha$ (judge weight) from 0.3 to 
 
 \noindent\textbf{Key Finding:} The optimal range is $\alpha \in [0.55, 0.65]$, with $\alpha = 0.6$ minimizing definite-wrongful count to 3. The mechanism is robust to small perturbations in $\alpha$.
 
-% 7.3 Bootstrap 稳定性
+% 7.3 Bootstrap 绋冲畾鎬?
 \subsection{Bootstrap Stability Analysis}
 \label{subsec:bootstrap_stability}
 
@@ -67,7 +67,7 @@ To assess estimation stability, we perform 1,000 bootstrap resamples at the seas
     \item \textbf{Weighted Percent wrongful rate:} 95\% CI is $[0.4\%, 2.6\%]$ (robust improvement over current system).
 \end{itemize}
 
-% 7.4 Leave-One-Season-Out 交叉验证
+% 7.4 Leave-One-Season-Out 浜ゅ弶楠岃瘉
 \subsection{Leave-One-Season-Out Validation}
 \label{subsec:loso}
 
@@ -97,7 +97,7 @@ We validate Model 2 (survival analysis) using leave-one-season-out cross-validat
 
 \noindent\textbf{Key Finding:} The model achieves a mean C-index of 0.72, indicating good discriminative ability. Notably, the mismatch season S32 has the lowest C-index (0.54), confirming that our mismatch detection correctly identifies seasons where standard models underperform.
 
-% 7.5 数据扰动鲁棒性
+% 7.5 鏁版嵁鎵板姩椴佹鎬?
 \subsection{Data Perturbation Robustness}
 \label{subsec:perturbation}
 

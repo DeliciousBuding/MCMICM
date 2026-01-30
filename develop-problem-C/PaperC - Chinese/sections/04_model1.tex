@@ -1,10 +1,10 @@
-% Section 4: Model 1 - Fan Vote Inversion (Dual-Core Engine)
-% 模型一：粉丝投票反演（LP/CP 双核引擎）
+﻿% Section 4: Model 1 - Fan Vote Inversion (Dual-Core Engine)
+% 妯″瀷涓€锛氱矇涓濇姇绁ㄥ弽婕旓紙LP/CP 鍙屾牳寮曟搸锛?
 
 \section{Model 1: Fan Vote Inversion via Dual-Core Engine}
 \label{sec:model1}
 
-% 4.1 问题形式化
+% 4.1 闂褰㈠紡鍖?
 \subsection{Problem Formulation}
 \label{subsec:model1_formulation}
 
@@ -23,7 +23,7 @@ Let $\mathcal{C}_{s,w} = \{1, 2, \ldots, n\}$ denote the set of active contestan
 \end{equation}
 where $\epsilon > 0$ is a minimum share floor (default: 1\%).
 
-% 4.2 百分比披露季（LP 核心）
+% 4.2 鐧惧垎姣旀姭闇插锛圠P 鏍稿績锛?
 \subsection{Percent Seasons: Linear Programming Core}
 \label{subsec:lp_core}
 
@@ -91,7 +91,7 @@ Given a feasible (or minimally relaxed) constraint set, we compute tight bounds 
 \end{equation}
 subject to constraints \eqnref{eq:vote_simplex}, \eqnref{eq:lp_elimination}, and $\sum_k s_k \leq S^* + \delta$.
 
-% 4.3 排名披露季（CP 核心）
+% 4.3 鎺掑悕鎶湶瀛ｏ紙CP 鏍稿績锛?
 \subsection{Rank Seasons: Mixed-Integer Linear Programming}
 \label{subsec:milp_core}
 
@@ -125,7 +125,7 @@ Starting S28, DWTS introduced the \textbf{Judges' Save} rule: after bottom-two c
 
 \noindent\textbf{What we model:} Given the observed elimination $E_w$, we infer fan vote ranks such that $E_w$ could plausibly have been in the bottom-two under rank-combination rules. When $S^* > 0$ for S28--S34, the mismatch may arise from: (1) the eliminated contestant was not actually in the bottom-two, (2) multi-dance score aggregation differs from assumptions, or (3) rule implementation details are undocumented. This is an \textbf{assumption boundary}, not model failure.
 
-% 4.4 规则自适应约束生成
+% 4.4 瑙勫垯鑷€傚簲绾︽潫鐢熸垚
 \subsection{Rule-Adaptive Constraints}
 
 \begin{table}[H]
@@ -144,7 +144,7 @@ Starting S28, DWTS introduced the \textbf{Judges' Save} rule: after bottom-two c
     \end{tabular}
 \end{table}
 
-% 4.5 异常检测：Money Plot
+% 4.5 寮傚父妫€娴嬶細Money Plot
 \subsection{Mismatch Detection}
 \label{subsec:mismatch_detection}
 
@@ -182,7 +182,7 @@ We compute the \textbf{Mismatch Indicator} $S^*(\epsilon)$---the minimum constra
 
 \noindent\textbf{Key Finding:} Seasons 1--31 achieve $S^* \approx 0$ (full consistency); S32--33 exhibit $S^* > 1$ (significant mismatch). This reflects \textbf{assumption-data tension}---likely due to rule transition uncertainty or unmodeled judge save criteria.
 
-% 4.6 结果汇总
+% 4.6 缁撴灉姹囨€?
 \subsection{Summary}
 
 \begin{itemize}[itemsep=0.2em]

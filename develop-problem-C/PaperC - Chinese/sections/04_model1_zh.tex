@@ -1,192 +1,50 @@
-% 第4节：模型1 - 观众投票反演（双核引擎）
+% 第4节：模型1 - 观众投票反演
 
-\section{模型1：基于双核引擎的观众投票反演}
+\section{模型1：双核反演引擎}
 \label{sec:model1}
 
-% 4.1 问题形式化
-\subsection{问题形式化}
-\label{subsec:model1_formulation}
+\noindent\textbf{\textit{本节针对任务1--2：}} 我们从观测到的淘汰结果逆推其背后的可行观众投票空间。
 
-设 $\mathcal{C}_{s,w} = \{1, 2, \ldots, n\}$ 表示第$s$季第$w$周的在场选手集合。我们观测到：
-\begin{itemize}[itemsep=0.2em]
-    \item 评委评分 $\mathbf{J} = (J_1, J_2, \ldots, J_n)$
-    \item 淘汰结果 $E \in \mathcal{C}_{s,w}$（被送回家的选手）
-    \item 对于百分比规则季（第3-27季）：汇总投票份额信息
-    \item 对于排名规则季（第1-2季、第28季起）：仅公开评委排名；\textbf{观众投票排名是潜在的（不可见）}
-\end{itemize}
+\subsection{百分比规则：基于松弛量的稳健LP}
+\label{subsec:lp_core}
 
-\noindent 我们寻求推断满足以下条件的潜在观众投票份额 $\mathbf{v} = (v_1, v_2, \ldots, v_n)$：
+在第3至27季，总分 $T_i$ 由评委百分比 $J_i^\%$ 与观众百分比 $v_i$ 的等权重和决定：
+\[ T_i = 0.5 \cdot J_i^\% + 0.5 \cdot v_i \quad \text{其中 } J_i^\% = \frac{J_i}{\sum_j J_j} \]
+
+给定在某周中被淘汰的选手集合 $\mathcal{K}$（通常 $|\mathcal{K}|=1$）和晋级的选手集合 $\mathcal{U}$，必须满足以下单一淘汰条件：
 \begin{equation}
-    \label{eq:vote_simplex_zh}
-    \sum_{i=1}^{n} v_i = 1, \quad v_i \geq \epsilon \quad \forall i,
-\end{equation}
-其中 $\epsilon > 0$ 是最小份额下限（默认：1\%）。
-
-% 4.2 百分比披露季（LP 核心）
-\subsection{百分比规则季：线性规划核心}
-\label{subsec:lp_core_zh}
-
-对于综合得分由百分比规则定义的赛季（第3-27季），虽然观众份额不可观测，但我们将观众投票推断表述为一个\textbf{线性规划（LP）可行性问题}。
-
-\subsubsection{淘汰约束}
-在标准的DWTS规则下，综合得分（评委百分比 + 观众百分比）最低的选手被淘汰。选手$i$的评委百分比为：
-\begin{equation}
-    \label{eq:judge_pct_zh}
-    J_i^{\%} = \frac{J_i}{\displaystyle\sum_{k \in \mathcal{C}_{s,w}} J_k}.
-\end{equation}
-综合得分为：
-\begin{equation}
-    \label{eq:combined_score_zh}
-    C_i = J_i^{\%} + v_i.
-\end{equation}
-淘汰约束（$E$的综合得分最低）：
-\begin{equation}
-    \label{eq:elimination_constraint_zh}
-    C_E \leq C_i \quad \forall i \neq E.
+    \forall e \in \mathcal{K}, \forall u \in \mathcal{U}: \quad T_u \ge T_e \implies 0.5(J_u^\% + v_u) \ge 0.5(J_e^\% + v_e)
 \end{equation}
 
-代入并整理得：
+为了检测潜在的不匹配，我们引入了\textbf{投票单性形约束}下的最小松弛优化问题：
 \begin{equation}
-    \label{eq:lp_elimination_zh}
-    v_E - v_i \leq \frac{J_i - J_E}{\displaystyle\sum_{k} J_k} \quad \forall i \neq E.
+\label{eq:robust_lp}
+\begin{aligned}
+\min_{v, s} \quad & \sum_{e \in \mathcal{K}} s_e \\
+\text{s.t.} \quad & v_u - v_e + s_e \ge J_e^\% - J_u^\%, \quad \forall e \in \mathcal{K}, u \in \mathcal{U} \\
+& \sum_{i \in \mathcal{K} \cup \mathcal{U}} v_i = 1, \quad v_i \ge \epsilon
+\end{aligned}
 \end{equation}
+其中 $s_e$ 捕捉了观测到的淘汰结果在逻辑上是不可能发生的情况（即 $s_e > 0$）。
 
-\subsubsection{稳健LP表述}
-\label{subsubsec:robust_lp_zh}
+\subsection{排名规则：基于置换的MILP}
+\label{subsec:milp_core}
 
-在实践中，由于测量噪声、未公开的规则修改或模型设定缺陷，严格的可行性可能会失效。我们引入\textbf{松弛变量} $\mathbf{s} = (s_1, s_2, \ldots, s_m)$ 来放松$m$个淘汰约束，构建\textbf{稳健LP}：
+在第1, 2, 28--34季中，排名规则将 $T_i$ 简化为两个排名的算术和。我们使用混合整数线性规划（MILP）通过引入指示变量 $x_{ik}$（若选手 $i$ 的观众排名为 $k$ 则为1）来寻找可行的置换。
 
+对于每一对晋级选手 $(u, e)$，约束条件如下：
 \begin{equation}
-    \label{eq:robust_lp_zh}
-    \boxed{
-    \begin{aligned}
-        S^* = \min_{\mathbf{v}, \mathbf{s}} \quad & \sum_{k=1}^{m} s_k \\
-        \text{s.t.} \quad & \sum_{i=1}^{n} v_i = 1 \\
-        & v_i \geq \epsilon \quad \forall i \\
-        & s_k \geq 0 \quad \forall k \\
-        & v_E - v_i \leq \frac{J_i - J_E}{\displaystyle\sum_{k} J_k} + s_k \quad \forall k \in \{1, \ldots, m\}
-    \end{aligned}
-    }
+    R_{J,u} + R_{v,u} \le R_{J,e} + R_{v,e}
 \end{equation}
-
-\noindent 其中：
-\begin{itemize}[itemsep=0.2em]
-    \item $S^* = \sum_k s_k$ 是\textbf{最小不一致性得分}——达成可行性所需的最小总约束违反量。由于 $s_k \geq 0$，无需取绝对值。
-    \item $\epsilon > 0$ 是\textbf{放松参数}（最小投票下限，默认1\%）。
-    \item $s_k \geq 0$ 允许第$k$个淘汰约束被违反 $s_k$ 的量。
-\end{itemize}
-
-\noindent\textbf{解释：}
-\begin{itemize}[itemsep=0.2em]
-    \item $S^* = 0$：系统是\emph{可行的}——淘汰结果完全可以通过观众投票和评委分数来解释。
-    \item $S^* > 0$：系统表现出\emph{模型-数据不匹配}——需要模型未捕获的某些因素来解释观测到的结果。这可能是由于未记录的规则变化、评委拯救的主观性（第28季起）或数据汇总差异。
-\end{itemize}
-
-\subsubsection{通过LP计算边界}
-给定可行（或最小程度放松）的约束集，我们计算每个 $v_i$ 的紧凑边界：
-\begin{equation}
-    \label{eq:lp_bounds_zh}
-    v_i^{\min} = \min_{\mathbf{v}} v_i, \quad v_i^{\max} = \max_{\mathbf{v}} v_i
-\end{equation}
-约束条件为 \eqnref{eq:vote_simplex_zh}、\eqnref{eq:lp_elimination_zh} 以及 $\sum_k s_k \leq S^* + \delta$。
-
-% 4.3 排名披露季（CP 核心）
-\subsection{排名规则季：混合整数线性规划}
-\label{subsec:milp_core_zh}
-
-对于第1-2季和第28-34季，仅公开评委排名；\textbf{观众投票排名是决策变量}。我们使用MILP将观众排名建模为决策变量。
-
-\subsubsection{MILP表述}
-设 $x_{ik} \in \{0,1\}$ 表示选手 $i$ 是否拥有观众排名 $k$。约束条件为：
-\begin{align}
-    \sum_{k=1}^{n} x_{ik} &= 1 \quad \forall i \quad \text{（每位选手恰好有一个排名）} \label{eq:one_rank_zh}\\
-    \sum_{i=1}^{n} x_{ik} &= 1 \quad \forall k \quad \text{（每个排名恰好分配给一位选手）} \label{eq:rank_unique_zh}\\
-    r_i^{\text{fan}} &= \sum_{k=1}^{n} k \cdot x_{ik} \quad \text{（定义观众排名）} \label{eq:fan_rank_def_zh}
-\end{align}
-
-排名规则下的\textbf{淘汰约束}：被淘汰的选手必须在综合排名 $R_i = r_i^{\text{judge}} + r_i^{\text{fan}}$ 中处于\textbf{最后两名}。设 $R_{(n-1)}$ 表示第二高的综合排名。我们要求：
-\begin{equation}
-    \label{eq:rank_elim_zh}
-    R_E \geq R_{(n-1)} \quad \text{（淘汰者按综合排名处于最后两名）}
-\end{equation}
-这比``淘汰者排名最差''要宽松——它允许利用``评委拯救''来确定垫底两人中究竟谁被淘汰。
-
-\noindent 我们通过带有状态 $\{\texttt{ACTIVE（在场）}, \texttt{IMMUNE（豁免）}, \texttt{SAVED（被拯救）}, \texttt{ELIMINATED（已淘汰）}\}$ 的有限状态机（FSM）建模选手资格。
-
-\subsubsection{评委拯救（第28季起）的建模范围}
-\label{subsubsec:judge_save_scope_zh}
-
-从第28季开始，DWTS引入了\textbf{评委拯救}规则：在通过综合排名确定垫底两名选手后，评委进行现场投票拯救其中一人（来源：题目说明）。我们明确\emph{不建模}评委的现场决策：
-\begin{enumerate}[itemsep=0.1em]
-    \item \textbf{不可观测的标准：}评委拯救决策取决于主观因素（艺术性、进步轨迹），这些因素无法仅通过分数捕获。
-    \item \textbf{数据局限：}我们仅观测最终被淘汰的选手，而不观测哪两个在垫底名单中。
-\end{enumerate}
-
-\noindent\textbf{我们的建模内容：}给定观测到的淘汰选手 $E_w$，我们推断一种可行的观众投票排名，使得 $E_w$ 在排名组合规则下能够合理地处于垫底两名中。当第28-34季出现 $S^* > 0$ 时，不匹配可能源于：(1) 被淘汰的选手实际上不在垫底两名中，(2) 多舞蹈得分汇总方式与假设不同，或者 (3) 规则实施细节未记录。这是一个\textbf{假设边界}，而非模型失效。
-
-% 4.4 规则自适应约束生成
-\subsection{规则自适应约束}
-
-\begin{table}[H]
-    \centering
-    \caption{DWTS赛季规则变更}
-    \label{tab:rule_changes_zh}
-    \begin{tabular}{llp{7cm}}
-        \toprule
-        \textbf{赛季} & \textbf{规则} & \textbf{约束修改} \\
-        \midrule
-        第1-2季 & 仅限排名 & 使用MILP核心 (\S\ref{subsec:milp_core_zh}) \\
-        第3-27季 & 百分比 & 标准LP (\S\ref{subsec:lp_core_zh}) \\
-        第28季起 & 排名 + 评委拯救 & MILP + 范围限制 (\S\ref{subsubsec:judge_save_scope_zh}) \\
-        各不同季 & 双淘汰/豁免权 & 调整在场选手集 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-% 4.5 异常检测：Money Plot
-\subsection{不匹配检测}
-\label{subsec:mismatch_detection_zh}
-
-我们计算\textbf{不匹配指标} $S^*(\epsilon)$——达成可行性所需的最小约束违反程度。这类似于约束满足设置中的异常检测 \cite{chandola2009anomaly}，并根据我们的反问题背景进行了调整：
-\begin{itemize}[itemsep=0.1em]
-    \item 对于\emph{百分比规则季}（第3-27季）：$S^*$ 是稳健LP (\eqnref{eq:robust_lp_zh}) 的最优目标函数值。
-    \item 对于\emph{排名规则季}（第1-2季、第28-34季）：$S^*$ 的定义类似，通过在垫底二人约束 (\eqnref{eq:rank_elim_zh}) 中引入松弛变量并最小化总松弛量来求解。
-\end{itemize}
-
-\noindent\textbf{解释：}
-\begin{itemize}[itemsep=0.1em]
-    \item $S^* = 0$：\textbf{模型一致}——淘汰结果在既定假设下是可以解释的。
-    \item $S^* > 0$：\textbf{假设违反信号}——至少一个建模假设可能不成立。
-\end{itemize}
-
-\noindent\textbf{松弛单位与聚合：}对于百分比规则季，$s_k$ 以\emph{百分点差距}（与 $v_i$ 单位相同）衡量。对于排名规则季，$s_k$ 是将淘汰者放入垫底两名所需的\emph{排名差距}。我们通过 $S^* = \max_w s_w$（最差周的松弛量）聚合至赛季级别，确保跨赛季的可比性。
-
-\figref{fig:money_plot} 展示了所有34个赛季的 $S^*$。第1-31季均达到了 $S^* = 0$；\textbf{第32季} ($S^* = 2.0$) 和 \textbf{第33季} ($S^* = 1.0$) 表现出正的松弛量。
+其中评委排名 $R_{J}$ 也是从 $J_i$ 计算而来的。通过遍历所有可行的观众置换，我们定义反演的\textbf{可行观众排名空间}。
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/fig_anomaly_detection.pdf}
-    \caption{跨赛季的不匹配指标 $S^*$。第32季和第33季表现出正松弛量，预示着在我们建模框架下的假设与数据张力。}
-    \label{fig:money_plot_zh}
+    \includegraphics[width=0.85\textwidth]{figures/fig_dual_engine.jpg}
+    \caption{反演引擎分析：左图展示了第14季（LP）中被淘汰选手的投票区间上限；右图展示了第32季中 MILP 捕捉到的严重不匹配（松弛量显影）。}
+    \label{fig:inversion_results}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/fig1_inconsistency_spectrum.pdf}
-    \caption{不匹配频谱：第32-33季表现出较高的 $S^*$ 值。注意：百分比规则季（投票份额百分点）与排名规则季（排名差距）的松弛单位不同；此处仅用于不匹配识别，而非直接的大小比较。}
-    \label{fig:inconsistency_zh}
-\end{figure}
+\subsection{关于 S32--S33 不匹配的发现}
 
-\noindent\textbf{MILP 解释：}即使在优化了\emph{所有}观众排名排列之后，第32-33季的某些周仍需要正松弛量才能满足 \eqnref{eq:rank_elim_zh}。因此，不存在任何一种排名排列能够将被淘汰的选手置于模型暗示的垫底两名中——这种不匹配是\emph{结构性}的，而非特定推断排名的产物。
-
-\noindent\textbf{主要发现：}第1-31季达到了 $S^* \approx 0$（完全一致）；第32-33季表现出 $S^* > 1$（显著不匹配）。这反映了\textbf{假设与数据的张力}——可能源于规则过渡的不确定性或未建模的评委拯救标准。
-
-% 4.6 结果汇总
-\subsection{结果汇总}
-
-\begin{itemize}[itemsep=0.2em]
-    \item \textbf{覆盖范围：} 34个赛季中有32个在 $\epsilon=1\%$ 时是可行的；仅有的不可行赛季为\textbf{第32季}和\textbf{第33季}。
-    \item \textbf{不匹配信号：} 第32季 ($S^*=2.0$) 和第33季 ($S^*=1.0$) 表现出正松弛量，表明存在值得进一步调查的假设与数据张力。
-    \item \textbf{边界紧凑度：} 所有选手-周的中位区间宽度 $v_i^{\max} - v_i^{\min} = 8.3\%$。
-    \item \textbf{点估计：} 我们使用区间中点 $\hat{v}_i = (v_i^{\min} + v_i^{\max}) / 2$ 进行下游分析。
-\end{itemize}
+如图 \ref{fig:inversion_results} 右侧所示，我们的模型在 S32--S33 中一致性地检测到了正的松弛值。这表明，要么是由于未记录的评委拯救机制，要么是因为同时计算多组评分产生的交互作用，导致了单一周次的排名逻辑失效。这一发现有力地支持了《审计备忘录》中关于透明度风险的论点。

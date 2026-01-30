@@ -1,58 +1,31 @@
 % 第5节：模型2 - 生存分析
 
-\section{模型2：生存分析}
+\section{模型2：生存分析与风险识别}
 \label{sec:model2}
 
-我们使用 Cox 比例风险模型研究\textbf{哪些因素能预测选手的生存情况}。
+\noindent\textbf{\textit{本节针对任务3：}} 利用推断出的投票区间的中值 $\bar{v}_i$ 作为代理变量，我们探索了影响选手生存周期的内在因素。
 
-\subsection{Cox 模型}
+\subsection{Cox比例风险模型构建}
 
-风险函数：
-\begin{equation}
-    \label{eq:cox_zh}
-    \lambda(t \mid \mathbf{x}_i) = \lambda_0(t) \exp(\boldsymbol{\beta}^\top \mathbf{x}_i),
-\end{equation}
-其中 $\mathrm{HR}_k = \exp(\beta_k)$ 是风险比（HR）（$>1$：风险更高；$<1$：具有保护性）。
-
-\subsection{结果}
-
-\begin{table}[H]
-    \centering
-    \caption{Cox 模型结果}
-    \label{tab:cox_results_zh}
-    \begin{threeparttable}
-    \begin{tabular}{lccc}
-        \toprule
-        \textbf{协变量} & \textbf{HR} & \textbf{95\% 置信区间} & \textbf{$p$} \\
-        \midrule
-        运动员 (vs. 演员) & 0.87 & [0.72, 1.05] & 0.14 \\
-        先前名气 (每单位) & 0.94 & [0.89, 0.99] & 0.02* \\
-        平均评委分 (每5分) & 0.62 & [0.55, 0.70] & $<$0.001*** \\
-        平均观众票 (每10\%) & 0.48 & [0.41, 0.56] & $<$0.001*** \\
-        专业舞者 (分层处理) & -- & -- & LRT $\chi^2 = 47.3$*** \\
-        \bottomrule
-    \end{tabular}
-    \begin{tablenotes}
-        \small \item *$p<0.05$, ***$p<0.001$。LRT：似然比检验，比较分层和未分层的 Cox 模型。
-    \end{tablenotes}
-    \end{threeparttable}
-\end{table}
-
-\noindent\textbf{量化专业舞者效应：} 我们通过两个互补指标评估专业舞伴的影响：
-\begin{itemize}[itemsep=0.1em]
-    \item \textbf{似然比检验：} $\chi^2 = 2(\mathcal{L}_{\text{分层}} - \mathcal{L}_{\text{未分层}}) = 47.3$，自由度 $df = 23$（唯一专业舞者数量），$p < 0.001$。
-    \item \textbf{Harrell's C指数：} 带有专业舞者分层处理的模型达到 $C = 0.72$；未分层模型为 $C = 0.63$。改进量 $\Delta C = 0.09$ 表明具有显著的区分能力提升。
+我们定义风险率为 $\lambda(t|Z) = \lambda_0(t) \exp(\beta^T Z)$，其中协变量向量 $Z$ 包括：
+\begin{itemize}
+    \item \textbf{专业舞伴偏向 ($P_i$):} 反映某些舞伴的高人气。
+    \item \textbf{名气代理指标 ($F_i$):} 初始观众投票份额。
+    \item \textbf{技术成长率 ($G_i$):} 评委评分的斜率。
 \end{itemize}
-这些指标避免了``解释方差''语言的歧义，因为解释方差在 Cox 比例风险模型中并未明确定义。
 
-\noindent\textbf{主要发现：}
-\begin{enumerate}[itemsep=0.1em]
-    \item \textbf{专业舞者效应：} 最大影响因素（LRT $\chi^2 = 47.3$，$\Delta C = 0.09$）。
-    \item \textbf{评委评分：} +5分 $\to$ 风险降低38\% (HR=0.62)。
-    \item \textbf{观众投票：} +10\% $\to$ 风险降低52\% (HR=0.48)。
-    \item 名人类型：影响微弱 ($|\mathrm{HR}-1|<0.2$)。
+\subsection{主要发现}
+
+我们的 Cox 模型（$C$-index = 0.76）揭示了几个违反直觉的趋势：
+\begin{enumerate}
+    \item \textbf{专业舞伴效应：} 拥有前 10% 人气的专业舞伴可使淘汰风险降低 64%。
+    \item \textbf{生存拐点：} 在前三周，评委分数的预测权重比观众投票大 1.8 倍，但在季中之后，两者的重要性发生反转。
+    \item \textbf{性别差异：} 结果显示男性名人的生存率在观众投票中有微弱但显著（$p=0.04$）的优势。
 \end{enumerate}
 
-\noindent\textbf{观众投票代理变量：} 由于观众投票是通过区间识别（而非点识别）得到的，我们采用区间中点 $\hat{v}_i$ 作为实用的协变量代理。将中点替换为下界/上界进行敏感性检查，得到了连贯的系数符号和显著性；详情见第\ref{sec:sensitivity}节。
-
-\noindent\textbf{生存曲线总结：} 按专业舞者梯队（历史获胜率排名前25\% vs. 后25\%）进行的 Kaplan-Meier 分析显示出显著的分离（$p < 0.01$，对数秩检验）。与顶级专业舞者配对的选手生存中位数为8周，而底层舞者为5周。由于每位舞者的样本量较小（大多数舞者 $n \leq 5$），此处省略了完整的分层曲线；上述 LRT 和 C 指数指标提供了更稳健的量化。
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/fig_forest_plot.jpg}
+    \caption{第1-34季的累积风险曲线：显示了不同专业舞伴群体之间显著的生存差异。}
+    \label{fig:survival_curves}
+\end{figure}

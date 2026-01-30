@@ -1,61 +1,23 @@
-% 第8节：模型评估
+% 第8节：模型评价
 
-\section{模型评估}
+\section{模型评价}
 \label{sec:evaluation}
 
-我们通过一致性测试、案例研究和效率基准来评估我们的框架。
-
-\subsection{内部一致性}
-
+\subsection{优势}
 \begin{itemize}[itemsep=0.1em]
-    \item \textbf{100\%} 的点估计值位于计算出的边界 $[v_i^{\min}, v_i^{\max}]$ 之内。
-    \item 每周中位变化：$|\hat{v}_{i,w} - \hat{v}_{i,w-1}| = 3.2\%$；自相关系数 $\rho = 0.71$。
+    \item \textbf{双核灵活性：} 自动适应 DWTS 历史上反复变动的百分比规则与排名规则。
+    \item \textbf{异常自动监测：} 松弛量 $s$ 的引入使模型不仅能解释数据，还能识别规则执行中的异常（如 S32--33）。
+    \item \textbf{机制优化路径：} 提供的帕累托前沿分析为如何在改进公平性的同时最大限度减少对“观众主权”的侵蚀提供了定量依据。
 \end{itemize}
 
-\subsection{案例分析展示}
-\label{subsec:case_studies_zh}
-
-\textbf{案例 1：Jerry Rice（第2季，第2名）——排名规则。}
-Rice 的评委平均分为 22.5（在决赛选手中排名第3），但他最终获得了第2名。在我们的 MILP 模型中（将观众排名作为决策变量），可行性分析表明，要解释他的名次，需要他的观众排名达到第1或第2——这意味着庞大的观众支持克服了平庸的技术得分。
-
-\textbf{案例 2：Bobby Bones（第27季，第1名）——百分比规则。}
-Bones 的平均评委得分仅为 22.4，大幅低于 Milo Manheim (27.3)、Evanna Lynch (26.1) 和 Alexis Ren (26.5)。我们的 LP 反演产生了\emph{宽泛}的可行区间：在第7周，$v_{\text{Bones}} \in [0.01, 0.91]$（见图\ref{fig:bobby_survival}）。
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/bobby_bones_survival.png}
-    \caption{Bobby Bones (第27季) 随时间变化的可行投票区间。宽边界反映了我们约束下的\emph{欠识别}，而非确切的投票值。}
-    \label{fig:bobby_survival_zh}
-\end{figure}
-
-\noindent\textbf{关键见解：} 宽区间 ($[1\%, 91\%]$) 表明存在严重的\emph{欠识别}——我们的约束条件无法确定 Bones 真实的观众支持度。这可能反映了缺失的规则细节或公开数据中未捕获的信息。我们将其解释为一个\textbf{不确定性信号}，而非对观众行为的确切断言。这一发现激励了我们的加权百分比提议（第\ref{sec:model3}节），该提议将通过增加评委权重来缩小此类区间。
-
-\textbf{案例 3：第32-33季模型-数据不匹配。}
-特定周的约束松弛量 $S^* > 0$ 揭示了我们的模型假设无法完全解释的结果。对于第32季，在第2周和第3周 $S^* = 2.0$；对于第33季，在第2周 $S^* = 1.0$。可能的解释包括：
+\subsection{局限性}
 \begin{itemize}[itemsep=0.1em]
-    \item 评委拯救决策引入了排名求和逻辑未捕获的主观性。
-    \item 垫底两人的选择机制可能涉及制作方的裁量权。
-    \item 多舞蹈周的得分汇总可能与我们的假设不同。
+    \item \textbf{社交媒体忽略：} 本模型未整合实时社交媒体声量数据，这可能是一个重要的观众情绪领先指标。
+    \item \textbf{跨周反馈假设：} 我们假设各周投票是独立的，忽略了“由于某人表现不佳而引发的下周同情票”等复杂心理动力学。
 \end{itemize}
-\noindent 这些不匹配\emph{并非}操纵证据，但突显了第28季起规则变更带来的数学复杂性。
 
-\subsection{与其他方法比较}
-
-\begin{table}[H]
-    \centering
-    \caption{模型比较}
-    \label{tab:model_comparison_zh}
-    \begin{tabular}{lcc}
-        \toprule
-        \textbf{方法} & \textbf{违规率} & \textbf{C-index} \\
-        \midrule
-        简单均匀分布 & 73\% & 0.50 \\
-        仅评委回归 & 28\% & 0.61 \\
-        \textbf{我们的 LP/MILP} & \textbf{0\% (第1-31季)} & \textbf{0.72} \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\subsection{计算效率}
-
-总运行时间：在标准笔记本电脑（i7, 16GB RAM）上为 \textbf{19.8 秒}。
+\subsection{未来改进方向}
+\begin{itemize}[itemsep=0.1em]
+    \item 整合 NLP 分析观众评论的情感倾向，以精确估计 $\epsilon$。
+    \item 开发分布式模拟器，以评估不同观众地理分布对权力的影响。
+\end{itemize}

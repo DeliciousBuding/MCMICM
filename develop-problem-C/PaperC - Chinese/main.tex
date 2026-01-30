@@ -26,6 +26,10 @@
 
 %=== 宏包加载 ===
 
+% 中文支持
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun} % 或者你系统中的中文字体，如 Microsoft YaHei
+
 % 字体与排版
 \usepackage{palatino}
 \usepackage{microtype}
@@ -123,9 +127,9 @@
 
 %=== 文档元信息 ===
 
-\title{Inferring Fan Votes from Elimination Data: \\ 
-       A Dual-Core Inversion Framework with Mismatch Detection \\
-       and Mechanism Design for \emph{Dancing with the Stars}}
+\title{基于淘汰数据的观众投票反演：\\ 
+       具有故障监测能力的双核反演框架\\
+       及针对《与星共舞》的机制设计}
 \author{Team \#2617892}
 
 %=== 正文开始 ===
@@ -135,7 +139,7 @@
 \pagenumbering{arabic}
 \setcounter{page}{0}
 \pagestyle{empty}
-\input{sections/00_abstract.tex}
+\input{sections/00_abstract_zh.tex}
 \maketitle
 \thispagestyle{empty}
 
@@ -147,7 +151,7 @@
 \fancyhead[L]{\small Team \#2617892}
 \fancyhead[R]{\small Page \thepage\ of \themainpages}
 \fancyfoot[C]{}
-\input{sections/memo.tex}
+\input{sections/memo_zh.tex}
 
 % Contents（目录页）
 \newpage
@@ -162,31 +166,31 @@
 \fancyfoot[C]{}
 
 % Section 1: Introduction
-\input{sections/01_intro.tex}
+\input{sections/01_intro_zh.tex}
 
 % Section 2: Assumptions and Justifications
-\input{sections/02_assumptions.tex}
+\input{sections/02_assumptions_zh.tex}
 
 % Section 3: Notations
-\input{sections/03_notations.tex}
+\input{sections/03_notations_zh.tex}
 
 % Section 4: Model 1 - Fan Vote Inversion
-\input{sections/04_model1.tex}
+\input{sections/04_model1_zh.tex}
 
 % Section 5: Model 2 - Survival & Feature Analysis
-\input{sections/05_model2.tex}
+\input{sections/05_model2_zh.tex}
 
 % Section 6: Model 3 - Mechanism Design
-\input{sections/06_model3.tex}
+\input{sections/06_model3_zh.tex}
 
 % Section 7: Sensitivity and Robustness
-\input{sections/07_sensitivity.tex}
+\input{sections/07_sensitivity_zh.tex}
 
 % Section 8: Model Evaluation
-\input{sections/08_evaluation.tex}
+\input{sections/08_evaluation_zh.tex}
 
 % Section 9: Conclusion and Recommendations
-\input{sections/09_conclusion.tex}
+\input{sections/09_conclusion_zh.tex}
 
 % References
 \newpage
