@@ -135,7 +135,51 @@ We vary $\alpha$ from 0.3 to 0.8 to assess robustness:
 %     \label{fig:alpha_sensitivity}
 % \end{figure}
 
-% 6.6 实施建议
+% 6.6 Safety Net Protocol: 三层机制
+\subsection{The Safety Net Protocol: A Three-Tiered System}
+\label{subsec:safety_net}
+
+Building on our analysis, we propose a comprehensive \textbf{Safety Net Protocol} that operates on three complementary levels. As detailed in Table~\ref{tab:safetynet}, the mechanism addresses different failure modes of the current system while maintaining viewer engagement.
+
+\begin{table}[H]
+    \centering
+    \caption{Proposed Safety Net Protocol: A Three-Tiered Mechanism}
+    \label{tab:safetynet}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{@{}p{2.5cm}p{3.2cm}p{4cm}p{4.5cm}@{}}
+        \toprule
+        \textbf{Tier Name} & \textbf{Trigger Condition} & \textbf{Mechanism} & \textbf{Intended Outcome} \\
+        \midrule
+        \textbf{Tier 1:} The Soft Floor & 
+        Judge Score $< \mu - 2\sigma$ & 
+        Fan Weight $\times 0.5$ (halved influence) & 
+        Eliminates unqualified viral stars; protects technical merit \\
+        \addlinespace[0.3em]
+        \textbf{Tier 2:} The Elite Mix & 
+        Survivors of Floor check & 
+        40\% Rank + 60\% Percent (Weighted Borda) & 
+        Balances fairness and engagement; 92.5\% reduction in wrongful eliminations \\
+        \addlinespace[0.3em]
+        \textbf{Tier 3:} The Signal & 
+        Weekly Live Show & 
+        Reveal Top 3 Fan Favorites (Anonymous) & 
+        Stimulates voter turnout via strategic uncertainty (Game Theory) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\noindent\textbf{Tier 1 (The Soft Floor)} creates a ``melting point'' for contestants whose technical skills fall significantly below average. When a celebrity's judge score is more than two standard deviations below the mean ($J_i < \mu_J - 2\sigma_J$), their fan vote weight is halved. This prevents the scenario where a technically unqualified but socially viral contestant survives solely on name recognition, undermining the competition's credibility.
+
+\noindent\textbf{Tier 2 (The Elite Mix)} applies our Weighted Borda Count to all contestants who pass the Tier 1 check. The 60/40 split between judge scores and fan votes ensures that both professional expertise and popular appeal contribute meaningfully to outcomes---neither dominates entirely.
+
+\noindent\textbf{Tier 3 (The Signal)} introduces a game-theoretic element: each week, the production reveals the \emph{anonymous} Top 3 fan vote leaders (e.g., ``One of the Top 3 is from the Athletes group''). This partial information disclosure:
+\begin{itemize}[itemsep=0.2em]
+    \item Creates strategic uncertainty that stimulates voting (viewers don't know if their favorite is ``safe'').
+    \item Generates social media discussion and engagement.
+    \item Avoids the ``bandwagon effect'' of revealing exact rankings.
+\end{itemize}
+
+% 6.7 实施建议
 \subsection{Implementation Recommendations}
 \label{subsec:implementation}
 

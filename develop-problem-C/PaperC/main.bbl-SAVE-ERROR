@@ -1,0 +1,555 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{dwts_voting_analysis}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=014db09b4f440af5b170bc7f0784ff54}{%
+           family={{DWTS Fan Forums}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{fullhash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{fullhashraw}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{bibnamehash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{authorbibnamehash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{authornamehash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{authorfullhash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{authorfullhashraw}{014db09b4f440af5b170bc7f0784ff54}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Online community survey of 5,000+ viewers}
+      \field{title}{Voting Behavior Analysis and Fan Surveys}
+      \field{year}{2020}
+    \endentry
+    \entry{bertsimas1997optimization}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=5b57425178d5ae2d2835ef44cb330e42}{%
+           family={Bertsimas},
+           familyi={B\bibinitperiod},
+           given={Dimitris},
+           giveni={D\bibinitperiod}}}%
+        {{hash=c68e0327319b548306afacf417d06ebf}{%
+           family={Tsitsiklis},
+           familyi={T\bibinitperiod},
+           given={John\bibnamedelima N.},
+           giveni={J\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Athena Scientific}%
+      }
+      \strng{namehash}{c45925647d08f7da29491319a56e359a}
+      \strng{fullhash}{c45925647d08f7da29491319a56e359a}
+      \strng{fullhashraw}{c45925647d08f7da29491319a56e359a}
+      \strng{bibnamehash}{c45925647d08f7da29491319a56e359a}
+      \strng{authorbibnamehash}{c45925647d08f7da29491319a56e359a}
+      \strng{authornamehash}{c45925647d08f7da29491319a56e359a}
+      \strng{authorfullhash}{c45925647d08f7da29491319a56e359a}
+      \strng{authorfullhashraw}{c45925647d08f7da29491319a56e359a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Introduction to Linear Optimization}
+      \field{year}{1997}
+      \true{nocite}
+    \endentry
+    \entry{rossi2006handbook}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=ed2fcdb25982e0ec1a0fa6af1490b33a}{%
+           family={Rossi},
+           familyi={R\bibinitperiod},
+           given={Francesca},
+           giveni={F\bibinitperiod}}}%
+        {{hash=1901dd453a5fb788a67061e92a2edbf2}{%
+           family={Van\bibnamedelima Beek},
+           familyi={V\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=0083caa546c0b2a86576a95dbef046a9}{%
+           family={Walsh},
+           familyi={W\bibinitperiod},
+           given={Toby},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{9b474a3989c3b1345495f69f7ccbb776}
+      \strng{fullhash}{8c446ca796aa3eda5675849d93fad989}
+      \strng{fullhashraw}{8c446ca796aa3eda5675849d93fad989}
+      \strng{bibnamehash}{8c446ca796aa3eda5675849d93fad989}
+      \strng{authorbibnamehash}{8c446ca796aa3eda5675849d93fad989}
+      \strng{authornamehash}{9b474a3989c3b1345495f69f7ccbb776}
+      \strng{authorfullhash}{8c446ca796aa3eda5675849d93fad989}
+      \strng{authorfullhashraw}{8c446ca796aa3eda5675849d93fad989}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Elsevier}
+      \field{title}{Handbook of Constraint Programming}
+      \field{year}{2006}
+      \true{nocite}
+    \endentry
+    \entry{cox1984analysis}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=ec0b9ca4f3b98349d98f9f91b1ea21fe}{%
+           family={Cox},
+           familyi={C\bibinitperiod},
+           given={David\bibnamedelima R.},
+           giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=87a471d29c8d29fb10a145e04dc3062b}{%
+           family={Oakes},
+           familyi={O\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Chapman}%
+        {Hall/CRC}%
+      }
+      \strng{namehash}{478582d7dbbcbdeaa9aac5f8c1d2729a}
+      \strng{fullhash}{478582d7dbbcbdeaa9aac5f8c1d2729a}
+      \strng{fullhashraw}{478582d7dbbcbdeaa9aac5f8c1d2729a}
+      \strng{bibnamehash}{478582d7dbbcbdeaa9aac5f8c1d2729a}
+      \strng{authorbibnamehash}{478582d7dbbcbdeaa9aac5f8c1d2729a}
+      \strng{authornamehash}{478582d7dbbcbdeaa9aac5f8c1d2729a}
+      \strng{authorfullhash}{478582d7dbbcbdeaa9aac5f8c1d2729a}
+      \strng{authorfullhashraw}{478582d7dbbcbdeaa9aac5f8c1d2729a}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Analysis of Survival Data}
+      \field{year}{1984}
+      \true{nocite}
+    \endentry
+    \entry{cox1972regression}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=ec0b9ca4f3b98349d98f9f91b1ea21fe}{%
+           family={Cox},
+           familyi={C\bibinitperiod},
+           given={David\bibnamedelima R.},
+           giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{fullhash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{fullhashraw}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{bibnamehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{authorbibnamehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{authornamehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{authorfullhash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{authorfullhashraw}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the Royal Statistical Society: Series B (Methodological)}
+      \field{number}{2}
+      \field{title}{Regression Models and Life-Tables}
+      \field{volume}{34}
+      \field{year}{1972}
+      \true{nocite}
+      \field{pages}{187\bibrangedash 202}
+      \range{pages}{16}
+    \endentry
+    \entry{arrow1951social}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=5d45272a5c29864ab7c14d6d5567315c}{%
+           family={Arrow},
+           familyi={A\bibinitperiod},
+           given={Kenneth\bibnamedelima J.},
+           giveni={K\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Yale University Press}%
+      }
+      \strng{namehash}{5d45272a5c29864ab7c14d6d5567315c}
+      \strng{fullhash}{5d45272a5c29864ab7c14d6d5567315c}
+      \strng{fullhashraw}{5d45272a5c29864ab7c14d6d5567315c}
+      \strng{bibnamehash}{5d45272a5c29864ab7c14d6d5567315c}
+      \strng{authorbibnamehash}{5d45272a5c29864ab7c14d6d5567315c}
+      \strng{authornamehash}{5d45272a5c29864ab7c14d6d5567315c}
+      \strng{authorfullhash}{5d45272a5c29864ab7c14d6d5567315c}
+      \strng{authorfullhashraw}{5d45272a5c29864ab7c14d6d5567315c}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Social Choice and Individual Values}
+      \field{year}{1951}
+      \true{nocite}
+    \endentry
+    \entry{borda1781memoire}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=0e30ac1924d2eed1f33314cd72971727}{%
+           family={Borda},
+           familyi={B\bibinitperiod},
+           given={Jean-Charles\bibnamedelima de},
+           giveni={J\bibinithyphendelim C\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+      }
+      \strng{namehash}{0e30ac1924d2eed1f33314cd72971727}
+      \strng{fullhash}{0e30ac1924d2eed1f33314cd72971727}
+      \strng{fullhashraw}{0e30ac1924d2eed1f33314cd72971727}
+      \strng{bibnamehash}{0e30ac1924d2eed1f33314cd72971727}
+      \strng{authorbibnamehash}{0e30ac1924d2eed1f33314cd72971727}
+      \strng{authornamehash}{0e30ac1924d2eed1f33314cd72971727}
+      \strng{authorfullhash}{0e30ac1924d2eed1f33314cd72971727}
+      \strng{authorfullhashraw}{0e30ac1924d2eed1f33314cd72971727}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Histoire de l'Académie Royale des Sciences}
+      \field{title}{Mémoire sur les élections au scrutin}
+      \field{year}{1781}
+      \true{nocite}
+    \endentry
+    \entry{moulin1988axioms}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=71a70adca4fbfe9ec3ad745b0d94b8f5}{%
+           family={Moulin},
+           familyi={M\bibinitperiod},
+           given={Hervé},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{71a70adca4fbfe9ec3ad745b0d94b8f5}
+      \strng{fullhash}{71a70adca4fbfe9ec3ad745b0d94b8f5}
+      \strng{fullhashraw}{71a70adca4fbfe9ec3ad745b0d94b8f5}
+      \strng{bibnamehash}{71a70adca4fbfe9ec3ad745b0d94b8f5}
+      \strng{authorbibnamehash}{71a70adca4fbfe9ec3ad745b0d94b8f5}
+      \strng{authornamehash}{71a70adca4fbfe9ec3ad745b0d94b8f5}
+      \strng{authorfullhash}{71a70adca4fbfe9ec3ad745b0d94b8f5}
+      \strng{authorfullhashraw}{71a70adca4fbfe9ec3ad745b0d94b8f5}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Axioms of Cooperative Decision Making}
+      \field{year}{1988}
+      \true{nocite}
+    \endentry
+    \entry{tarantola2005inverse}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}{%
+           family={Tarantola},
+           familyi={T\bibinitperiod},
+           given={Albert},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {SIAM}%
+      }
+      \strng{namehash}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
+      \strng{fullhash}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
+      \strng{fullhashraw}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
+      \strng{bibnamehash}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
+      \strng{authorbibnamehash}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
+      \strng{authornamehash}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
+      \strng{authorfullhash}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
+      \strng{authorfullhashraw}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Inverse Problem Theory and Methods for Model Parameter Estimation}
+      \field{year}{2005}
+      \true{nocite}
+    \endentry
+    \entry{hill2005reality}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=0ad08843faa5d4f3aeaec1425b3eb56a}{%
+           family={Hill},
+           familyi={H\bibinitperiod},
+           given={Annette},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{0ad08843faa5d4f3aeaec1425b3eb56a}
+      \strng{fullhash}{0ad08843faa5d4f3aeaec1425b3eb56a}
+      \strng{fullhashraw}{0ad08843faa5d4f3aeaec1425b3eb56a}
+      \strng{bibnamehash}{0ad08843faa5d4f3aeaec1425b3eb56a}
+      \strng{authorbibnamehash}{0ad08843faa5d4f3aeaec1425b3eb56a}
+      \strng{authornamehash}{0ad08843faa5d4f3aeaec1425b3eb56a}
+      \strng{authorfullhash}{0ad08843faa5d4f3aeaec1425b3eb56a}
+      \strng{authorfullhashraw}{0ad08843faa5d4f3aeaec1425b3eb56a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Routledge}
+      \field{title}{Reality TV: Audiences and Popular Factual Television}
+      \field{year}{2005}
+      \true{nocite}
+    \endentry
+    \entry{andrejevic2004reality}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=cfe9428a8f6e21533912667263b8f5f7}{%
+           family={Andrejevic},
+           familyi={A\bibinitperiod},
+           given={Mark},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{cfe9428a8f6e21533912667263b8f5f7}
+      \strng{fullhash}{cfe9428a8f6e21533912667263b8f5f7}
+      \strng{fullhashraw}{cfe9428a8f6e21533912667263b8f5f7}
+      \strng{bibnamehash}{cfe9428a8f6e21533912667263b8f5f7}
+      \strng{authorbibnamehash}{cfe9428a8f6e21533912667263b8f5f7}
+      \strng{authornamehash}{cfe9428a8f6e21533912667263b8f5f7}
+      \strng{authorfullhash}{cfe9428a8f6e21533912667263b8f5f7}
+      \strng{authorfullhashraw}{cfe9428a8f6e21533912667263b8f5f7}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Rowman \& Littlefield}
+      \field{title}{Reality TV: The Work of Being Watched}
+      \field{year}{2004}
+      \true{nocite}
+    \endentry
+    \entry{dwts_wikipedia}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=535bebf06af273c7e2d9ff9d7fc43470}{%
+           family={{Wikipedia Contributors}},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{535bebf06af273c7e2d9ff9d7fc43470}
+      \strng{fullhash}{535bebf06af273c7e2d9ff9d7fc43470}
+      \strng{fullhashraw}{535bebf06af273c7e2d9ff9d7fc43470}
+      \strng{bibnamehash}{535bebf06af273c7e2d9ff9d7fc43470}
+      \strng{authorbibnamehash}{535bebf06af273c7e2d9ff9d7fc43470}
+      \strng{authornamehash}{535bebf06af273c7e2d9ff9d7fc43470}
+      \strng{authorfullhash}{535bebf06af273c7e2d9ff9d7fc43470}
+      \strng{authorfullhashraw}{535bebf06af273c7e2d9ff9d7fc43470}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://en.wikipedia.org/wiki/Dancing_with_the_Stars_(American_TV_series)}}
+      \field{title}{Dancing with the Stars (American TV series)}
+      \field{year}{2025}
+      \true{nocite}
+    \endentry
+    \entry{efron1993bootstrap}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=5470455fc7dceb3ccf6db38cb22a113d}{%
+           family={Efron},
+           familyi={E\bibinitperiod},
+           given={Bradley},
+           giveni={B\bibinitperiod}}}%
+        {{hash=678c48302939b4b85d5ad2d85319617a}{%
+           family={Tibshirani},
+           familyi={T\bibinitperiod},
+           given={Robert\bibnamedelima J.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Chapman}%
+        {Hall/CRC}%
+      }
+      \strng{namehash}{5c03685c9f7f37796bba48432d40df61}
+      \strng{fullhash}{5c03685c9f7f37796bba48432d40df61}
+      \strng{fullhashraw}{5c03685c9f7f37796bba48432d40df61}
+      \strng{bibnamehash}{5c03685c9f7f37796bba48432d40df61}
+      \strng{authorbibnamehash}{5c03685c9f7f37796bba48432d40df61}
+      \strng{authornamehash}{5c03685c9f7f37796bba48432d40df61}
+      \strng{authorfullhash}{5c03685c9f7f37796bba48432d40df61}
+      \strng{authorfullhashraw}{5c03685c9f7f37796bba48432d40df61}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{An Introduction to the Bootstrap}
+      \field{year}{1993}
+      \true{nocite}
+    \endentry
+    \entry{kaplan1958nonparametric}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=b7dabe71fcae299488de74bb77b05781}{%
+           family={Kaplan},
+           familyi={K\bibinitperiod},
+           given={Edward\bibnamedelima L.},
+           giveni={E\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=c0b76397dc289c7890d1cd0b286a68ae}{%
+           family={Meier},
+           familyi={M\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{3c78a86fb13a65283be6221fd055ea9b}
+      \strng{fullhash}{3c78a86fb13a65283be6221fd055ea9b}
+      \strng{fullhashraw}{3c78a86fb13a65283be6221fd055ea9b}
+      \strng{bibnamehash}{3c78a86fb13a65283be6221fd055ea9b}
+      \strng{authorbibnamehash}{3c78a86fb13a65283be6221fd055ea9b}
+      \strng{authornamehash}{3c78a86fb13a65283be6221fd055ea9b}
+      \strng{authorfullhash}{3c78a86fb13a65283be6221fd055ea9b}
+      \strng{authorfullhashraw}{3c78a86fb13a65283be6221fd055ea9b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{number}{282}
+      \field{title}{Nonparametric Estimation from Incomplete Observations}
+      \field{volume}{53}
+      \field{year}{1958}
+      \true{nocite}
+      \field{pages}{457\bibrangedash 481}
+      \range{pages}{25}
+    \endentry
+    \entry{scipy2020}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=18703a2bb6a62484483c193a212da2f8}{%
+           family={Virtanen},
+           familyi={V\bibinitperiod},
+           given={Pauli},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{fullhash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{fullhashraw}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{bibnamehash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{authorbibnamehash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{authornamehash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{authorfullhash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{authorfullhashraw}{f252038edd7f112d75da3bf0c1edecbc}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Methods}
+      \field{title}{SciPy 1.0: Fundamental Algorithms for Scientific Computing in Python}
+      \field{volume}{17}
+      \field{year}{2020}
+      \true{nocite}
+      \field{pages}{261\bibrangedash 272}
+      \range{pages}{12}
+    \endentry
+    \entry{lifelines2019}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=ddd01661d7160cb48e55f66fe978576e}{%
+           family={Davidson-Pilon},
+           familyi={D\bibinithyphendelim P\bibinitperiod},
+           given={Cameron},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{ddd01661d7160cb48e55f66fe978576e}
+      \strng{fullhash}{ddd01661d7160cb48e55f66fe978576e}
+      \strng{fullhashraw}{ddd01661d7160cb48e55f66fe978576e}
+      \strng{bibnamehash}{ddd01661d7160cb48e55f66fe978576e}
+      \strng{authorbibnamehash}{ddd01661d7160cb48e55f66fe978576e}
+      \strng{authornamehash}{ddd01661d7160cb48e55f66fe978576e}
+      \strng{authorfullhash}{ddd01661d7160cb48e55f66fe978576e}
+      \strng{authorfullhashraw}{ddd01661d7160cb48e55f66fe978576e}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Open Source Software}
+      \field{number}{40}
+      \field{title}{lifelines: Survival Analysis in Python}
+      \field{volume}{4}
+      \field{year}{2019}
+      \true{nocite}
+      \field{pages}{1317}
+      \range{pages}{1}
+    \endentry
+    \entry{chandola2009anomaly}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=818074037ed2f89ce51237af38dec11f}{%
+           family={Chandola},
+           familyi={C\bibinitperiod},
+           given={Varun},
+           giveni={V\bibinitperiod}}}%
+        {{hash=4ddb7b9c38d8c15a70bc573ba4e51ea9}{%
+           family={Banerjee},
+           familyi={B\bibinitperiod},
+           given={Arindam},
+           giveni={A\bibinitperiod}}}%
+        {{hash=efb90d78e35ff61d3bc639f5c6f3d822}{%
+           family={Kumar},
+           familyi={K\bibinitperiod},
+           given={Vipin},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{3843f6427d6ca01b54e95297405107bb}
+      \strng{fullhash}{135c55bbecd240d054a5541e3cf77609}
+      \strng{fullhashraw}{135c55bbecd240d054a5541e3cf77609}
+      \strng{bibnamehash}{135c55bbecd240d054a5541e3cf77609}
+      \strng{authorbibnamehash}{135c55bbecd240d054a5541e3cf77609}
+      \strng{authornamehash}{3843f6427d6ca01b54e95297405107bb}
+      \strng{authorfullhash}{135c55bbecd240d054a5541e3cf77609}
+      \strng{authorfullhashraw}{135c55bbecd240d054a5541e3cf77609}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Computing Surveys}
+      \field{number}{3}
+      \field{title}{Anomaly Detection: A Survey}
+      \field{volume}{41}
+      \field{year}{2009}
+      \true{nocite}
+      \field{pages}{1\bibrangedash 58}
+      \range{pages}{58}
+    \endentry
+    \entry{kleinberg2018algorithmic}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=e405ae3c720db1b0e447ff5b601b968f}{%
+           family={Kleinberg},
+           familyi={K\bibinitperiod},
+           given={Jon},
+           giveni={J\bibinitperiod}}}%
+        {{hash=0ad4a50fedec7f3fb2ce43f3f64e62d6}{%
+           family={Mullainathan},
+           familyi={M\bibinitperiod},
+           given={Sendhil},
+           giveni={S\bibinitperiod}}}%
+        {{hash=94c87c71bf2fc02be222df4cf15f575a}{%
+           family={Raghavan},
+           familyi={R\bibinitperiod},
+           given={Manish},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{bbfb09b5b5b4060670d10f1d227bac97}
+      \strng{fullhash}{55804740a6bc42af2c3d658a3da3ce37}
+      \strng{fullhashraw}{55804740a6bc42af2c3d658a3da3ce37}
+      \strng{bibnamehash}{55804740a6bc42af2c3d658a3da3ce37}
+      \strng{authorbibnamehash}{55804740a6bc42af2c3d658a3da3ce37}
+      \strng{authornamehash}{bbfb09b5b5b4060670d10f1d227bac97}
+      \strng{authorfullhash}{55804740a6bc42af2c3d658a3da3ce37}
+      \strng{authorfullhashraw}{55804740a6bc42af2c3d658a3da3ce37}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1609.05807}
+      \field{title}{Inherent Trade-Offs in the Fair Determination of Risk Scores}
+      \field{year}{2016}
+      \true{nocite}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

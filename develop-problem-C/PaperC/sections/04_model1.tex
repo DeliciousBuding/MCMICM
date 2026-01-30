@@ -46,13 +46,48 @@ Substituting \eqnref{eq:combined_score} into \eqnref{eq:elimination_constraint}:
     v_E - v_i \leq \frac{J_i - J_E}{\bar{J}} \quad \forall i \neq E.
 \end{equation}
 
-\subsubsection{LP Formulation}
-To find tight bounds on each $v_i$, we solve:
+\subsubsection{Robust LP Formulation}
+\label{subsubsec:robust_lp}
+
+In practice, strict feasibility may fail due to measurement noise, undisclosed rule modifications, or production interventions. We introduce \textbf{slack variables} $\mathbf{s} = (s_1, s_2, \ldots, s_m)$ to relax the $m$ elimination constraints, formulating the \textbf{Robust LP}:
+
+\begin{equation}
+    \label{eq:robust_lp}
+    \boxed{
+    \begin{aligned}
+        S^* = \min_{\mathbf{v}, \mathbf{s}} \quad & \sum_{k=1}^{m} |s_k| \\
+        \text{s.t.} \quad & \sum_{i=1}^{n} v_i = 1 \\
+        & v_i \geq \epsilon \quad \forall i \\
+        & v_E - v_i \leq \frac{J_i - J_E}{\bar{J}} + s_k \quad \forall k \in \{1, \ldots, m\}
+    \end{aligned}
+    }
+\end{equation}
+
+\noindent where:
+\begin{itemize}[itemsep=0.2em]
+    \item $S^* = \sum_k |s_k|$ is the \textbf{Minimum Inconsistency Score}---the smallest total constraint violation required to achieve feasibility.
+    \item $\epsilon > 0$ is the \textbf{relaxation parameter} (minimum vote floor, default 1\%).
+    \item $s_k \geq 0$ allows the $k$-th elimination constraint to be violated by amount $s_k$.
+\end{itemize}
+
+\noindent\textbf{Interpretation:}
+\begin{itemize}[itemsep=0.2em]
+    \item $S^* = 0$: The system is \emph{feasible}---eliminations are fully explainable by fan votes and judge scores.
+    \item $S^* > 0$: The system is \emph{infeasible}---some external factor is needed to explain the observed outcomes.
+\end{itemize}
+
+\subsubsection{Bounding via LP}
+Given a feasible (or minimally relaxed) constraint set, we compute tight bounds on each $v_i$:
 \begin{equation}
     \label{eq:lp_bounds}
     v_i^{\min} = \min_{\mathbf{v}} v_i, \quad v_i^{\max} = \max_{\mathbf{v}} v_i
 \end{equation}
-subject to constraints \eqnref{eq:vote_simplex} and \eqnref{eq:lp_elimination}.
+subject to constraints \eqnref{eq:vote_simplex}, \eqnref{eq:lp_elimination}, and:
+\begin{equation}
+    \label{eq:slack_budget}
+    \sum_{k=1}^{m} |s_k| \leq S^* + \delta,
+\end{equation}
+where $\delta \geq 0$ is an optional tolerance for exploring near-optimal solutions.
 
 \begin{algorithm}[H]
     \caption{LP-Based Fan Vote Bound Computation}
@@ -83,6 +118,15 @@ Let $r_i$ denote contestant $i$'s fan vote rank (1 = highest). The ordering cons
     \label{eq:rank_ordering}
     r_i < r_j \implies v_i > v_j.
 \end{equation}
+
+\noindent\textbf{Contestant Eligibility via FSM State Transitions.}
+Not all contestants participate in every week's pairwise comparisons. We model contestant eligibility using a \textbf{Finite State Machine (FSM)} with states $\{\texttt{ACTIVE}, \texttt{IMMUNE}, \texttt{SAVED}, \texttt{ELIMINATED}\}$:
+\begin{itemize}[itemsep=0.2em]
+    \item \texttt{ACTIVE} $\to$ \texttt{ELIMINATED}: Standard elimination (lowest combined score).
+    \item \texttt{ACTIVE} $\to$ \texttt{SAVED}: Judge Save invoked (S28+ only); contestant becomes \texttt{ACTIVE} next week.
+    \item \texttt{IMMUNE} $\to$ \texttt{ACTIVE}: Immunity window expires (typically Week 1 newcomers).
+\end{itemize}
+Pairwise constraints in \eqnref{eq:rank_ordering} are generated \emph{only} between contestants currently in the \texttt{ACTIVE} state, ensuring that immune or saved contestants do not introduce spurious constraints.
 
 \subsubsection{CP Formulation}
 We use \textbf{Constraint Programming (CP)} with interval arithmetic to enumerate feasible vote distributions:
@@ -127,16 +171,16 @@ DWTS production rules have evolved significantly across 34 seasons. Our engine i
 \subsection{Anomaly Detection via Constraint Sensitivity}
 \label{subsec:anomaly_detection}
 
-We define the \textbf{slack variable} $S^*(\epsilon)$ as the minimum constraint violation when the LP/CP system is infeasible:
+Using the Robust LP formulation (\eqnref{eq:robust_lp}), we compute the \textbf{Minimum Inconsistency Score} $S^*$ as a function of the relaxation parameter $\epsilon$:
 \begin{equation}
-    \label{eq:slack}
-    S^*(\epsilon) = \min_{\mathbf{v}, s \geq 0} s \quad \text{s.t.} \quad \mathbf{A}\mathbf{v} \leq \mathbf{b} + s \cdot \mathbf{1}.
+    \label{eq:slack_function}
+    S^*(\epsilon) = \min_{\mathbf{v}, \mathbf{s} \geq 0} \sum_{k=1}^{m} |s_k| \quad \text{s.t.} \quad \text{constraints in \eqnref{eq:robust_lp} hold}.
 \end{equation}
 
-\noindent\textbf{Interpretation:}
+\noindent This formulation directly applies our objective function $\min \sum |s_k|$ while varying the floor parameter $\epsilon$. The resulting $S^*(\epsilon)$ curve characterizes each season's ``explainability'':
 \begin{itemize}[itemsep=0.2em]
-    \item $S^*(\epsilon) = 0$: Feasible---the season's eliminations are explainable by standard voting logic.
-    \item $S^*(\epsilon) > 0$: Infeasible---some external factor (production intervention, voting irregularity) is required to explain outcomes.
+    \item $S^*(\epsilon) = 0$: \textbf{Feasible}---the season's eliminations are fully explainable by standard voting logic.
+    \item $S^*(\epsilon) > 0$: \textbf{Infeasible}---some external factor (production intervention, voting irregularity) is required to explain outcomes.
 \end{itemize}
 
 \figref{fig:money_plot} shows $S^*(\epsilon)$ across all 34 seasons for $\epsilon \in [0\%, 10\%]$:
@@ -152,6 +196,32 @@ We define the \textbf{slack variable} $S^*(\epsilon)$ as the minimum constraint 
     \caption{The ``Money Plot'': Constraint slack $S^*(\epsilon)$ vs.\ minimum vote floor $\epsilon$ for all 34 seasons. S32 and S33 exhibit positive slack even at $\epsilon = 0$, indicating infeasibility that standard elimination logic cannot explain.}
     \label{fig:money_plot}
 \end{figure}
+
+% 新增：Inconsistency Spectrum 分析
+\subsubsection{The Inconsistency Spectrum: A Structural Break in Seasons 32--33}
+
+To provide a cross-sectional view of model performance, we compute the \textbf{Inconsistency Score} $S^*$ at $\epsilon = 1\%$ for each season and visualize the distribution in \figref{fig:inconsistency}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/fig1_inconsistency_spectrum.pdf}
+    \caption{The Inconsistency Spectrum ($S^*$): Structural breaks detected in Season 32 and 33. The sharp spike indicates that no feasible fan vote distribution exists under the published rules, suggesting undeclared external interventions.}
+    \label{fig:inconsistency}
+\end{figure}
+
+\noindent\textbf{Key Observations:}
+
+\begin{enumerate}
+    \item \textbf{Seasons 1--31: Model Success.} For all seasons from S1 through S31, the inconsistency score $S^* \approx 0$, confirming that our LP/CP inversion engine successfully reconstructs feasible fan vote distributions consistent with observed eliminations. The mathematical model \emph{works}---elimination outcomes can be explained by the published combination of judge scores and fan votes.
+    
+    \item \textbf{Seasons 32--33: Structural Break.} Beginning with Season 32, the inconsistency score spikes dramatically ($S^*_{\text{S32}} = 2.0$, $S^*_{\text{S33}} = 1.0$). No feasible fan vote distribution exists under any reasonable parameterization. The constraint system is \emph{mathematically infeasible}.
+    
+    \item \textbf{Interpretation: System Failure, Not Model Failure.} We interpret this result not as a failure of our model, but as evidence of a \textbf{``System Failure''} in the DWTS voting mechanism itself. The introduction of the \textbf{Judges' Save} mechanic in S28+ created a loophole where judges can override fan preferences. When this override occurs frequently or inconsistently, the elimination sequence becomes \emph{mathematically unexplainable} by any combination of judge scores and fan votes.
+\end{enumerate}
+
+\begin{tcolorbox}[colback=red!5, colframe=red!50!black, title=Critical Finding]
+\textbf{Seasons 32 and 33 exhibit ``structural infeasibility''---the published rules cannot mathematically produce the observed outcomes.} This discovery justifies our proposed \textbf{Safety Net Protocol}: a pre-broadcast feasibility check that would have flagged these anomalies \emph{before} public broadcast, enabling producers to investigate potential voting irregularities, undisclosed rule modifications, or production interventions.
+\end{tcolorbox}
 
 % 4.6 结果汇总
 \subsection{Inversion Results Summary}
