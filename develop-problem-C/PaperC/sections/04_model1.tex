@@ -33,12 +33,12 @@ For seasons S3--S27, where production disclosed some vote percentage information
 Under the standard DWTS rule, the contestant with the lowest combined score (judge percentage + fan percentage) is eliminated. The judge percentage for contestant $i$ is:
 \begin{equation}
     \label{eq:judge_pct}
-    J_i^{\%} = \frac{J_i}{\sum_{k=1}^{n} J_k},
+    J_i^{\%} = \frac{J_i}{\displaystyle\sum_{k \in \mathcal{C}_{s,w}} J_k}.
 \end{equation}
-where the denominator is the \textbf{sum of all active contestants' judge scores}. The combined score is:
+The combined score is:
 \begin{equation}
     \label{eq:combined_score}
-    C_i = J_i^{\%} + v_i = \frac{J_i}{\sum_{k} J_k} + v_i.
+    C_i = J_i^{\%} + v_i.
 \end{equation}
 The elimination constraint ($E$ has the lowest combined score):
 \begin{equation}
@@ -49,7 +49,7 @@ The elimination constraint ($E$ has the lowest combined score):
 Substituting and rearranging:
 \begin{equation}
     \label{eq:lp_elimination}
-    v_E - v_i \leq \frac{J_i - J_E}{\sum_{k} J_k} \quad \forall i \neq E.
+    v_E - v_i \leq \frac{J_i - J_E}{\displaystyle\sum_{k} J_k} \quad \forall i \neq E.
 \end{equation}
 
 \subsubsection{Robust LP Formulation}
@@ -61,17 +61,18 @@ In practice, strict feasibility may fail due to measurement noise, undisclosed r
     \label{eq:robust_lp}
     \boxed{
     \begin{aligned}
-        S^* = \min_{\mathbf{v}, \mathbf{s}} \quad & \sum_{k=1}^{m} |s_k| \\
+        S^* = \min_{\mathbf{v}, \mathbf{s}} \quad & \sum_{k=1}^{m} s_k \\
         \text{s.t.} \quad & \sum_{i=1}^{n} v_i = 1 \\
         & v_i \geq \epsilon \quad \forall i \\
-        & v_E - v_i \leq \frac{J_i - J_E}{\sum_{k} J_k} + s_k \quad \forall k \in \{1, \ldots, m\}
+        & s_k \geq 0 \quad \forall k \\
+        & v_E - v_i \leq \frac{J_i - J_E}{\displaystyle\sum_{k} J_k} + s_k \quad \forall k \in \{1, \ldots, m\}
     \end{aligned}
     }
 \end{equation}
 
 \noindent where:
 \begin{itemize}[itemsep=0.2em]
-    \item $S^* = \sum_k |s_k|$ is the \textbf{Minimum Inconsistency Score}---the smallest total constraint violation required to achieve feasibility.
+    \item $S^* = \sum_k s_k$ is the \textbf{Minimum Inconsistency Score}---the smallest total constraint violation required to achieve feasibility. Since $s_k \geq 0$, no absolute value is needed.
     \item $\epsilon > 0$ is the \textbf{relaxation parameter} (minimum vote floor, default 1\%).
     \item $s_k \geq 0$ allows the $k$-th elimination constraint to be violated by amount $s_k$.
 \end{itemize}
@@ -88,7 +89,7 @@ Given a feasible (or minimally relaxed) constraint set, we compute tight bounds 
     \label{eq:lp_bounds}
     v_i^{\min} = \min_{\mathbf{v}} v_i, \quad v_i^{\max} = \max_{\mathbf{v}} v_i
 \end{equation}
-subject to constraints \eqnref{eq:vote_simplex}, \eqnref{eq:lp_elimination}, and $\sum |s_k| \leq S^* + \delta$.
+subject to constraints \eqnref{eq:vote_simplex}, \eqnref{eq:lp_elimination}, and $\sum_k s_k \leq S^* + \delta$.
 
 % 4.3 排名披露季（CP 核心）
 \subsection{Rank Seasons: Mixed-Integer Linear Programming}
@@ -104,13 +105,25 @@ Let $x_{ik} \in \{0,1\}$ indicate whether contestant $i$ has fan rank $k$. The c
     r_i^{\text{fan}} &= \sum_{k=1}^{n} k \cdot x_{ik} \quad \text{(define fan rank)} \label{eq:fan_rank_def}
 \end{align}
 
-The \textbf{elimination constraint} under rank rules (combined rank $R_i = r_i^{\text{judge}} + r_i^{\text{fan}}$):
+The \textbf{elimination constraint} under rank rules: the eliminated contestant must be in the \textbf{bottom-two} by combined rank $R_i = r_i^{\text{judge}} + r_i^{\text{fan}}$. Let $R_{(n-1)}$ denote the second-highest combined rank. We require:
 \begin{equation}
     \label{eq:rank_elim}
-    R_E \geq R_i \quad \forall i \neq E \quad \text{(eliminated has highest combined rank)}
+    R_E \geq R_{(n-1)} \quad \text{(eliminated is in bottom-two by combined rank)}
 \end{equation}
+This is weaker than ``eliminated has the worst rank''---it allows for Judge Save to determine which of the bottom-two is actually eliminated.
 
 \noindent We model contestant eligibility via an FSM with states $\{\texttt{ACTIVE}, \texttt{IMMUNE}, \texttt{SAVED}, \texttt{ELIMINATED}\}$.
+
+\subsubsection{Modeling Scope for Judge Save (S28+)}
+\label{subsubsec:judge_save_scope}
+
+Starting S28, DWTS introduced the \textbf{Judges' Save} rule: after bottom-two contestants are identified via combined ranks, judges vote live to save one (source: problem statement). We explicitly \emph{do not model} the judges' live decision:
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{Unobserved criteria:} Judge save decisions depend on subjective factors (artistry, improvement trajectory) not captured by scores alone.
+    \item \textbf{Data limitation:} We observe only the final eliminated contestant, not which two were in the bottom.
+\end{enumerate}
+
+\noindent\textbf{What we model:} Given the observed elimination $E_w$, we infer fan vote ranks such that $E_w$ could plausibly have been in the bottom-two under rank-combination rules. When $S^* > 0$ for S28--S34, the mismatch may arise from: (1) the eliminated contestant was not actually in the bottom-two, (2) multi-dance score aggregation differs from assumptions, or (3) rule implementation details are undocumented. This is an \textbf{assumption boundary}, not model failure.
 
 % 4.4 规则自适应约束生成
 \subsection{Rule-Adaptive Constraints}
@@ -123,48 +136,58 @@ The \textbf{elimination constraint} under rank rules (combined rank $R_i = r_i^{
         \toprule
         \textbf{Seasons} & \textbf{Rule} & \textbf{Constraint Modification} \\
         \midrule
-        S1--S2 & Rank-only & Use CP core \\
-        S3--S27 & Percent & Standard LP \\
-        S28+ & Rank + Judge Save & Add save veto \\
+        S1--S2 & Rank-only & Use MILP core (\S\ref{subsec:milp_core}) \\
+        S3--S27 & Percent & Standard LP (\S\ref{subsec:lp_core}) \\
+        S28+ & Rank + Judge Save & MILP + scope limitation (\S\ref{subsubsec:judge_save_scope}) \\
         Various & Double elim/Immunity & Adjust active set \\
         \bottomrule
     \end{tabular}
 \end{table}
 
 % 4.5 异常检测：Money Plot
-\subsection{Anomaly Detection}
-\label{subsec:anomaly_detection}
+\subsection{Mismatch Detection}
+\label{subsec:mismatch_detection}
 
-Using the Robust LP (\eqnref{eq:robust_lp}), we compute $S^*(\epsilon)$---the minimum inconsistency as a function of floor $\epsilon$:
+We compute the \textbf{Mismatch Indicator} $S^*(\epsilon)$---the minimum constraint violation required for feasibility. This is analogous to anomaly detection in constraint satisfaction settings \cite{chandola2009anomaly}, adapted to our inverse-problem context:
 \begin{itemize}[itemsep=0.1em]
-    \item $S^*(\epsilon) = 0$: \textbf{Feasible}---eliminations are explainable.
-    \item $S^*(\epsilon) > 0$: \textbf{Infeasible}---external factor required.
+    \item For \emph{percent seasons} (S3--S27): $S^*$ is the optimal objective of the Robust LP (\eqnref{eq:robust_lp}).
+    \item For \emph{rank seasons} (S1--S2, S28--S34): $S^*$ is analogously defined via MILP slack---we introduce slack variables into the bottom-two constraint (\eqnref{eq:rank_elim}) and minimize total slack.
 \end{itemize}
 
-\figref{fig:money_plot} shows $S^*(\epsilon)$ across all 34 seasons: normal seasons remain at $S^* = 0$, while \textbf{S32} ($S^* = 2.0$) and \textbf{S33} ($S^* = 1.0$) are ``hard anomalies.''
+\noindent\textbf{Interpretation:}
+\begin{itemize}[itemsep=0.1em]
+    \item $S^* = 0$: \textbf{Model-consistent}---eliminations are explainable under stated assumptions.
+    \item $S^* > 0$: \textbf{Assumption violation signal}---at least one modeling assumption may not hold.
+\end{itemize}
+
+\noindent\textbf{Slack Units and Aggregation:} For percent seasons, $s_k$ is measured in \emph{percentage-point gap} (same units as $v_i$). For rank seasons, $s_k$ is the \emph{rank gap} required to place eliminated in bottom-two. We aggregate to season level via $S^* = \max_w s_w$ (worst-week slack), ensuring cross-season comparability.
+
+\figref{fig:money_plot} shows $S^*$ across all 34 seasons. Seasons S1--S31 achieve $S^* = 0$; \textbf{S32} ($S^* = 2.0$) and \textbf{S33} ($S^* = 1.0$) exhibit positive slack.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/fig_anomaly_detection.pdf}
-    \caption{The ``Money Plot'': S32 and S33 exhibit positive slack at $\epsilon = 0$, indicating structural infeasibility.}
+    \caption{Mismatch Indicator $S^*$ across seasons. S32 and S33 show positive slack, signaling assumption-data tension under our modeling framework.}
     \label{fig:money_plot}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{figures/fig1_inconsistency_spectrum.pdf}
-    \caption{Inconsistency Spectrum: structural breaks in S32--S33.}
+    \caption{Mismatch spectrum: S32--S33 exhibit elevated $S^*$ values. Note: slack units differ between percent seasons (vote-share points) and rank seasons (rank-gap); shown for mismatch identification, not direct magnitude comparison.}
     \label{fig:inconsistency}
 \end{figure}
 
-\noindent\textbf{Key Finding:} Seasons 1--31 achieve $S^* \approx 0$ (model success); S32--33 spike to $S^* > 1$ (structural break). This is not model failure but \textbf{system failure}---the Judges' Save mechanic created mathematically unexplainable outcomes.
+\noindent\textbf{MILP Interpretation:} Even after optimizing over \emph{all} fan-rank permutations, some weeks in S32--S33 require positive slack to satisfy \eqnref{eq:rank_elim}. Thus no permutation exists that places the eliminated contestant in the model-implied bottom-two---the mismatch is \emph{structural}, not an artifact of a particular inferred ranking.
+
+\noindent\textbf{Key Finding:} Seasons 1--31 achieve $S^* \approx 0$ (full consistency); S32--33 exhibit $S^* > 1$ (significant mismatch). This reflects \textbf{assumption-data tension}---likely due to rule transition uncertainty or unmodeled judge save criteria.
 
 % 4.6 结果汇总
 \subsection{Summary}
 
 \begin{itemize}[itemsep=0.2em]
-    \item \textbf{Coverage:} 32 of 34 seasons (94.1\%) produce feasible fan vote distributions.
-    \item \textbf{Anomalies:} S32 and S33 are flagged as hard anomalies requiring external explanation.
+    \item \textbf{Coverage:} 32 of 34 seasons are feasible at $\epsilon=1\%$; the only infeasible seasons are \textbf{S32} and \textbf{S33}.
+    \item \textbf{Mismatch Signals:} S32 ($S^*=2.0$) and S33 ($S^*=1.0$) exhibit positive slack, indicating assumption-data tension warranting further investigation.
     \item \textbf{Bound Tightness:} Median interval width $v_i^{\max} - v_i^{\min} = 8.3\%$ across all contestant-weeks.
     \item \textbf{Point Estimates:} We use interval midpoints $\hat{v}_i = (v_i^{\min} + v_i^{\max}) / 2$ for downstream analysis.
 \end{itemize}

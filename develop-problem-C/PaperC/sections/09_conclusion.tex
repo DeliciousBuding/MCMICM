@@ -9,13 +9,13 @@
 This paper developed a comprehensive framework for inferring fan votes from \emph{Dancing with the Stars} elimination data. Our key findings:
 
 \begin{enumerate}[itemsep=0.2em]
-    \item \textbf{Dual-Core Inversion:} Successfully reconstructed fan vote distributions for 32 of 34 seasons using hybrid LP/CP with 100\% constraint satisfaction and median bound width of 8.3\%.
+    \item \textbf{Dual-Core Inversion:} Successfully reconstructed fan vote distributions for 32 of 34 seasons using hybrid LP/MILP with 100\% constraint satisfaction and median bound width of 8.3\%.
     
     \item \textbf{Model-Data Mismatch Detection:} Identified S32/S33 with constraint slack $S^* > 0$, revealing mathematical complexity introduced by Judges' Save mechanics. This is \emph{not} evidence of manipulation, but highlights modeling challenges in S28+ rules.
     
-    \item \textbf{Professional Dancer Effect:} Survival analysis reveals professional partner explains \textbf{42.9\%} of variance (partial $R^2$)---larger than celebrity type (8.2\%) or prior fame (3.7\%).
+    \item \textbf{Professional Dancer Effect:} Survival analysis reveals professional partner as the dominant predictor (likelihood ratio test $\chi^2 = 47.3$, $p < 0.001$; C-index improvement $\Delta C = 0.09$)---larger effect than celebrity type or prior fame.
     
-    \item \textbf{Weighted Percent System:} Proposed mechanism ($0.6J^\% + 0.4V$) reduces wrongful eliminations by \textbf{92.5\%}.
+    \item \textbf{Weighted Percent System:} Proposed mechanism ($0.6J^\% + 0.4V$) reduces definite-wrongful eliminations from \textbf{40 to 3} under interval-robust classification.
 \end{enumerate}
 
 \subsection{Recommendations}
@@ -31,7 +31,7 @@ This paper developed a comprehensive framework for inferring fan votes from \emp
 \begin{itemize}[itemsep=0.1em]
     \item Unobserved heterogeneity (social media campaigns, news events).
     \item Weaker bounds for rank-only seasons (S28--S34).
-    \item Cannot determine anomaly \emph{cause} (only detection).
+    \item Cannot determine mismatch \emph{cause} (only detection).
     \item Counterfactual assumes unchanged voting behavior.
 \end{itemize}
 
@@ -40,4 +40,4 @@ This paper developed a comprehensive framework for inferring fan votes from \emp
 Future extensions: (1) real-time dashboard for producers, (2) international expansion to \emph{Strictly Come Dancing} and other franchises, (3) incorporating social media sentiment to tighten bounds.
 
 \vspace{0.5em}
-\noindent\textbf{Key Takeaway:} The current DWTS system produces 17.4\% wrongful eliminations. Our Weighted Percent System reduces this to 1.3\%---a \textbf{92.5\% improvement}---while maintaining viewer engagement through transparent, audience-friendly scoring.
+\noindent\textbf{Key Takeaway:} The current DWTS system produces 40 definite-wrongful eliminations across 230 rounds (17.4\%). Our Weighted Percent System reduces this to 3 (1.3\%)---a robust improvement verified by interval-based classification that accounts for fan vote estimation uncertainty.

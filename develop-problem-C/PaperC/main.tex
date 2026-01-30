@@ -124,7 +124,7 @@
 %=== 文档元信息 ===
 
 \title{Inferring Fan Votes from Elimination Data: \\ 
-       A Dual-Core Inversion Framework with Anomaly Detection \\
+       A Dual-Core Inversion Framework with Mismatch Detection \\
        and Mechanism Design for \emph{Dancing with the Stars}}
 \author{Team \#2617892}
 
@@ -139,19 +139,22 @@
 \maketitle
 \thispagestyle{empty}
 
-% Memo to DWTS Director（备忘录，紧随摘要页）
-\input{sections/memo.tex}
-
-% Contents（目录页，从第1页开始但不显示页码）
+% Memo to DWTS Director（备忘录，第1页开始）
 \newpage
 \setcounter{page}{1}
-\pagestyle{empty}
-\tableofcontents
-\thispagestyle{empty}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Team \#2617892}
+\fancyhead[R]{\small Page \thepage\ of \themainpages}
+\fancyfoot[C]{}
+\input{sections/memo.tex}
 
-% 正文开始（从第3页开始显示页眉页码）
+% Contents（目录页）
 \newpage
-\setcounter{page}{3}
+\tableofcontents
+
+% 正文继续
+\newpage
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small Team \#2617892}

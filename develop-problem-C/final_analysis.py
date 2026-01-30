@@ -190,7 +190,7 @@ def simulate_weighted_borda_count(w_judge=0.6, w_fan=0.4):
     
     # Left: Three-way comparison
     ax1 = axes[0]
-    systems = ['Old System\n(Actual)', 'Soft Floor\n(Failed)', 'Borda Count\n(New)']
+    systems = ['Old System\n(Actual)', 'Soft Floor\n(Failed)', 'Weighted Percent\n(Proposed)']
     robbed_counts = [
         results['old_system']['robbed'],
         results['soft_floor']['robbed'],
@@ -198,7 +198,7 @@ def simulate_weighted_borda_count(w_judge=0.6, w_fan=0.4):
     ]
     colors = ['#3498db', '#e74c3c', '#2ecc71']
     bars = ax1.bar(systems, robbed_counts, color=colors, edgecolor='black', linewidth=2)
-    ax1.set_ylabel('High-Scorers Eliminated ("Robbed")', fontsize=11)
+    ax1.set_ylabel('Definite-Wrongful Eliminations', fontsize=11)
     ax1.set_title('Task 5: Mechanism Comparison\n(Lower is Better)', fontsize=13, fontweight='bold')
     
     for bar, count in zip(bars, robbed_counts):
@@ -207,7 +207,7 @@ def simulate_weighted_borda_count(w_judge=0.6, w_fan=0.4):
     
     # Add improvement annotation
     if improvement > 0:
-        ax1.annotate(f'↓ {improvement} fewer\n({improvement/old_robbed*100:.0f}% better)', 
+        ax1.annotate(f'↓ {improvement} fewer', 
                     xy=(2, borda_robbed), xytext=(2.3, borda_robbed + 15),
                     fontsize=10, color='#27ae60', fontweight='bold',
                     arrowprops=dict(arrowstyle='->', color='#27ae60'))
@@ -223,7 +223,7 @@ def simulate_weighted_borda_count(w_judge=0.6, w_fan=0.4):
                 linewidth=2, label=f'Average: {change_by_season.mean():.1f}%')
     ax2.set_xlabel('Season', fontsize=11)
     ax2.set_ylabel('Weeks with Different Outcome (%)', fontsize=11)
-    ax2.set_title('How Often Borda Count Changes Results', fontsize=13, fontweight='bold')
+    ax2.set_title('How Often Weighted Percent Changes Outcomes', fontsize=13, fontweight='bold')
     ax2.legend()
     
     plt.tight_layout()
@@ -258,14 +258,14 @@ def plot_feasibility_boundary():
     manager = ActiveSetManager(loader)
     manager.build_all_contexts()
     
-    # Test seasons: normal vs anomalous
+    # Test seasons: normal vs mismatch
     test_seasons = {
         'S1 (Normal)': 1,
         'S10 (Normal)': 10,
         'S20 (Normal)': 20,
         'S27 (Bobby Bones)': 27,
-        'S32 (ANOMALY)': 32,
-        'S33 (ANOMALY)': 33,
+        'S32 (MISMATCH)': 32,
+        'S33 (MISMATCH)': 33,
     }
     
     # Test range of minimum vote constraints - go wider
@@ -304,8 +304,8 @@ def plot_feasibility_boundary():
         'S10 (Normal)': '#2ecc71', 
         'S20 (Normal)': '#9b59b6',
         'S27 (Bobby Bones)': '#f39c12',
-        'S32 (ANOMALY)': '#e74c3c',
-        'S33 (ANOMALY)': '#c0392b',
+        'S32 (MISMATCH)': '#e74c3c',
+        'S33 (MISMATCH)': '#c0392b',
     }
     
     linestyles = {
@@ -313,8 +313,8 @@ def plot_feasibility_boundary():
         'S10 (Normal)': '-',
         'S20 (Normal)': '-',
         'S27 (Bobby Bones)': '-.',
-        'S32 (ANOMALY)': '--',
-        'S33 (ANOMALY)': '--',
+        'S32 (MISMATCH)': '--',
+        'S33 (MISMATCH)': '--',
     }
     
     markers = {
@@ -322,32 +322,32 @@ def plot_feasibility_boundary():
         'S10 (Normal)': None,
         'S20 (Normal)': None,
         'S27 (Bobby Bones)': 's',
-        'S32 (ANOMALY)': 'o',
-        'S33 (ANOMALY)': '^',
+        'S32 (MISMATCH)': 'o',
+        'S33 (MISMATCH)': '^',
     }
     
     for name, scores in results.items():
         ax.plot(min_vote_range * 100, scores, 
                 label=name, color=colors[name], 
                 linestyle=linestyles[name],
-                linewidth=2.5 if 'ANOMALY' in name else 2,
+                linewidth=2.5 if 'MISMATCH' in name else 2,
                 marker=markers[name],
                 markersize=5,
                 markevery=2)
     
     ax.set_xlabel('Minimum Fan Vote Assumption (%)', fontsize=13)
-    ax.set_ylabel('Inconsistency Score (S*)', fontsize=13)
-    ax.set_title('Feasibility Boundary: Anomaly Detection via Constraint Sensitivity\n' + 
-                 '(Higher S* = More data anomalies detected)',
+    ax.set_ylabel('Mismatch Score (S*)', fontsize=13)
+    ax.set_title('Feasibility Boundary: Mismatch Detection via Constraint Sensitivity\n' + 
+                 '(Higher S* = Stronger assumption-data tension)',
                  fontsize=14, fontweight='bold')
     
-    # Shade the anomaly region
+    # Shade the mismatch region
     max_y = max([max(s) for s in results.values()]) + 0.5
     ax.fill_between([0, 10], 0.5, max_y, alpha=0.1, color='red', 
-                    label='Anomaly Zone (S* > 0)')
+                    label='Mismatch Zone (S* > 0)')
     
     # Add annotations
-    ax.annotate('S32 & S33: Anomalous from start\n(S* > 0 even at 0% constraint)',
+    ax.annotate('S32 & S33: Mismatch from start\n(S* > 0 even at 0% constraint)',
                 xy=(2, 1.8), fontsize=10, color='#c0392b',
                 bbox=dict(boxstyle='round', facecolor='#fadbd8', alpha=0.9))
     

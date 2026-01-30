@@ -1,4 +1,4 @@
-% Memo: Transparency Protocol Recommendation
+% Memo: Model-Based Transparency Protocol
 
 \newpage
 \thispagestyle{empty}
@@ -15,7 +15,7 @@
 \textbf{TO:}      & Director of Programming, \emph{Dancing with the Stars} \\
 \textbf{FROM:}    & Team \#2617892, Data Analytics Consultants \\
 \textbf{DATE:}    & January 26, 2026 \\
-\textbf{SUBJECT:} & \textbf{Balancing Entertainment and Fairness: A Transparency Protocol}
+\textbf{SUBJECT:} & \textbf{Model-Based Transparency Protocol for Voting System Review}
 \end{tabular}
 
 \vspace{0.3em}
@@ -24,31 +24,62 @@
 
 \subsection*{Executive Summary}
 
-We commend the Judges' Save rule (introduced S28) for increasing dramatic tension and giving judges meaningful agency. However, our analysis reveals \textbf{model-data mismatches} in S32--S33 that warrant attention---not as evidence of wrongdoing, but as opportunities for improved transparency.
+We present a mathematical framework for auditing DWTS elimination outcomes. Our goal is \emph{not} to allege manipulation, but to identify episodes where observed outcomes diverge from model predictions---enabling proactive explanation preparation and system refinement.
+
+\subsection*{Framework Overview}
+
+Our Dual-Core Inversion Engine reconstructs feasible fan vote distributions from elimination data:
+\begin{itemize}[itemsep=0.1em]
+    \item \textbf{Percent Seasons (S3--S27):} LP with slack variables; judge scores normalized as $J_i / \sum_k J_k$.
+    \item \textbf{Rank Seasons (S1--S2, S28--S34):} MILP with permutation constraints on latent fan ranks.
+\end{itemize}
+
+\noindent The \textbf{Mismatch Indicator} $S^*$ quantifies the minimum constraint violation needed for feasibility:
+\begin{itemize}[itemsep=0.1em]
+    \item $S^* = 0$: Model-consistent outcome.
+    \item $S^* > 0$: At least one modeling assumption may be violated.
+\end{itemize}
 
 \subsection*{Key Findings}
 
-\begin{itemize}[itemsep=0.1em]
-    \item \textbf{S1--S31:} Our LP/MILP model achieves $S^* = 0$ (full consistency with voting rules).
-    \item \textbf{S32--S33:} Constraint slack $S^* > 0$ indicates outcomes our model cannot fully explain.
-    \item \textbf{Bobby Bones (S27):} Wide survival intervals ($[1\%, 91\%]$) demonstrate how the 50/50 system can protect low-scoring contestants with strong fan bases.
-\end{itemize}
-
-\noindent Possible causes for S32--33 mismatches: (1) subjective judge save criteria, (2) bottom-two selection mechanics, (3) multi-dance score aggregation.
-
-\subsection*{Recommendations: Tiered Transparency System}
-
-\begin{enumerate}[itemsep=0.2em]
-    \item \textbf{Weighted Percent Scoring:} Adopt $0.6 \times \text{JudgePct} + 0.4 \times \text{FanPct}$. Marketing message: ``60\% skill, 40\% popularity.'' Simulations show \textbf{92.5\% reduction} in wrongful eliminations while preserving fan engagement.
-    
-    \item \textbf{Judge Save Transparency:} Document and announce criteria for judge save decisions (e.g., ``technical improvement shown'' or ``cumulative season performance''). This reduces perceived arbitrariness.
-    
-    \item \textbf{Pre-Broadcast Audit (Internal):} Run LP solver before results announcement ($<5$ sec). Flag episodes with $S^* > 0.5$ for producer review---not to change outcomes, but to prepare explanations if questioned.
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{S1--S31:} $S^* = 0$ for all seasons (full model consistency).
+    \item \textbf{S32--S33:} $S^* > 0$ indicates assumption-data tension. Possible sources:
+    \begin{itemize}[itemsep=0.05em]
+        \item Judges' Save criteria not captured by rank-sum logic.
+        \item Multi-dance week score aggregation differs from assumptions.
+        \item Rule transition timing (S28 vs.\ later) is uncertain.
+    \end{itemize}
+    \item \textbf{Bobby Bones (S27):} Wide feasible interval $[1\%, 91\%]$ illustrates how the 50/50 system can protect low-scoring contestants with dedicated fan bases.
 \end{enumerate}
 
-\subsection*{Why This Matters}
+\subsection*{Recommendations}
 
-The Judges' Save adds suspense and rewards quality---both valuable for entertainment. Our recommendations \emph{enhance} this by making the save more defensible and the overall system more transparent. Viewers who understand the scoring are more invested, not less.
+\begin{enumerate}[itemsep=0.2em]
+    \item \textbf{Internal Audit Protocol:}
+    \begin{itemize}[itemsep=0.05em]
+        \item Run LP/MILP solver before results broadcast (runtime $<5$ sec).
+        \item Flag episodes with $S^* > 0.5$ for producer awareness.
+        \item Prepare explanatory talking points if media questions arise.
+    \end{itemize}
+    
+    \item \textbf{Weighted Percent Scoring (Optional):}
+    \[
+        \text{Score}_i = 0.6 \times J_i^\% + 0.4 \times V_i
+    \]
+    Marketing: ``60\% skill, 40\% popularity.'' Simulations reduce definite-wrongful eliminations from \textbf{40 to 3}.
+    
+    \item \textbf{Judges' Save Documentation:}
+    Publicly announce save criteria (e.g., ``technical improvement'' or ``cumulative performance'') to reduce perceived arbitrariness and improve model fidelity.
+\end{enumerate}
+
+\subsection*{Limitations}
+
+\begin{itemize}[itemsep=0.1em]
+    \item We do not observe actual vote counts; all estimates are bounds, not exact values.
+    \item Mismatches ($S^* > 0$) indicate assumption violations, not manipulation evidence.
+    \item Rule details post-S27 are inferred from available sources; official documentation may differ.
+\end{itemize}
 
 \vspace{0.5em}
 \hfill\textbf{--- Team \#2617892}

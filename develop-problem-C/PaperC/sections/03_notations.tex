@@ -34,7 +34,7 @@ For clarity and consistency throughout this paper, we summarize the key symbols 
         \midrule
         % 模型参数
         $\epsilon$ & Minimum vote share floor (sensitivity parameter) & $[0, 0.1]$ \\
-        $S^*(\epsilon)$ & Slack variable at optimum for floor $\epsilon$ (anomaly metric) & $\geq 0$ \\
+        $S^*(\epsilon)$ & Slack variable at optimum for floor $\epsilon$ (mismatch metric) & $\geq 0$ \\
         $\alpha$ & Weight on judge score in hybrid mechanism & default 0.6 \\
         $\beta$ & Weight on fan vote in hybrid mechanism, $\beta = 1 - \alpha$ & default 0.4 \\
         \midrule
@@ -45,8 +45,7 @@ For clarity and consistency throughout this paper, we summarize the key symbols 
         $\mathrm{HR}_k$ & Hazard ratio for covariate $k$ & -- \\
         \midrule
         % 机制设计
-        $\widetilde{J}_i$ & Min-max normalized judge score for contestant $i$ & $[0, 1]$ \\
-        $\widetilde{V}_i$ & Min-max normalized fan vote for contestant $i$ & $[0, 1]$ \\
+        $J_i^{\%}$ & Judge percentage for contestant $i$, $J_i / \sum_k J_k$ & $[0, 1]$ \\
         $S_i^{\mathrm{wp}}$ & Weighted Percent score, $S_i = \alpha J_i^{\%} + (1-\alpha) V_i$ & $[0, 1]$ \\
         \bottomrule
     \end{tabularx}

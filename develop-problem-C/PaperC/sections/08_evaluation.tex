@@ -20,16 +20,16 @@ We evaluate our framework via consistency tests, case studies, and efficiency be
 Rice averaged 22.5 judge points (3rd among finalists), yet finished 2nd. Under our MILP model with fan ranks as decision variables, the feasibility analysis shows a fan ranking of 1st or 2nd is required to explain his placement---implying massive fan support overcame moderate technical scores.
 
 \textbf{Case 2: Bobby Bones (S27, 1st Place)---Percent Rules.}
-Bones averaged only 22.4 judge points, substantially below Milo Manheim (27.3), Evanna Lynch (26.1), and Alexis Ren (26.5). Our LP inversion reveals an \emph{extremely wide} survival interval: $v_{\text{Bones}} \in [0.01, 0.91]$ at Week 7 (see Figure~\ref{fig:bobby_survival}). This means: even with fan support as low as 1\%, Bones could still survive under the percent system.
+Bones averaged only 22.4 judge points, substantially below Milo Manheim (27.3), Evanna Lynch (26.1), and Alexis Ren (26.5). Our LP inversion yields a \emph{wide} feasible interval: $v_{\text{Bones}} \in [0.01, 0.91]$ at Week 7 (see Figure~\ref{fig:bobby_survival}). 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{figures/bobby_bones_survival.png}
-    \caption{Bobby Bones (S27) survival interval over time. The wide feasible region illustrates how the 50/50 percent system offers excessive protection to celebrities with strong fan bases, regardless of technical performance.}
+    \caption{Bobby Bones (S27) feasible vote interval over time. The wide bounds reflect \emph{underidentification} under our constraints, not exact vote values.}
     \label{fig:bobby_survival}
 \end{figure}
 
-\noindent\textbf{Key Insight:} This wide interval demonstrates that the current percent system offers \emph{excessive protection} to celebrities with dedicated fan bases, making technical skill almost irrelevant for survival. This finding motivates our Weighted Percent proposal (\secref{sec:model3}).
+\noindent\textbf{Key Insight:} The wide interval ($[1\%, 91\%]$) indicates severe \emph{underidentification}---our constraints do not pin down Bones' true fan support. This may reflect missing rule details or information not captured in public data. We interpret this as an \textbf{uncertainty signal} rather than an exact claim about fan behavior. The finding motivates our Weighted Percent proposal (\secref{sec:model3}), which would narrow such intervals by increasing judge weight.
 
 \textbf{Case 3: S32--S33 Model-Data Mismatch.}
 Constraint slack $S^* > 0$ at specific weeks reveals outcomes not fully explainable by our model assumptions. For S32, $S^* = 2.0$ with reversal weeks at Week 2 and 3; for S33, $S^* = 1.0$ with reversal at Week 2. Possible explanations:

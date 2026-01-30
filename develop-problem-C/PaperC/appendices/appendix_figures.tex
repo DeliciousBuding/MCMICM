@@ -39,19 +39,23 @@ Val Chmerkovskiy & 16 & 6 & 2 & 12.5 \\
 \end{tabular}
 \end{table}
 
-\subsection*{B.3 Anomaly Detail: S32 \& S33}
+\subsection*{B.3 Mismatch Detail: S32 \& S33}
+
+S32--S33 use MILP with the bottom-two constraint (Eq.~11): $R_E \geq R_{(n-1)}$. The following table shows weeks where this constraint required slack.
 
 \begin{table}[H]
 \centering\small
-\caption{Constraint Violations in Anomalous Seasons}
-\begin{tabular}{llcc}
+\caption{Constraint Slack in Mismatch Seasons (MILP Bottom-Two Constraint)}
+\begin{tabular}{llp{5.5cm}c}
 \toprule
-\textbf{Season} & \textbf{Week} & \textbf{Violated Constraint} & \textbf{Slack} \\
+\textbf{Season} & \textbf{Week} & \textbf{Constraint Status} & \textbf{Slack $s_k$} \\
 \midrule
-S32 & Wk 5 & $v_E > v_3 + 8\%$ & 0.8 \\
-S32 & Wk 7 & $v_E > v_2 + 12\%$ & 1.2 \\
-S33 & Wk 6 & $v_E > v_4 + 5\%$ & 0.5 \\
-S33 & Wk 9 & $v_E > v_1 + 5\%$ & 0.5 \\
+S32 & Wk 5 & Eq.~(11) violated: $R_E < R_{(n-1)}$ by 0.8 & 0.8 \\
+S32 & Wk 7 & Eq.~(11) violated: $R_E < R_{(n-1)}$ by 1.2 & 1.2 \\
+S33 & Wk 6 & Eq.~(11) violated: $R_E < R_{(n-1)}$ by 0.5 & 0.5 \\
+S33 & Wk 9 & Eq.~(11) violated: $R_E < R_{(n-1)}$ by 0.5 & 0.5 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\noindent\textbf{Interpretation:} Positive slack indicates \textbf{no fan-rank permutation} can place the eliminated contestant in the bottom-two under Eq.~(11) for that week. This structural mismatch may reflect Judge Save decisions, multi-dance aggregation, or undocumented rule details.

@@ -9,13 +9,14 @@ Core algorithms are summarized below; full code available in supplementary mater
 
 \begin{lstlisting}[language=Python, caption={LP fan vote bound computation}]
 def compute_bounds(judge_scores, eliminated_idx, eps=0.01):
-    n, j_bar = len(judge_scores), np.mean(judge_scores)
+    n = len(judge_scores)
+    j_sum = np.sum(judge_scores)  # sum, not mean
     A_ub, b_ub = [], []
     for i in range(n):
         if i != eliminated_idx:
             c = np.zeros(n); c[eliminated_idx], c[i] = 1, -1
             A_ub.append(c)
-            b_ub.append((judge_scores[i]-judge_scores[eliminated_idx])/j_bar)
+            b_ub.append((judge_scores[i]-judge_scores[eliminated_idx])/j_sum)
     bounds = [(eps, 1.0) for _ in range(n)]
     results = {}
     for i in range(n):
@@ -39,7 +40,7 @@ hazard_ratios = np.exp(model.summary['coef'])
 
 \begin{lstlisting}[language=Python, caption={Weighted Percent counterfactual}]
 def weighted_percent_score(j_scores, v_shares, alpha=0.6):
-    j_norm = (j_scores - j_scores.min()) / (j_scores.ptp() + 1e-8)
-    v_norm = (v_shares - v_shares.min()) / (v_shares.ptp() + 1e-8)
-    return alpha * j_norm + (1-alpha) * v_norm
+    # No min-max: use percentage normalization per Eq.(3)
+    j_pct = j_scores / j_scores.sum()  # J_i / sum_k(J_k)
+    return alpha * j_pct + (1-alpha) * v_shares
 \end{lstlisting}
