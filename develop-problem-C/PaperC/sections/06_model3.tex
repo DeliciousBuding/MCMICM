@@ -3,6 +3,8 @@
 \section{Model 3: Mechanism Design}
 \label{sec:model3}
 
+\noindent\textbf{\textit{This section addresses Tasks 4--5:}} We evaluate current mechanism fairness via interval-robust classification, then propose and optimize a Weighted Percent mechanism that reduces Definite-Wrongful eliminations by 92.5\% while preserving fan engagement.
+
 We address: \textbf{Can we design a voting mechanism that improves fairness while maintaining engagement?}
 
 \subsection{Interval-Robust Fairness Classification}
@@ -94,7 +96,7 @@ We replay all 230 elimination rounds under each mechanism:
 
 \begin{table}[H]
     \centering
-    \caption{Definite-Wrongful Count vs.\ Judge Weight $\alpha$. \textbf{Bold}: optimal range.}
+    \caption{\textbf{Judge Weight Sensitivity.} Definite-Wrongful count ($|\mathcal{D}_W|$) vs.\ judge weight $\alpha$. \textbf{Bold}: optimal range where fairness gains are maximized before eroding fan influence.}
     \begin{tabular}{lccccccc}
         \toprule
         $\alpha$ & 0.3 & 0.4 & 0.5 & \textbf{0.55} & \textbf{0.60} & \textbf{0.65} & 0.7 \\

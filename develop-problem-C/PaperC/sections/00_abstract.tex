@@ -3,15 +3,15 @@
 
 \begin{abstract}
 
-\emph{Dancing with the Stars} (DWTS) combines judge scores with viewer votes to determine weekly eliminations, yet individual fan vote shares are never directly disclosed. We develop a \textbf{Dual-Core Inversion Engine} to reconstruct latent fan vote distributions from elimination outcomes across all 34 US seasons.
+\textbf{Motivated by recurring judge--fan disagreements (e.g., Season 27), we treat \emph{Dancing with the Stars} (DWTS) as an audit problem:} can the show's published scoring rules explain the observed eliminations \textbf{without ever observing individual fan vote shares}?
 
-For \emph{percent-rule} seasons (S3--S27), we formulate fan vote inference as a \textbf{Linear Programming (LP)} problem with slack variables, where judge percentages are computed as $J_i / \sum_k J_k$ (sum, not mean). For \emph{rank-rule} seasons (S1--S2, S28--S34), fan vote ranks are treated as \textbf{latent decision variables} and solved via \textbf{Mixed-Integer Linear Programming (MILP)} with permutation constraints. Both solvers incorporate rule changes where they affect feasibility (immunity, double eliminations); for Judges' Save (S28+) we model \emph{bottom-two feasibility} but not the live save criterion, treating undocumented implementation details as modeling uncertainty.
+To answer this, we build a \textbf{Dual-Core Inversion Engine} that (i) reconstructs \emph{feasible fan-vote intervals} under percent-rule seasons (S3--S27) via \textbf{Linear Programming}, and (ii) infers \emph{rank-only fan permutations} under rank-rule seasons (S1--S2, S28--S34) via \textbf{Mixed-Integer Linear Programming}. We then quantify \textbf{model--data mismatch} using a minimal-slack metric $S^*$, identifying when no feasible vote assignment can reproduce the observed outcome.
 
-Our framework identifies \textbf{model-data mismatches} in S32 and S33---where constraint slack $S^* > 0$ indicates unexplained outcomes. Possible causes: undocumented rule variations, unmodeled judge-save criteria, or external factors.
+Across 34 seasons, our inversion engine explains \textbf{32 seasons with zero slack} under a 1\% tolerance; only \textbf{S32--S33} exhibit structural mismatch (no feasible assignment exists under stated rules). Possible causes include undocumented rule variations, unmodeled judge-save criteria, or multi-dance aggregation differences.
 
 Building on inferred votes, \textbf{Cox survival analysis} reveals: (1) professional partner is the dominant survival predictor (likelihood ratio test $\chi^2 = 47.3$, $p < 0.001$; Harrell's C-index improvement $\Delta C = 0.09$); (2) judge scores dominate early rounds while fan momentum drives late-stage outcomes.
 
-We propose a \textbf{Weighted Percent} mechanism ($0.6 \times \text{JudgePct} + 0.4 \times \text{FanPct}$) reducing definite-wrongful eliminations from 40 to \textbf{3} under interval-robust classification. Case studies of Jerry Rice (S2) and Bobby Bones (S27) illustrate key controversies.
+For mechanism design, our \textbf{Weighted Percent} recommendation ($0.6 \times \text{JudgePct} + 0.4 \times \text{FanPct}$) reduces \textbf{Definite-Wrongful eliminations from 40 to 3} ($-92.5\%$) while preserving fan influence near the Pareto knee.
 
 \begin{keywords}
 inverse problems; linear programming; mixed-integer programming; survival analysis; mechanism design

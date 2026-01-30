@@ -4,6 +4,8 @@
 \section{Model 1: Fan Vote Inversion via Dual-Core Engine}
 \label{sec:model1}
 
+\noindent\textbf{\textit{This section addresses Tasks 1--2:}} We reconstruct feasible fan vote intervals from observed eliminations, quantify the impact of rule changes (immunity, double eliminations, judge saves), and identify seasons where the stated rules cannot fully explain outcomes.
+
 % 4.1 问题形式化
 \subsection{Problem Formulation}
 \label{subsec:model1_formulation}
@@ -26,7 +28,7 @@ where $\epsilon > 0$ is a minimum share floor (default: 1\%).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/fig_dual_engine.jpg}
-    \caption{Dual-Core Engine Architecture: LP for percent seasons (S3--S27) vs.\ MILP for rank seasons (S1--S2, S28--S34).}
+    \caption{\textbf{Dual-Core Engine Architecture.} The LP core handles percent seasons (S3--S27) with closed-form constraints, while the MILP core handles rank seasons (S1--S2, S28--S34) requiring binary rank-ordering variables. \emph{Why two engines?} The S28+ rule change fundamentally altered the information structure---from percentage-based to rank-based disclosure.}
     \label{fig:dual_engine}
 \end{figure}
 

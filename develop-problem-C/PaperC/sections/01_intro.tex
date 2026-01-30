@@ -5,36 +5,38 @@
 
 \subsection{Background}
 
-\emph{Dancing with the Stars} (DWTS) has run 34 seasons since 2005, pairing celebrities with professional dancers. Judge scores are public, but \textbf{individual fan vote shares are never directly disclosed}. Instead, partial information is revealed through the voting system: percent-rule seasons (S3--S27) used percentage-based scoring where combined scores are defined by rule, while rank-rule seasons (S1--S2, S28+) disclosed only combined rankings. This creates an \emph{inverse problem}: reconstructing latent fan vote distributions from observable elimination outcomes.
+\textbf{Motivated by judge--fan disagreements} (e.g., S27 Bobby Bones), we treat \emph{Dancing with the Stars} (DWTS) as an \textbf{audit problem}: can scoring rules explain eliminations \emph{without fan vote data}?
+
+DWTS employs complex scoring mechanisms that have evolved significantly over 34 seasons (see \textbf{Figure \ref{fig:flowchart}}). This evolution creates a unique \emph{inverse problem}: reconstructing latent fan votes from partial information.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{figures/figure1.jpg}
+    \vspace{-1.5em}
+    \caption{\textbf{Analytical Framework.} The Dual-Core Inversion Engine processes 34 seasons via LP (Percent Era) and MILP (Rank Era) solvers to reconstruct hidden fan votes.}
+    \vspace{-1.0em}
+    \label{fig:flowchart}
+\end{figure}
 
 \subsection{Problem Statement}
 
-We address five interconnected questions (MCM Problem C Tasks):
-\begin{enumerate}[itemsep=0.1em]
-    \item \textbf{Fan Vote Inference:} Reconstruct plausible fan vote distributions from eliminations.
-    \item \textbf{Rule Change Impact:} How do immunity, double eliminations, and judge saves affect inference?
-    \item \textbf{Success Factors:} What predicts survival (profession, partner, fame)?
-    \item \textbf{Mechanism Evaluation:} Does the current system produce ``fair'' outcomes?
-    \item \textbf{Mechanism Design:} Can we improve fairness while maintaining engagement?
+This paper addresses five interconnected audit questions:
+\begin{enumerate}[label=\arabic*., nosep, leftmargin=*]
+    \item \textbf{Fan Vote Inference (Tasks 1--2):} Reconstruct feasible fan vote intervals from eliminations.
+    \item \textbf{Rule Change Impact (Task 2):} How do immunity, double eliminations, and saves affect inference?
+    \item \textbf{Success Factors (Task 3):} What predicts survival (profession, partner, fame)?
+    \item \textbf{Mechanism Evaluation (Task 4):} Does the current system produce ``fair'' outcomes?
+    \item \textbf{Mechanism Design (Task 5):} Can we improve fairness while maintaining engagement?
 \end{enumerate}
 
 \subsection{Contributions}
 
 \begin{enumerate}[itemsep=0.1em]
-    \item \textbf{Dual-Core Engine:} LP (percent seasons) + MILP (rank seasons) for fan vote inference.
-    \item \textbf{Model-Data Mismatch Detection:} S32/S33 identified with non-zero constraint slack---revealing mathematical complexity introduced by S28+ rule changes.
-    \item \textbf{Survival Analysis:} Pro dancer is dominant predictor (LRT $\chi^2 = 47.3$, $\Delta C = 0.09$).
-    \item \textbf{Weighted Percent System:} Reduces definite-wrongful eliminations from 40 to 3.
-    \item \textbf{Transparency Protocol:} Actionable recommendations balancing entertainment and fairness.
+    \item \textbf{Dual-Core Inversion Engine:} LP (percent seasons) + MILP (rank seasons) for fan vote inference with slack-based mismatch detection.
+    \item \textbf{Mismatch Detection:} S32/S33 identified with $S^* > 0$---structural audit gaps under stated rules.
+    \item \textbf{Survival Analysis:} Professional dancer is the dominant predictor (LRT $\chi^2 = 47.3$, $\Delta C = 0.09$).
+    \item \textbf{Weighted Percent Mechanism:} Reduces Definite-Wrongful eliminations from \textbf{40 to 3} ($-92.5\%$).
+    \item \textbf{Transparency Recommendations:} Actionable audit-trail improvements balancing entertainment and fairness.
 \end{enumerate}
 
-\subsection{Paper Organization}
 
-\secref{sec:assumptions}: Assumptions; \secref{sec:notations}: Notations; \secref{sec:model1}: Fan Vote Inversion; \secref{sec:model2}: Survival Analysis; \secref{sec:model3}: Mechanism Design; \secref{sec:sensitivity}: Sensitivity; \secref{sec:evaluation}: Evaluation; \secref{sec:conclusion}: Conclusions.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figures/fig_dwts_flowchart.jpeg}
-    \caption{Overview of our analytical framework for DWTS fan vote inference and mechanism design.}
-    \label{fig:flowchart}
-\end{figure}

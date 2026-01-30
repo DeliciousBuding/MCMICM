@@ -3,6 +3,8 @@
 \section{Model 2: Survival Analysis}
 \label{sec:model2}
 
+\noindent\textbf{\textit{This section addresses Task 3:}} We identify which contestant attributes (celebrity profession, professional partner, prior fame) predict survival, using Cox Proportional Hazards with stratified likelihoods for pro dancer effects.
+
 We investigate \textbf{what factors predict contestant survival} using Cox Proportional Hazards.
 
 \subsection{Cox Model}
@@ -40,7 +42,7 @@ where $\mathrm{HR}_k = \exp(\beta_k)$ is the hazard ratio ($>1$: higher risk; $<
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{figures/fig_forest_plot.jpg}
-    \caption{Forest plot of hazard ratios from Cox proportional hazards model. Values $<1$ indicate protective effects (longer survival).}
+    \caption{\textbf{Survival Predictors: Forest Plot.} Hazard ratios (HR) from Cox proportional hazards model with 95\% confidence intervals. Values $<1$ indicate protective effects (longer survival). \emph{Key insight:} Judge scores and fan votes dominate celebrity profession---talent matters more than fame category.}
     \label{fig:forest_plot}
 \end{figure}
 
