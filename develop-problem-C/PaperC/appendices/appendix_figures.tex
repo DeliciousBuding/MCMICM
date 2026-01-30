@@ -1,115 +1,57 @@
-% Appendix B: Additional Figures and Tables
-% 附录B：补充图表
-
-\section*{Appendix B: Additional Figures and Tables}
-\addcontentsline{toc}{section}{Appendix B: Additional Figures \& Tables}
+% Appendix B: Additional Tables
+\section*{Appendix B: Additional Tables}
+\addcontentsline{toc}{section}{Appendix B: Additional Tables}
 \label{appendix:figures}
 
-This appendix contains supplementary visualizations and detailed tables that support our main analysis.
-
-% B.1 完整粉丝投票估计表
-\subsection*{B.1 Fan Vote Estimates by Season}
-
-\begin{longtable}{lccccc}
-    \caption{Summary Statistics of Inferred Fan Votes by Season} \\
-    \toprule
-    \textbf{Season} & \textbf{Type} & \textbf{Episodes} & \textbf{Feasible} & \textbf{Med.\ Width} & \textbf{Slack $S^*$} \\
-    \midrule
-    \endfirsthead
-    \caption[]{(continued)} \\
-    \toprule
-    \textbf{Season} & \textbf{Type} & \textbf{Episodes} & \textbf{Feasible} & \textbf{Med.\ Width} & \textbf{Slack $S^*$} \\
-    \midrule
-    \endhead
-    \bottomrule
-    \endfoot
-    S1 & Rank & 6 & \checkmark & 12.1\% & 0.0 \\
-    S2 & Rank & 8 & \checkmark & 11.8\% & 0.0 \\
-    S3 & Percent & 10 & \checkmark & 8.2\% & 0.0 \\
-    S4 & Percent & 10 & \checkmark & 7.9\% & 0.0 \\
-    S5 & Percent & 10 & \checkmark & 8.1\% & 0.0 \\
-    \midrule
-    \multicolumn{6}{c}{\textit{... (S6--S29 similar, all feasible with $S^* = 0$)}} \\
-    \midrule
-    S30 & Rank & 10 & \checkmark & 9.4\% & 0.0 \\
-    S31 & Rank & 11 & \checkmark & 9.8\% & 0.0 \\
-    \textbf{S32} & Rank & 10 & $\times$ & -- & \textbf{2.0} \\
-    \textbf{S33} & Rank & 11 & $\times$ & -- & \textbf{1.0} \\
-    S34 & Rank & 10 & \checkmark & 10.2\% & 0.0 \\
-\end{longtable}
-
-% B.2 专业舞者效应详表
-\subsection*{B.2 Professional Dancer Effect: Detailed Breakdown}
+\subsection*{B.1 Season Feasibility Summary}
 
 \begin{table}[H]
-    \centering
-    \caption{Top 10 Professional Dancers by Partner Win Rate}
-    \label{tab:pro_dancers}
-    \begin{tabular}{lcccc}
-        \toprule
-        \textbf{Pro Dancer} & \textbf{Seasons} & \textbf{Finals} & \textbf{Wins} & \textbf{Win Rate} \\
-        \midrule
-        Derek Hough & 17 & 11 & 6 & 35.3\% \\
-        Mark Ballas & 19 & 7 & 2 & 10.5\% \\
-        Val Chmerkovskiy & 16 & 6 & 2 & 12.5\% \\
-        Maksim Chmerkovskiy & 17 & 5 & 2 & 11.8\% \\
-        Witney Carson & 12 & 4 & 2 & 16.7\% \\
-        Kym Johnson & 14 & 4 & 2 & 14.3\% \\
-        Cheryl Burke & 23 & 5 & 2 & 8.7\% \\
-        Tony Dovolani & 20 & 3 & 1 & 5.0\% \\
-        Julianne Hough & 8 & 4 & 2 & 25.0\% \\
-        Lindsay Arnold & 11 & 3 & 1 & 9.1\% \\
-        \bottomrule
-    \end{tabular}
+\centering\small
+\caption{Fan Vote Inference: Season-Level Summary (Selected Seasons)}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Season} & \textbf{Type} & \textbf{Eps} & \textbf{Feasible} & \textbf{Med.\ Width} & $S^*$ \\
+\midrule
+S1--S2 & Rank & 6--8 & \checkmark & 11.9\% & 0 \\
+S3--S27 & Percent & 10 & \checkmark & 8.1\% & 0 \\
+S28--S31 & Rank & 10--11 & \checkmark & 9.6\% & 0 \\
+\textbf{S32} & Rank & 10 & $\times$ & -- & \textbf{2.0} \\
+\textbf{S33} & Rank & 11 & $\times$ & -- & \textbf{1.0} \\
+S34 & Rank & 10 & \checkmark & 10.2\% & 0 \\
+\bottomrule
+\end{tabular}
 \end{table}
 
-% B.3 机制比较详图
-\subsection*{B.3 Mechanism Comparison: Detailed Results}
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{figures/fig_mechanism_detail.pdf}
-%     \caption{Wrongful elimination breakdown by season and mechanism. Each dot represents one elimination round; red indicates wrongful under current system, green indicates correct outcome.}
-%     \label{fig:mechanism_detail}
-% \end{figure}
-
-% B.4 异常季详细分析
-\subsection*{B.4 Anomalous Season Deep Dive: S32 and S33}
+\subsection*{B.2 Top Pro Dancers by Win Rate}
 
 \begin{table}[H]
-    \centering
-    \caption{Constraint Violations in Anomalous Seasons}
-    \label{tab:anomaly_detail}
-    \begin{tabular}{llcc}
-        \toprule
-        \textbf{Season} & \textbf{Week} & \textbf{Violated Constraint} & \textbf{Slack Required} \\
-        \midrule
-        S32 & Week 5 & $v_{\text{elim}} > v_3 + 0.08$ & 0.8 \\
-        S32 & Week 7 & $v_{\text{elim}} > v_2 + 0.12$ & 1.2 \\
-        S33 & Week 6 & $v_{\text{elim}} > v_4 + 0.05$ & 0.5 \\
-        S33 & Week 9 & $v_{\text{elim}} > v_1 + 0.05$ & 0.5 \\
-        \bottomrule
-    \end{tabular}
+\centering\small
+\caption{Professional Dancers: Finals and Wins}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Pro Dancer} & \textbf{Seasons} & \textbf{Finals} & \textbf{Wins} & \textbf{Win\%} \\
+\midrule
+Derek Hough & 17 & 11 & 6 & 35.3 \\
+Julianne Hough & 8 & 4 & 2 & 25.0 \\
+Witney Carson & 12 & 4 & 2 & 16.7 \\
+Val Chmerkovskiy & 16 & 6 & 2 & 12.5 \\
+\bottomrule
+\end{tabular}
 \end{table}
 
-\noindent\textbf{Interpretation:} In S32 Week 7, the eliminated contestant would have needed 12\% higher fan votes than the next-lowest contestant to satisfy elimination constraints---an implausibly large margin that suggests external factors.
+\subsection*{B.3 Anomaly Detail: S32 \& S33}
 
-% B.5 Kaplan-Meier 曲线补充图
-\subsection*{B.5 Additional Survival Curves}
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.85\textwidth]{figures/fig_km_celebrity_type.pdf}
-%     \caption{Kaplan-Meier survival curves stratified by celebrity type: Athletes, Actors, Musicians, TV Personalities, and Other. Athletes show the highest survival probability in early weeks.}
-%     \label{fig:km_celebrity}
-% \end{figure}
-
-% B.6 Bootstrap 分布
-\subsection*{B.6 Bootstrap Distribution of Key Estimates}
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{figures/fig_bootstrap_dist.pdf}
-%     \caption{Bootstrap distributions (1,000 resamples) for: (a) Professional dancer variance explained, (b) Borda wrongful elimination rate, (c) Median fan vote bound width. Vertical dashed lines indicate point estimates.}
-%     \label{fig:bootstrap}
-% \end{figure}
+\begin{table}[H]
+\centering\small
+\caption{Constraint Violations in Anomalous Seasons}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Season} & \textbf{Week} & \textbf{Violated Constraint} & \textbf{Slack} \\
+\midrule
+S32 & Wk 5 & $v_E > v_3 + 8\%$ & 0.8 \\
+S32 & Wk 7 & $v_E > v_2 + 12\%$ & 1.2 \\
+S33 & Wk 6 & $v_E > v_4 + 5\%$ & 0.5 \\
+S33 & Wk 9 & $v_E > v_1 + 5\%$ & 0.5 \\
+\bottomrule
+\end{tabular}
+\end{table}

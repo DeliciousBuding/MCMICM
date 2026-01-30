@@ -1,5 +1,4 @@
-% Memo: Safety Net Protocol Recommendation
-% 备忘录：安全网协议建议
+% Memo: Safety Net Protocol Recommendation (Compact Version)
 
 \newpage
 \thispagestyle{empty}
@@ -8,101 +7,36 @@
 \Large\textbf{MEMORANDUM}
 \end{center}
 
-\vspace{1em}
-
-\noindent\rule{\textwidth}{1.5pt}
-
 \vspace{0.5em}
+\noindent\rule{\textwidth}{1.5pt}
+\vspace{0.3em}
 
 \begin{tabular}{@{}ll}
-\textbf{TO:}      & Director of Programming, \emph{Dancing with the Stars} \\[0.3em]
-\textbf{FROM:}    & Team \#2617892, Senior Data Forensic Consultants \\[0.3em]
-\textbf{DATE:}    & January 26, 2026 \\[0.3em]
-\textbf{SUBJECT:} & \textbf{URGENT: System Integrity Failure Detected in Season 32}
+\textbf{TO:}      & Director of Programming, \emph{Dancing with the Stars} \\
+\textbf{FROM:}    & Team \#2617892, Data Forensic Consultants \\
+\textbf{DATE:}    & January 26, 2026 \\
+\textbf{SUBJECT:} & \textbf{System Integrity Failure Detected in Seasons 32--33}
 \end{tabular}
 
-\vspace{0.5em}
-
+\vspace{0.3em}
 \noindent\rule{\textwidth}{1.5pt}
+\vspace{0.8em}
 
-\vspace{1.5em}
+\subsection*{Finding}
 
-%=== Opening ===
-\subsection*{Executive Summary}
+Our forensic audit reveals that \textbf{Seasons 32--33 are structurally infeasible}---no combination of fan votes and judge scores can explain the observed eliminations under published rules. For 31 consecutive seasons (S1--S31), our LP/CP inversion engine achieved 100\% feasibility. Beginning with S32, constraint slack spiked to $S^* = 2.0$, indicating the Judges' Save mechanic created mathematically unjustifiable outcomes.
 
-Our forensic audit of all 34 seasons of \emph{Dancing with the Stars} reveals a critical finding: \textbf{the current ``Judges' Save'' mechanic has mathematically broken the competition's fairness.} Beginning in Season 32, the voting system produces outcomes that are \emph{structurally infeasible}---no combination of fan votes and judge scores can explain the observed eliminations under the published rules.
+\subsection*{Solution: Safety Net Protocol}
 
-This is not a minor anomaly. It is a \textbf{System Integrity Failure} that undermines viewer trust and exposes the production to accusations of manipulation.
+\begin{enumerate}[itemsep=0.2em]
+    \item \textbf{Weighted Borda Count:} Replace 50/50 system with $0.6 \times \text{Judge} + 0.4 \times \text{Fan}$. Simulations show \textbf{92.5\% reduction} in wrongful eliminations.
+    
+    \item \textbf{Pre-Broadcast Check:} Run LP solver before results show ($<5$ sec). Flag episodes with $S^* > 0.5$ for manual review.
+\end{enumerate}
 
-%=== The Evidence ===
-\subsection*{The Evidence: Mathematical Infeasibility}
-
-We developed a Dual-Core Inversion Engine that reconstructs plausible fan vote distributions from elimination outcomes. For 31 consecutive seasons (S1--S31), our model achieved \textbf{100\% feasibility}---every elimination could be explained by the stated rules.
-
-Beginning with \textbf{Season 32}, this changed dramatically. As shown in Figure~\ref{fig:inconsistency} (The Inconsistency Spectrum), the constraint slack $S^*$ spiked from near-zero to $S^* = 2.0$. This means:
-
-\begin{itemize}[itemsep=0.3em]
-    \item The ``feasible region'' for fan votes \textbf{collapsed entirely}.
-    \item No valid fan vote distribution exists that satisfies the elimination sequence.
-    \item The Judges' Save mechanic created outcomes that \textbf{cannot be mathematically justified}.
-\end{itemize}
-
-\noindent\textbf{Bottom line:} The published rules say one thing; the results say another. This gap is measurable, significant, and damaging.
-
-%=== The Solution ===
-\subsection*{The Solution: Safety Net Protocol}
-
-We propose a two-tier \textbf{Safety Net Protocol} to restore system integrity while preserving viewer engagement:
-
-\vspace{0.5em}
-
-\begin{tcolorbox}[colback=blue!5, colframe=blue!50!black, title=\textbf{Tier 1: Soft Floor (The ``Melting Point'')}]
-\textbf{Mechanism:} Contestants with judge scores below the 25th percentile receive a ``protection buffer'' that prevents immediate elimination solely due to low fan votes.
-
-\textbf{Rationale:} This prevents the scenario where a technically skilled dancer is eliminated in early rounds due to lack of name recognition, while still allowing fan preferences to dominate in later rounds.
-
-\textbf{Formula:} If $J_i < Q_{25}(\mathbf{J})$, then $C_i^{\text{eff}} = \max(C_i, \theta_{\text{floor}})$
-\end{tcolorbox}
-
-\vspace{0.5em}
-
-\begin{tcolorbox}[colback=green!5, colframe=green!50!black, title=\textbf{Tier 2: Dynamic Mix (Rank/Percent Hybrid)}]
-\textbf{Mechanism:} Replace the current 50/50 additive system with a \textbf{Weighted Borda Count}:
-\[
-\text{Score}_i = 0.6 \times \widetilde{J}_i + 0.4 \times \widetilde{V}_i
-\]
-where $\widetilde{J}_i$ and $\widetilde{V}_i$ are min-max normalized scores.
-
-\textbf{Rationale:} Our counterfactual simulations show this reduces ``wrongful eliminations'' by \textbf{92.5\%} (from 40 cases to 3 cases across 230 elimination rounds).
-
-\textbf{Benefit:} Simple, transparent, and easily communicated to viewers as ``60\% skill, 40\% fan support.''
-\end{tcolorbox}
-
-\vspace{0.5em}
-
-\begin{tcolorbox}[colback=yellow!5, colframe=orange!50!black, title=\textbf{Pre-Broadcast Feasibility Check}]
-\textbf{Implementation:} Before each live results show, run our LP/CP solver on the current week's data. If the constraint system reports $S^* > 0.5$, \textbf{flag the episode for manual review} before announcing results.
-
-\textbf{Runtime:} $< 5$ seconds on standard hardware.
-
-\textbf{Impact:} Would have detected the S32 and S33 anomalies \emph{before} public broadcast, enabling investigation of potential voting irregularities, undisclosed rule modifications, or data entry errors.
-\end{tcolorbox}
-
-%=== Closing ===
 \subsection*{Recommendation}
 
-Adopting this protocol restores the \textbf{``Professional Floor''}---ensuring technical excellence is rewarded---while keeping the \textbf{``Popular Ceiling''}---maintaining the viewer engagement that drives ratings and advertising revenue.
-
-The math is clear. The solution is ready. \textbf{We advise immediate implementation for Season 35.}
-
-\vspace{1.5em}
-
-\noindent\rule{\textwidth}{0.5pt}
+Implement for Season 35. This restores the ``Professional Floor'' while maintaining viewer engagement.
 
 \vspace{0.5em}
-
-\noindent\textit{This memo accompanies our full technical report. For detailed methodology, proofs, and sensitivity analyses, please refer to Sections 4--7 of the attached paper.}
-
-\vspace{1em}
-
 \hfill\textbf{--- Team \#2617892}

@@ -1,82 +1,30 @@
-% Appendix: AI Tools Usage Disclosure
-% 附录：AI工具使用声明（按COMAP 2026要求）
-
+% AI Tools Usage Disclosure (COMAP 2026)
 \section*{AI Report}
 \addcontentsline{toc}{section}{AI Report}
 \label{appendix:ai}
 
-In accordance with COMAP 2026 rules, we disclose all uses of artificial intelligence (AI) tools during the preparation of this paper.
+\textbf{Tools Used:} Claude Opus 4.5 (code architecture, algorithm implementation), ChatGPT-4o (grammar), GitHub Copilot (code assistance), DeepL (translation).
 
-% AI工具总览
-\subsection*{AI Tools Used}
-\label{subsec:ai_tools}
-
-\begin{itemize}[itemsep=0.3em]
-    \item \textbf{Claude Opus 4.5 (via GitHub Copilot)} -- Code architecture design, algorithm implementation, debugging
-    \item \textbf{ChatGPT-4o} -- Language polishing and grammar checking
-    \item \textbf{GitHub Copilot} -- Code assistance for Python modules
-    \item \textbf{DeepL Translator} -- Technical term translation (Chinese $\leftrightarrow$ English)
-\end{itemize}
-
-% 各章节AI使用明细
-\subsection*{AI Usage by Section/Task}
-\label{subsec:ai_usage}
-
+\textbf{Usage Summary:}
 \begin{table}[H]
-    \centering
-    \caption{Detailed AI Usage Log}
-    \label{tab:ai_disclosure}
-    \begin{tabularx}{\textwidth}{l l X}
-        \toprule
-        \textbf{AI Tool} & \textbf{Section/Task} & \textbf{Specific Usage} \\
-        \midrule
-        Claude Opus 4.5 & Model Design & Assisted in formulating the LP/CP dual-core inversion framework. Mathematical constraints and algorithm logic designed collaboratively with team. \\
-        \addlinespace[0.4em]
-        Claude Opus 4.5 & Code Implementation & Generated Python module structure for \texttt{dwts\_model} package including ETL, engines, sampling, analysis, mechanism, and visualization modules. \\
-        \addlinespace[0.4em]
-        Claude Opus 4.5 & Anomaly Detection & Designed the ``Money Plot'' sensitivity analysis framework for detecting infeasible seasons (S32, S33). \\
-        \addlinespace[0.4em]
-        Claude Opus 4.5 & Mechanism Design & Developed the Weighted Borda Count mechanism and counterfactual simulation framework. \\
-        \addlinespace[0.4em]
-        ChatGPT-4o & Abstract \& Intro & Polishing English grammar and improving fluency. All technical content written by team. \\
-        \addlinespace[0.4em]
-        GitHub Copilot & Code Refinement & Assisted in writing utility functions and test cases. Core algorithmic logic designed by team. \\
-        \addlinespace[0.4em]
-        DeepL & Throughout & Translated technical terms. All text reviewed and revised by team. \\
-        \bottomrule
-    \end{tabularx}
+\centering\small
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Tool} & \textbf{Task} & \textbf{Usage} \\
+\midrule
+Claude & Model Design & LP/CP framework formulation \\
+Claude & Code & Python \texttt{dwts\_model} package \\
+Claude & Analysis & Money Plot anomaly detection \\
+ChatGPT & Writing & Grammar polish (technical content by team) \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
-% 验证与人工监督
-\subsection*{Verification \& Human Oversight}
-\label{subsec:verification}
+\textbf{Verification:} All AI outputs reviewed and tested. Key results (92.5\% improvement, S32/S33 anomalies) independently validated. LP formulations checked against optimization textbooks.
 
-\begin{enumerate}[itemsep=0.4em]
-    \item \textbf{Human Review:} All AI-generated content was carefully reviewed, verified, and often substantially modified before inclusion. Key results (92.5\% improvement, S32/S33 anomalies) were independently validated.
-    \item \textbf{Code Testing:} All code assisted by AI tools was independently tested on the full DWTS dataset to ensure correctness and reproducibility.
-    \item \textbf{Mathematical Verification:} LP/CP formulations were manually derived and cross-checked against optimization theory textbooks.
-    \item \textbf{Domain Knowledge:} DWTS rule changes were verified against official production documents and fan archives; AI was not relied upon for factual claims about the show.
-\end{enumerate}
+\textbf{Human-Only Contributions:} Problem formulation, data collection, result interpretation, policy recommendations, final parameter choices ($\alpha = 0.6$, $\epsilon = 1\%$).
 
-% 人类独创内容
-\subsection*{Original Human Contributions}
-\label{subsec:human_original}
-
-The following elements were created entirely by the human team without AI assistance:
-
-\begin{itemize}[itemsep=0.3em]
-    \item Problem formulation and research questions
-    \item Data collection and rule verification from official sources
-    \item Interpretation of anomaly detection results (why S32/S33 are anomalies)
-    \item Policy recommendations in the ``Safety Net Protocol''
-    \item Final parameter choices ($\alpha = 0.6$, $\epsilon = 1\%$) based on domain reasoning
-\end{itemize}
-
-% 团队声明
-\subsection*{Team Statement}
-\label{subsec:team_statement}
-
-We affirm that while AI tools significantly accelerated our workflow, all substantive intellectual contributions---problem framing, model design decisions, result interpretation, and policy recommendations---reflect the collective judgment of our human team. The AI tools served as sophisticated assistants, not autonomous decision-makers.
+\textbf{Statement:} AI tools accelerated workflow; all substantive intellectual contributions reflect human team judgment.
 
 \vspace{1em}
 \noindent\textbf{Signed:} Team \#2617892

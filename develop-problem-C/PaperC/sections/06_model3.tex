@@ -1,196 +1,78 @@
 % Section 6: Model 3 - Mechanism Design (Weighted Borda Count)
-% 模型三：机制设计（加权 Borda 计数）
 
-\section{Model 3: Mechanism Design for Fairer Voting}
+\section{Model 3: Mechanism Design}
 \label{sec:model3}
 
-Having characterized the current DWTS voting system and its outcomes, we now address the normative question: \textbf{Can we design a voting mechanism that improves fairness while maintaining viewer engagement?}
+We address: \textbf{Can we design a voting mechanism that improves fairness while maintaining engagement?}
 
-% 6.1 公平性的操作化定义
 \subsection{Operationalizing Fairness}
-\label{subsec:fairness_definition}
 
-We define a \textbf{``wrongful elimination''} as an event where:
-\begin{enumerate}
-    \item A contestant is eliminated under the current system, but
-    \item Would have survived under a reasonable alternative scoring rule.
-\end{enumerate}
-
-More precisely, let $E^{\text{actual}}$ denote the contestant eliminated in week $w$, and $E^{\text{alt}}$ denote the contestant who would be eliminated under alternative rule $\mathcal{R}$. A wrongful elimination occurs when:
+A \textbf{``wrongful elimination''} occurs when the eliminated contestant had \emph{higher} fan support than whoever would be eliminated under an alternative rule:
 \begin{equation}
-    \label{eq:wrongful}
     E^{\text{actual}} \neq E^{\text{alt}} \quad \text{and} \quad \text{Rank}_{\text{fan}}(E^{\text{actual}}) > \text{Rank}_{\text{fan}}(E^{\text{alt}}).
 \end{equation}
 
-That is, the eliminated contestant had \emph{higher} fan support than the contestant who would have been eliminated under the alternative rule.
-
-% 6.2 候选机制
 \subsection{Candidate Mechanisms}
-\label{subsec:candidate_mechanisms}
 
-We evaluate three alternative mechanisms:
-
-\subsubsection{Soft Floor Mechanism}
-Guarantees each contestant a minimum combined score:
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{Soft Floor:} $C_i^{\text{floor}} = \max(C_i, \theta)$ --- guarantees minimum score.
+    \item \textbf{Weighted Average:} $C_i = \alpha \widetilde{J}_i + (1-\alpha) \widetilde{V}_i$ --- adjustable judge weight.
+    \item \textbf{Weighted Borda (Proposed):} Rank-based with $\alpha = 0.6$:
+\end{enumerate}
 \begin{equation}
-    C_i^{\text{floor}} = \max\left(C_i, \theta\right),
+    S_i^{\text{Borda}} = 0.6 \cdot \widetilde{J}_i + 0.4 \cdot \widetilde{V}_i,
 \end{equation}
-where $\theta$ is a protection threshold (e.g., 5th percentile of historical combined scores).
+where $\widetilde{J}_i, \widetilde{V}_i$ are min-max normalized. Lowest score is eliminated.
 
-\subsubsection{Weighted Average Mechanism}
-Replaces the additive combination with a weighted average:
-\begin{equation}
-    C_i^{\text{weighted}} = \alpha \cdot \widetilde{J}_i + (1 - \alpha) \cdot \widetilde{V}_i,
-\end{equation}
-where $\widetilde{J}_i$ and $\widetilde{V}_i$ are min-max normalized judge and fan components, and $\alpha \in [0, 1]$ controls the judge weight.
-
-\subsubsection{Weighted Borda Count (Our Proposal)}
-Rank-based scoring that is robust to extreme values:
-\begin{equation}
-    \label{eq:borda}
-    S_i^{\text{Borda}} = \alpha \cdot \widetilde{J}_i + (1 - \alpha) \cdot \widetilde{V}_i,
-\end{equation}
-where:
-\begin{align}
-    \widetilde{J}_i &= \frac{J_i - J_{\min}}{J_{\max} - J_{\min}}, \\
-    \widetilde{V}_i &= \frac{v_i - v_{\min}}{v_{\max} - v_{\min}}.
-\end{align}
-
-The contestant with the \textbf{lowest} $S_i^{\text{Borda}}$ is eliminated.
-
-% 6.3 反事实模拟
 \subsection{Counterfactual Simulation}
-\label{subsec:counterfactual}
 
-We replay all 230 elimination rounds across 34 seasons under each mechanism and count wrongful eliminations.
-
-\begin{algorithm}[H]
-    \caption{Counterfactual Mechanism Evaluation}
-    \label{alg:counterfactual}
-    \KwIn{Historical data $\mathcal{D}$, mechanism $\mathcal{R}$, parameter $\alpha$}
-    \KwOut{Wrongful elimination count}
-    
-    $\text{wrongful} \leftarrow 0$\;
-    \For{each season $s$ in $\mathcal{D}$}{
-        \For{each elimination week $w$ in $s$}{
-            $E^{\text{actual}} \leftarrow$ actual eliminated contestant\;
-            $E^{\text{alt}} \leftarrow$ eliminated under $\mathcal{R}$ with parameter $\alpha$\;
-            \If{$E^{\text{actual}} \neq E^{\text{alt}}$ \textbf{and} fan\_rank$(E^{\text{actual}}) >$ fan\_rank$(E^{\text{alt}})$}{
-                $\text{wrongful} \leftarrow \text{wrongful} + 1$\;
-            }
-        }
-    }
-    \Return wrongful\;
-\end{algorithm}
-
-% 6.4 结果
-\subsection{Results}
-\label{subsec:mechanism_results}
+We replay all 230 elimination rounds under each mechanism:
 
 \begin{table}[H]
     \centering
-    \caption{Mechanism Comparison: Wrongful Eliminations Across 230 Rounds}
+    \caption{Mechanism Comparison}
     \label{tab:mechanism_comparison}
     \begin{tabular}{lccc}
         \toprule
-        \textbf{Mechanism} & \textbf{Parameter} & \textbf{Wrongful Elim.} & \textbf{Rate} \\
+        \textbf{Mechanism} & \textbf{Param} & \textbf{Wrongful} & \textbf{Rate} \\
         \midrule
         Current System & -- & 40 & 17.4\% \\
-        Soft Floor & $\theta = 5\%$ & 94 & 40.9\% \\
-        Weighted Average & $\alpha = 0.5$ & 28 & 12.2\% \\
-        \textbf{Weighted Borda} & $\alpha = 0.6$ & \textbf{3} & \textbf{1.3\%} \\
+        Soft Floor & $\theta=5\%$ & 94 & 40.9\% \\
+        Weighted Avg & $\alpha=0.5$ & 28 & 12.2\% \\
+        \textbf{Weighted Borda} & $\alpha=0.6$ & \textbf{3} & \textbf{1.3\%} \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\subsubsection{Key Findings}
-
-\begin{enumerate}
-    \item \textbf{Soft Floor Backfires:} The floor mechanism \emph{increases} wrongful eliminations (94 vs.\ 40) because it compresses the score distribution, making outcomes more sensitive to noise.
-    
-    \item \textbf{Weighted Average Improves Modestly:} Reducing judge weight to 50\% decreases wrongful eliminations to 28 (12.2\%), a 30\% improvement.
-    
-    \item \textbf{Weighted Borda Excels:} Our proposed mechanism achieves only 3 wrongful eliminations (1.3\%), a \textbf{92.5\% reduction} from the current system.
-\end{enumerate}
-
-\figref{fig:borda_comparison} visualizes the mechanism comparison.
+\noindent\textbf{Key Finding:} Soft Floor \emph{backfires} (94 wrongful); Weighted Borda achieves \textbf{92.5\% reduction}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{figures/fig_task5_borda_comparison.pdf}
+    \includegraphics[width=0.8\textwidth]{figures/fig_task5_borda_comparison.pdf}
     \caption{Wrongful elimination rates under different mechanisms. Weighted Borda ($\alpha = 0.6$) achieves a 92.5\% reduction compared to the current system.}
     \label{fig:borda_comparison}
 \end{figure}
 
-% 6.5 参数敏感性
-\subsection{Parameter Sensitivity}
-\label{subsec:alpha_sensitivity}
-
-We vary $\alpha$ from 0.3 to 0.8 to assess robustness:
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.7\textwidth]{figures/fig_alpha_sensitivity.pdf}
-%     \caption{Wrongful elimination count as a function of judge weight $\alpha$. The optimal range is $\alpha \in [0.55, 0.65]$, with $\alpha = 0.6$ achieving the minimum.}
-%     \label{fig:alpha_sensitivity}
-% \end{figure}
-
-% 6.6 Safety Net Protocol: 三层机制
-\subsection{The Safety Net Protocol: A Three-Tiered System}
+\subsection{The Safety Net Protocol}
 \label{subsec:safety_net}
 
-Building on our analysis, we propose a comprehensive \textbf{Safety Net Protocol} that operates on three complementary levels. As detailed in Table~\ref{tab:safetynet}, the mechanism addresses different failure modes of the current system while maintaining viewer engagement.
+We propose a three-tiered mechanism:
 
 \begin{table}[H]
     \centering
-    \caption{Proposed Safety Net Protocol: A Three-Tiered Mechanism}
+    \caption{Safety Net Protocol}
     \label{tab:safetynet}
-    \renewcommand{\arraystretch}{1.3}
-    \begin{tabular}{@{}p{2.5cm}p{3.2cm}p{4cm}p{4.5cm}@{}}
+    \begin{tabular}{@{}p{2cm}p{3cm}p{3.5cm}p{4cm}@{}}
         \toprule
-        \textbf{Tier Name} & \textbf{Trigger Condition} & \textbf{Mechanism} & \textbf{Intended Outcome} \\
+        \textbf{Tier} & \textbf{Trigger} & \textbf{Mechanism} & \textbf{Outcome} \\
         \midrule
-        \textbf{Tier 1:} The Soft Floor & 
-        Judge Score $< \mu - 2\sigma$ & 
-        Fan Weight $\times 0.5$ (halved influence) & 
-        Eliminates unqualified viral stars; protects technical merit \\
-        \addlinespace[0.3em]
-        \textbf{Tier 2:} The Elite Mix & 
-        Survivors of Floor check & 
-        40\% Rank + 60\% Percent (Weighted Borda) & 
-        Balances fairness and engagement; 92.5\% reduction in wrongful eliminations \\
-        \addlinespace[0.3em]
-        \textbf{Tier 3:} The Signal & 
-        Weekly Live Show & 
-        Reveal Top 3 Fan Favorites (Anonymous) & 
-        Stimulates voter turnout via strategic uncertainty (Game Theory) \\
+        Soft Floor & $J_i < \mu - 2\sigma$ & Fan Weight $\times 0.5$ & Protects technical merit \\
+        Elite Mix & Pass Tier 1 & 60\% Judge + 40\% Fan & 92.5\% fewer wrongful elim. \\
+        The Signal & Weekly & Reveal Top 3 (anonymous) & Stimulates engagement \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\noindent\textbf{Tier 1 (The Soft Floor)} creates a ``melting point'' for contestants whose technical skills fall significantly below average. When a celebrity's judge score is more than two standard deviations below the mean ($J_i < \mu_J - 2\sigma_J$), their fan vote weight is halved. This prevents the scenario where a technically unqualified but socially viral contestant survives solely on name recognition, undermining the competition's credibility.
+\subsection{Implementation}
 
-\noindent\textbf{Tier 2 (The Elite Mix)} applies our Weighted Borda Count to all contestants who pass the Tier 1 check. The 60/40 split between judge scores and fan votes ensures that both professional expertise and popular appeal contribute meaningfully to outcomes---neither dominates entirely.
-
-\noindent\textbf{Tier 3 (The Signal)} introduces a game-theoretic element: each week, the production reveals the \emph{anonymous} Top 3 fan vote leaders (e.g., ``One of the Top 3 is from the Athletes group''). This partial information disclosure:
-\begin{itemize}[itemsep=0.2em]
-    \item Creates strategic uncertainty that stimulates voting (viewers don't know if their favorite is ``safe'').
-    \item Generates social media discussion and engagement.
-    \item Avoids the ``bandwagon effect'' of revealing exact rankings.
-\end{itemize}
-
-% 6.7 实施建议
-\subsection{Implementation Recommendations}
-\label{subsec:implementation}
-
-We recommend DWTS producers adopt the \textbf{Weighted Borda Count} with $\alpha = 0.6$ for the following reasons:
-
-\begin{enumerate}
-    \item \textbf{Fairness:} Reduces wrongful eliminations by 92.5\%, addressing viewer complaints about ``robbery'' outcomes.
-    
-    \item \textbf{Transparency:} Simple formula that can be explained to viewers: ``60\% skill, 40\% fan support.''
-    
-    \item \textbf{Engagement:} Preserves meaningful viewer influence (40\% weight), maintaining incentives to vote.
-    
-    \item \textbf{Robustness:} Normalization makes the system less sensitive to extreme scores or vote shares.
-\end{enumerate}
+We recommend $\alpha = 0.6$ Weighted Borda: (1) 92.5\% fairness gain, (2) transparent ``60\% skill, 40\% fan,'' (3) preserved engagement, (4) robust to extreme values.

@@ -3,24 +3,18 @@
 
 \begin{abstract}
 
-\emph{Dancing with the Stars} (DWTS), since its 2005 US debut, aggregates judge scores with real-time viewer votes to determine weekly eliminations---yet individual fan vote shares remain unpublished, creating an \textbf{inverse problem} of central interest to producers, advertisers, and academic researchers.
+\emph{Dancing with the Stars} (DWTS) combines judge scores with viewer votes to determine weekly eliminations, yet individual fan vote shares remain unpublished. We develop a \textbf{Dual-Core Inversion Engine} to reconstruct latent fan vote distributions from elimination outcomes across all 34 US seasons.
 
-We develop a \textbf{Dual-Core Inversion Engine} that reconstructs latent fan vote distributions from elimination outcomes across all 34 US seasons. For \emph{percent-disclosed} seasons (S3--S27), we formulate fan vote inference as a \textbf{Linear Programming (LP)} feasibility problem, deriving tight bounds on each contestant's vote share through constraint propagation. For \emph{rank-only} seasons (S1--S2, S28--S34), where only ordinal rankings are revealed, we employ \textbf{Constraint Programming (CP)} with interval arithmetic to enumerate feasible orderings. Both solvers incorporate production-verified rule changes (immunity windows, double eliminations, judge save mechanics) extracted from official season archives.
+For \emph{percent-disclosed} seasons (S3--S27), we formulate fan vote inference as a \textbf{Linear Programming (LP)} problem with slack variables, deriving tight bounds on each contestant's vote share. For \emph{rank-only} seasons (S1--S2, S28--S34), we employ \textbf{Constraint Programming (CP)} with interval arithmetic. Both solvers incorporate rule changes (immunity, double eliminations, judge save) from official archives.
 
-Our framework identifies \textbf{two anomalous seasons}---S32 and S33---where no feasible fan vote assignment exists even under maximally relaxed constraints (minimum share $\epsilon \to 0$). A sensitivity-based ``Money Plot'' visualizes \emph{constraint slack} $S^*(\epsilon)$ as a function of the floor parameter: normal seasons remain feasible throughout $\epsilon \in [0\%, 10\%]$, while S32 exhibits $S^* = 2.0$ and S33 exhibits $S^* = 1.0$ at $\epsilon = 0\%$, suggesting external shocks (production interventions, voting irregularities) that our model successfully detects.
+Our framework identifies \textbf{two anomalous seasons}---S32 and S33---where no feasible fan vote assignment exists even under relaxed constraints ($\epsilon \to 0$). The ``Money Plot'' visualizes constraint slack $S^*(\epsilon)$: normal seasons remain feasible throughout $\epsilon \in [0\%, 10\%]$, while S32/S33 exhibit positive slack at $\epsilon = 0\%$, suggesting production interventions.
 
-Building on inferred vote shares, we apply \textbf{Cox Proportional Hazards survival analysis} to quantify elimination risk drivers. Key findings: (1) professional dancer partner explains 42.9\% of survival variance; (2) judge scores dominate early rounds while fan momentum drives late-stage outcomes; (3) celebrity type (athlete, actor, musician) shows statistically significant but small effects ($|\mathrm{HR}| < 1.2$).
+Building on inferred votes, \textbf{Cox survival analysis} reveals: (1) professional partner explains 42.9\% of survival variance; (2) judge scores dominate early rounds while fan momentum drives late-stage outcomes.
 
-Finally, we propose a \textbf{Weighted Borda Count} mechanism:
-\[
-    \text{Score}_i = 0.6 \times \widetilde{J}_i + 0.4 \times \widetilde{V}_i,
-\]
-where $\widetilde{J}_i$ and $\widetilde{V}_i$ are min-max normalized judge and fan components. Counterfactual simulation across 230 historical eliminations demonstrates a \textbf{92.5\% reduction} in ``wrongful elimination'' rate (from 40 cases under the current system to 3 under Borda), substantially improving perceived fairness without sacrificing viewer engagement incentives.
-
-Our analysis delivers actionable intelligence: a \textbf{Safety Net Protocol} memo recommends pre-broadcast feasibility checks that would have flagged S32 and S33 anomalies in real time, enabling producers to investigate before public controversy arises.
+We propose a \textbf{Weighted Borda Count} mechanism ($0.6 \times \text{Judge} + 0.4 \times \text{Fan}$) achieving \textbf{92.5\% reduction} in wrongful eliminations. A \textbf{Safety Net Protocol} provides real-time anomaly detection for producers.
 
 \begin{keywords}
-inverse problems; fan vote inference; linear programming; constraint satisfaction; survival analysis; mechanism design; anomaly detection; \emph{Dancing with the Stars}
+inverse problems; linear programming; constraint satisfaction; survival analysis; mechanism design; anomaly detection
 \end{keywords}
 
 \end{abstract}

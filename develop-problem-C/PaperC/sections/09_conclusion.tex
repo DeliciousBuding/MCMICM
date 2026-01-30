@@ -1,99 +1,43 @@
 % Section 9: Conclusions and Recommendations
 % 结论与建议
 
-\section{Conclusions and Recommendations}
+\section{Conclusions}
 \label{sec:conclusion}
 
-% 9.1 主要结论
 \subsection{Summary of Findings}
-\label{subsec:summary}
 
-This paper developed a comprehensive analytical framework for inferring fan votes from \emph{Dancing with the Stars} elimination data and designing fairer voting mechanisms. Our key contributions and findings are:
+This paper developed a comprehensive framework for inferring fan votes from \emph{Dancing with the Stars} elimination data. Our key findings:
 
-\begin{enumerate}
-    \item \textbf{Dual-Core Inversion Engine:} We successfully reconstructed plausible fan vote distributions for 32 of 34 US seasons using a hybrid LP/CP solver with rule-adaptive constraint generation. The engine achieves 100\% constraint satisfaction with median bound width of 8.3\%.
+\begin{enumerate}[itemsep=0.2em]
+    \item \textbf{Dual-Core Inversion:} Successfully reconstructed fan vote distributions for 32 of 34 seasons using hybrid LP/CP with 100\% constraint satisfaction and median bound width of 8.3\%.
     
-    \item \textbf{Anomaly Detection:} We identified S32 and S33 as ``hard anomalies'' where no feasible fan vote assignment exists under standard elimination logic, even with minimal constraints ($\epsilon = 0\%$). This provides producers with an early warning system for voting irregularities.
+    \item \textbf{Anomaly Detection:} Identified S32/S33 as ``hard anomalies'' where no feasible fan vote exists under standard logic, providing an early warning system for voting irregularities.
     
-    \item \textbf{Professional Dancer Effect:} Survival analysis reveals that the choice of professional dancer partner explains \textbf{42.9\%} of variance in contestant survival---larger than celebrity type (8.2\%), prior fame (3.7\%), or any other single factor.
+    \item \textbf{Professional Dancer Effect:} Survival analysis reveals professional partner explains \textbf{42.9\%} of variance---larger than celebrity type (8.2\%) or prior fame (3.7\%).
     
-    \item \textbf{Weighted Borda Count:} Our proposed mechanism ($0.6 \times \text{Judge} + 0.4 \times \text{Fan}$) reduces wrongful eliminations by \textbf{92.5\%} compared to the current system, from 40 cases (17.4\%) to just 3 cases (1.3\%) across 230 elimination rounds.
+    \item \textbf{Weighted Borda Count:} Proposed mechanism ($0.6J + 0.4V$) reduces wrongful eliminations by \textbf{92.5\%}.
 \end{enumerate}
 
-% 9.2 给 DWTS 制作方的建议
-\subsection{Recommendations for DWTS Producers}
-\label{subsec:recommendations}
+\subsection{Recommendations}
 
-Based on our analysis, we provide the following actionable recommendations:
+\begin{enumerate}[itemsep=0.2em]
+    \item \textbf{Pre-Broadcast Checks:} Run LP/CP solver before broadcast; flag $S^* > 0.5$.
+    \item \textbf{Adopt Weighted Borda:} $\text{Score}_i = 0.6 \widetilde{J}_i + 0.4 \widetilde{V}_i$.
+    \item \textbf{Diversify Dancer Pool:} Rotate professionals or balance historical win rates.
+\end{enumerate}
 
-\subsubsection{Recommendation 1: Implement Pre-Broadcast Feasibility Checks}
-\begin{tcolorbox}[colback=blue!5, colframe=blue!50!black, title=Safety Net Protocol]
-Before each live broadcast, run our LP/CP solver on the current week's data. If the constraint system is infeasible or nearly infeasible ($S^* > 0.5$), flag the episode for manual review before announcing results.
-
-\textbf{Implementation:} A lightweight script requiring $< 5$ seconds of computation on standard hardware.
-
-\textbf{Benefit:} Would have detected S32 and S33 anomalies before public controversy.
-\end{tcolorbox}
-
-\subsubsection{Recommendation 2: Adopt Weighted Borda Scoring}
-Transition from the current additive system to:
-\begin{equation}
-    \text{Score}_i = 0.6 \times \widetilde{J}_i + 0.4 \times \widetilde{V}_i
-\end{equation}
-
-\textbf{Rationale:}
-\begin{itemize}[itemsep=0.2em]
-    \item Reduces perceived ``unfairness'' by 92.5\%.
-    \item Maintains meaningful viewer influence (40\% weight).
-    \item Simple formula easily communicated to audiences.
-\end{itemize}
-
-\subsubsection{Recommendation 3: Diversify Professional Dancer Pool}
-Given the outsized influence of professional dancer assignment (42.9\% variance explained), consider:
-\begin{itemize}[itemsep=0.2em]
-    \item Rotating professional dancers across celebrities mid-season.
-    \item Balancing historical win rates in initial pairings.
-    \item Disclosing pairing criteria to enhance transparency.
-\end{itemize}
-
-% 9.3 模型局限性
 \subsection{Limitations}
-\label{subsec:limitations}
 
-We acknowledge the following limitations:
+\begin{itemize}[itemsep=0.1em]
+    \item Unobserved heterogeneity (social media campaigns, news events).
+    \item Weaker bounds for rank-only seasons (S28--S34).
+    \item Cannot determine anomaly \emph{cause} (only detection).
+    \item Counterfactual assumes unchanged voting behavior.
+\end{itemize}
 
-\begin{enumerate}
-    \item \textbf{Unobserved Heterogeneity:} Our model cannot capture all factors influencing fan votes (e.g., social media campaigns, weekly performance variance, news events).
-    
-    \item \textbf{Rank-Only Seasons:} The CP core for S28--S34 provides weaker bounds than LP due to ordinal (rather than cardinal) constraints.
-    
-    \item \textbf{Anomaly Interpretation:} While we detect S32/S33 as anomalies, we cannot definitively determine the \emph{cause} (production intervention, voting system error, external manipulation).
-    
-    \item \textbf{Counterfactual Assumptions:} Mechanism evaluation assumes fan voting behavior would remain unchanged under alternative rules---a strong assumption.
-\end{enumerate}
-
-% 9.4 未来工作
 \subsection{Future Work}
-\label{subsec:future_work}
 
-Several extensions could strengthen this framework:
+Future extensions: (1) real-time dashboard for producers, (2) international expansion to \emph{Strictly Come Dancing} and other franchises, (3) incorporating social media sentiment to tighten bounds.
 
-\begin{enumerate}
-    \item \textbf{Real-Time Integration:} Deploy the inversion engine as a live dashboard during broadcasts, enabling producers to monitor vote feasibility in real time.
-    
-    \item \textbf{International Expansion:} Apply the framework to \emph{Strictly Come Dancing} (UK), \emph{Let's Dance} (Germany), and other international franchises with different voting rules.
-    
-    \item \textbf{Behavioral Modeling:} Incorporate social media sentiment, Google Trends, and betting market odds as auxiliary signals to tighten vote bounds.
-    
-    \item \textbf{Game-Theoretic Analysis:} Model strategic voting scenarios where viewers anticipate others' behavior, potentially invalidating the sincere voting assumption.
-\end{enumerate}
-
-% 9.5 结语
-\subsection{Closing Remarks}
-\label{subsec:closing}
-
-\emph{Dancing with the Stars} exemplifies the modern reality TV paradigm where audience participation coexists with expert judgment. By developing rigorous methods to infer hidden vote shares and design fairer mechanisms, we hope this work contributes to both the academic study of collective decision-making and the practical improvement of entertainment formats that engage millions of viewers worldwide.
-
-\begin{tcolorbox}[colback=green!5, colframe=green!50!black, title=Key Takeaway]
-\textbf{The current DWTS voting system, while functional, produces 17.4\% ``wrongful eliminations'' that undermine perceived fairness. Our Weighted Borda Count mechanism reduces this to 1.3\%---a 92.5\% improvement---while maintaining the viewer engagement that drives the show's success.}
-\end{tcolorbox}
+\vspace{0.5em}
+\noindent\textbf{Key Takeaway:} The current DWTS system produces 17.4\% wrongful eliminations. Our Weighted Borda reduces this to 1.3\%---a \textbf{92.5\% improvement}---while maintaining viewer engagement.

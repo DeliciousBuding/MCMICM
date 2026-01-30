@@ -52,14 +52,19 @@ class PercentLPEngine(InversionEngine):
     2. Find hard bounds for each fan vote given minimum violation
     """
     
-    def __init__(self, tolerance: float = 1e-6, slack_weight: float = 1.0):
+    def __init__(self, tolerance: float = 1e-6, slack_weight: float = 1.0,
+                 min_vote_floor: float = 0.01, regularization: float = 0.1):
         """
         Args:
             tolerance: Numerical tolerance for constraints
             slack_weight: Weight for slack variables in objective
+            min_vote_floor: Minimum vote share floor (default 1%) to prevent overfitting
+            regularization: Weight for entropy regularization toward uniform distribution
         """
         self.tolerance = tolerance
         self.slack_weight = slack_weight
+        self.min_vote_floor = min_vote_floor  # NEW: Prevent extreme values
+        self.regularization = regularization  # NEW: Pull toward uniform
         
     def get_method_name(self) -> str:
         return "percent"
@@ -185,9 +190,14 @@ class PercentLPEngine(InversionEngine):
         # Variables: F (n) + s+ (m) + s- (m)
         n_vars = n_contestants + 2 * n_constraints
         
-        # Objective: minimize sum of slack (L1 norm)
+        # Objective: minimize slack + regularization toward uniform
+        # L1 regularization: |F_i - 1/n| pulls estimates toward uniform
+        uniform = 1.0 / n_contestants
         c = np.zeros(n_vars)
-        c[n_contestants:] = self.slack_weight  # All slack vars have weight
+        c[n_contestants:] = self.slack_weight  # Slack penalty
+        # Add small regularization to prefer solutions closer to uniform
+        for i in range(n_contestants):
+            c[i] = self.regularization * abs(1.0 - uniform * n_contestants)
         
         # Inequality constraints: A_ub @ x <= b_ub
         # For each (e, s) pair: F_e + J_e - (s+ - s-) <= F_s + J_s
@@ -224,10 +234,11 @@ class PercentLPEngine(InversionEngine):
         A_eq[0, :n_contestants] = 1.0
         b_eq = np.array([1.0])
         
-        # Bounds: 0 <= F_i <= 1, 0 <= s+, s- 
+        # Bounds: min_vote_floor <= F_i <= 1 - (n-1)*min_vote_floor, 0 <= s+, s- 
         bounds = []
+        max_vote = 1.0 - (n_contestants - 1) * self.min_vote_floor
         for i in range(n_contestants):
-            bounds.append((0.0, 1.0))  # Fan votes
+            bounds.append((self.min_vote_floor, max_vote))  # Fan votes with floor
         for i in range(2 * n_constraints):
             bounds.append((0.0, None))  # Slack variables
         
@@ -315,10 +326,11 @@ class PercentLPEngine(InversionEngine):
         A_eq[0, :n_contestants] = 1.0
         b_eq = np.array([1.0])
         
-        # Bounds
+        # Bounds with floor constraint
         var_bounds = []
+        max_vote = 1.0 - (n_contestants - 1) * self.min_vote_floor
         for i in range(n_contestants):
-            var_bounds.append((0.0, 1.0))
+            var_bounds.append((self.min_vote_floor, max_vote))
         for i in range(2 * n_constraints):
             var_bounds.append((0.0, None))
         

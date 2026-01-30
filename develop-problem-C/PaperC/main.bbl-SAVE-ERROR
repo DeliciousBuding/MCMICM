@@ -19,28 +19,6 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
-    \entry{dwts_voting_analysis}{misc}{}{}
-      \name{author}{1}{}{%
-        {{hash=014db09b4f440af5b170bc7f0784ff54}{%
-           family={{DWTS Fan Forums}},
-           familyi={D\bibinitperiod}}}%
-      }
-      \strng{namehash}{014db09b4f440af5b170bc7f0784ff54}
-      \strng{fullhash}{014db09b4f440af5b170bc7f0784ff54}
-      \strng{fullhashraw}{014db09b4f440af5b170bc7f0784ff54}
-      \strng{bibnamehash}{014db09b4f440af5b170bc7f0784ff54}
-      \strng{authorbibnamehash}{014db09b4f440af5b170bc7f0784ff54}
-      \strng{authornamehash}{014db09b4f440af5b170bc7f0784ff54}
-      \strng{authorfullhash}{014db09b4f440af5b170bc7f0784ff54}
-      \strng{authorfullhashraw}{014db09b4f440af5b170bc7f0784ff54}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{note}{Online community survey of 5,000+ viewers}
-      \field{title}{Voting Behavior Analysis and Fan Surveys}
-      \field{year}{2020}
-    \endentry
     \entry{bertsimas1997optimization}{book}{}{}
       \name{author}{2}{}{%
         {{hash=5b57425178d5ae2d2835ef44cb330e42}{%
@@ -65,8 +43,8 @@
       \strng{authornamehash}{c45925647d08f7da29491319a56e359a}
       \strng{authorfullhash}{c45925647d08f7da29491319a56e359a}
       \strng{authorfullhashraw}{c45925647d08f7da29491319a56e359a}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Introduction to Linear Optimization}
@@ -99,8 +77,8 @@
       \strng{authornamehash}{9b474a3989c3b1345495f69f7ccbb776}
       \strng{authorfullhash}{8c446ca796aa3eda5675849d93fad989}
       \strng{authorfullhashraw}{8c446ca796aa3eda5675849d93fad989}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Elsevier}
@@ -133,8 +111,8 @@
       \strng{authornamehash}{478582d7dbbcbdeaa9aac5f8c1d2729a}
       \strng{authorfullhash}{478582d7dbbcbdeaa9aac5f8c1d2729a}
       \strng{authorfullhashraw}{478582d7dbbcbdeaa9aac5f8c1d2729a}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Analysis of Survival Data}
@@ -157,8 +135,8 @@
       \strng{authornamehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
       \strng{authorfullhash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
       \strng{authorfullhashraw}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of the Royal Statistical Society: Series B (Methodological)}
@@ -189,8 +167,8 @@
       \strng{authornamehash}{5d45272a5c29864ab7c14d6d5567315c}
       \strng{authorfullhash}{5d45272a5c29864ab7c14d6d5567315c}
       \strng{authorfullhashraw}{5d45272a5c29864ab7c14d6d5567315c}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Social Choice and Individual Values}
@@ -213,8 +191,8 @@
       \strng{authornamehash}{0e30ac1924d2eed1f33314cd72971727}
       \strng{authorfullhash}{0e30ac1924d2eed1f33314cd72971727}
       \strng{authorfullhashraw}{0e30ac1924d2eed1f33314cd72971727}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Histoire de l'Académie Royale des Sciences}
@@ -241,8 +219,8 @@
       \strng{authornamehash}{71a70adca4fbfe9ec3ad745b0d94b8f5}
       \strng{authorfullhash}{71a70adca4fbfe9ec3ad745b0d94b8f5}
       \strng{authorfullhashraw}{71a70adca4fbfe9ec3ad745b0d94b8f5}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Axioms of Cooperative Decision Making}
@@ -268,8 +246,8 @@
       \strng{authornamehash}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
       \strng{authorfullhash}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
       \strng{authorfullhashraw}{7f5b2d6262ddc71c1e6f1cbe3ecc5fbe}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Inverse Problem Theory and Methods for Model Parameter Estimation}
@@ -324,6 +302,29 @@
       \field{journaltitle}{Rowman \& Littlefield}
       \field{title}{Reality TV: The Work of Being Watched}
       \field{year}{2004}
+      \true{nocite}
+    \endentry
+    \entry{dwts_voting_analysis}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=014db09b4f440af5b170bc7f0784ff54}{%
+           family={{DWTS Fan Forums}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{fullhash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{fullhashraw}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{bibnamehash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{authorbibnamehash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{authornamehash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{authorfullhash}{014db09b4f440af5b170bc7f0784ff54}
+      \strng{authorfullhashraw}{014db09b4f440af5b170bc7f0784ff54}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Online community survey of 5,000+ viewers}
+      \field{title}{Voting Behavior Analysis and Fan Surveys}
+      \field{year}{2020}
       \true{nocite}
     \endentry
     \entry{dwts_wikipedia}{misc}{}{}
@@ -540,8 +541,8 @@
       \strng{authornamehash}{bbfb09b5b5b4060670d10f1d227bac97}
       \strng{authorfullhash}{55804740a6bc42af2c3d658a3da3ce37}
       \strng{authorfullhashraw}{55804740a6bc42af2c3d658a3da3ce37}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:1609.05807}
