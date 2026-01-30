@@ -1,0 +1,53 @@
+﻿% Section 4: Model 1 (Chinese)
+
+\section{模型1：粉丝票反演与规则审计}
+\label{sec:model1}
+
+\noindent\textbf{本节对应任务1--2：} 从淘汰结果反演粉丝票区间，并识别规则无法解释的周次。
+
+\subsection{问题表述}
+设第 $s$ 赛季第 $w$ 周活跃选手集合为 $\mathcal{C}_{s,w}$，粉丝票份额 $\mathbf{v}$ 满足：
+\begin{equation}
+    \sum_{i=1}^{n} v_i = 1, \quad v_i \ge \epsilon.
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/fig_dual_engine.jpg}
+    \caption{\textbf{双核反演架构}：百分制赛季使用 LP，排名制赛季使用 MILP/CP。}
+    \label{fig:dual_engine}
+\end{figure}
+
+\subsection{百分制赛季：LP 反演}
+在 S3--S27，合成分数 $C_i = J_i^{\%} + v_i$，被淘汰者应具有最低 $C_i$。当严格可行性失效时，引入松弛变量，得到最小不一致度 $S^*$，用于规则透明度审计。
+
+\subsection{排名制赛季：MILP/CP 反演}
+在 S1--S2 与 S28+，粉丝票排名为潜变量，需通过 MILP/CP 反演。评委拯救赛季仅要求淘汰者处于 bottom-two 集合。
+
+\subsection{规则透明度审计}
+我们用 $S^*$ 度量规则无法解释的程度，作为“规则透明度”指标。$S^* > 0$ 表示公开规则无法完全解释淘汰结果。
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/fig_anomaly_detection.pdf}
+    \caption{\textbf{规则透明度审计}：每赛季的最大不一致度 $S^*$。}
+    \label{fig:money_plot}
+\end{figure}
+
+\subsection{约束一致性采样（拒绝采样）}
+在区间内提出候选样本，仅保留能复现实测淘汰的样本：
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{Proposal：} 在 $[L_i, U_i]$ 超矩形中生成候选 $V$；
+    \item \textbf{Accept：} 仅保留与实测淘汰一致的样本；
+    \item \textbf{Audit：} 在通过样本中计算人气偏离概率。
+\end{enumerate}
+
+\subsection{启发式正则（保守估计）}
+在排名制赛季中，区间可能极宽。我们提供可选的区间收缩用于敏感性分析，主结果默认不启用。
+
+\subsection{小结}
+\begin{itemize}[itemsep=0.2em]
+    \item 双核反演统一了不同赛制的粉丝票反演问题。
+    \item $S^*$ 提供可解释的规则透明度审计。
+    \item 约束一致性采样为“人气偏离”提供概率级评估。
+\end{itemize}

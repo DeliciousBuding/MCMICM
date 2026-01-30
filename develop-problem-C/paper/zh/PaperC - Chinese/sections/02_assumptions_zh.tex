@@ -1,0 +1,31 @@
+﻿% Section 2: Assumptions (Chinese)
+
+\section{假设}
+\label{sec:assumptions}
+
+\subsection{基本假设}
+\begin{enumerate}[label=\textbf{H\arabic*.}, leftmargin=2em, itemsep=0.3em]
+    \item \textbf{真实投票：} 观众投票反映真实偏好，不进行战略投票。
+    \item \textbf{规则一致：} 公布的淘汰结果遵循公开规则；偏离会表现为模型-数据不一致。
+    \item \textbf{最小票仓：} 每位选手均至少获得 $\epsilon$ 的票占比（默认 1\%）。
+    \item \textbf{规则准确：} 公布的赛制调整（免淘汰、双淘汰、评委拯救）可信。
+    \item \textbf{评委独立：} 评委评分不依赖观众投票结果。
+    \item \textbf{周次独立：} 观众无法获得真实投票份额并据此策略投票。
+\end{enumerate}
+
+\subsection{评估指标定义}
+为避免“反演逻辑”与“公平评估”的循环，我们将评估分为两层：
+
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{规则一致性（硬约束）}：在第 2 层反演中，任何有效样本必须复现实测淘汰结果：
+    \begin{equation}
+        \text{Outcome}_{\text{simulated}} \equiv \text{Outcome}_{\text{observed}}
+    \end{equation}
+    即模拟中淘汰者必须满足当周规则（最低总分或 bottom-two）。
+
+    \item \textbf{人气偏离（审计指标）}：在规则一致条件下，淘汰者是否并非最低粉丝票：
+    \begin{equation}
+        \text{IsWrongful} \iff V_{\text{fan, elim}} > \min(\{V_{\text{fan,1}}, \dots, V_{\text{fan,n}}\})
+    \end{equation}
+    \textit{含义：} 规则一致，但观众意愿被逆转。
+\end{itemize}

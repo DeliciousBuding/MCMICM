@@ -1,0 +1,46 @@
+﻿% Section 6: Model 3 (Chinese)
+
+\section{模型3：机制设计}
+\label{sec:model3}
+
+\noindent\textbf{本节对应任务4--5：} 在公平性与观众参与之间寻找机制优化方案。
+
+\subsection{区间鲁棒分类}
+基于 $[v_i^{\min}, v_i^{\max}]$，将淘汰分为三类：
+\begin{enumerate}[itemsep=0.2em]
+    \item \textbf{明确安全（$\mathcal{D}_S$）：} 任意可行 $v_i$ 下，淘汰者均为低人气/低评委分。
+    \item \textbf{明确不公（$\mathcal{D}_W$）：} 任意可行 $v_i$ 下，淘汰者在人气与评委分上均高于中位数。
+    \item \textbf{可能不公（$\mathcal{P}_W$）：} 介于两者之间，依赖真实票值。
+\end{enumerate}
+
+\subsection{候选机制}
+我们比较现行 50/50、软阈值（Soft Floor）与加权百分比：
+\begin{equation}
+    C_i^{\text{new}} = \alpha J_i^{\%} + (1-\alpha) v_i, \quad \alpha=0.6.
+\end{equation}
+
+\subsection{公平-参与度权衡（Pareto）}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/fig_pareto_frontier.jpg}
+    \caption{\textbf{Pareto 前沿：} 兼顾公平与参与的“拐点”配置。}
+    \label{fig:pareto}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{机制对比（区间鲁棒分类）}
+    \label{tab:mechanism_comparison}
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{机制} & \textbf{参数} & $|\mathcal{D}_W|$ & $|\mathcal{P}_W|$ & $|\mathcal{D}_S|$ \\
+        \midrule
+        现行机制 & 50/50 & 40 & -- & 190 \\
+        Soft Floor & $\theta=5\%$ & 94 & -- & 136 \\
+        \textbf{Weighted Percent} & $\alpha=0.6$ & \textbf{3} & 37 & 190 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{结论}
+加权百分比（60/40）在公平性提升与粉丝参与之间取得最优平衡，具有可解释性与可推广性。
