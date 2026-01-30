@@ -1,0 +1,55 @@
+
+================================================================================
+RULE COMPLIANCE MEMO: Season 28+ Voting Method
+================================================================================
+
+QUESTION: Does our model correctly apply the voting rules for S28+?
+
+ANSWER: YES ✓
+
+PDF EVIDENCE (verbatim quotes):
+
+1. "In the first two seasons of the U.S. show, the combination was based on 
+   ranks."
+
+2. "Season 2 concerns (due to celebrity contestant Jerry Rice who was a finalist 
+   despite very low judge scores) led to a modification to use percentages 
+   instead of ranks."
+
+3. "Around this same season [S28], the producers also returned to using the 
+   method of ranks to combine judges scores with fan votes as in seasons one 
+   and two. The exact season this change occurred is not known, but it is 
+   reasonable to assume it was season 28."
+
+4. Footnote: "The year of the return to the rank based method is not known for 
+   certain; season 28 is a reasonable assumption."
+
+5. Appendix explicitly states:
+   - "COMBINED BY RANK (used in seasons 1, 2, and 28a - 34)"
+   - "COMBINED BY PERCENT (used for season 3 through 27a)"
+
+DECISION RATIONALE:
+- The PDF explicitly states S28-34 should use RANK method
+- This is labeled as "a reasonable assumption" by problem authors
+- Our implementation follows this guidance exactly
+
+IMPLEMENTATION:
+- Seasons 1-2: Rank method
+- Seasons 3-27: Percent method  
+- Seasons 28-34: Rank method + Judges' Save
+
+ADDITIONAL JUDGES' SAVE RULE (S28+):
+The PDF states: "The bottom two contestants were identified using the combined 
+judge scores and fan votes, and then during the live show the judges voted to 
+select which of these two to eliminate."
+
+This creates ambiguity in our model because:
+1. We don't know how judges voted between bottom two
+2. Either bottom-two contestant could have been eliminated
+
+Our approach: We model this as a "union of polytopes" - the eliminated contestant
+must have been BOTH in the bottom two AND lost the judges' vote. This is handled
+by our JudgesSaveHandler module.
+
+COMPLIANCE STATUS: VERIFIED ✓
+================================================================================

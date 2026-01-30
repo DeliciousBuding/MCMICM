@@ -1,0 +1,37 @@
+
+================================================================================
+DATA INTERPRETATION: Fan Vote Estimates in Rank Seasons
+================================================================================
+
+QUESTION: What do decimal values (e.g., 0.666) mean for Rank season estimates?
+
+ANSWER: They represent NORMALIZED POPULARITY SCORES, not raw ranks.
+
+EXPLANATION:
+
+For PERCENT seasons (S3-S27):
+- Values directly represent estimated fan vote share
+- E.g., 0.35 means ~35% of total fan votes
+- Sum across contestants in a week ≈ 1.0
+
+For RANK seasons (S1-2, S28-34):
+- Values represent a PROBABILITY/UTILITY transformation of rank
+- We convert discrete ranks to continuous [0,1] scale for comparability
+- Formula: score = (N - rank + 1) / N, where N = number of contestants
+- E.g., with 4 contestants: 1st=1.0, 2nd=0.75, 3rd=0.5, 4th=0.25
+
+WHY DECIMALS?
+1. Allows direct comparison with percent-season estimates
+2. Represents relative popularity (higher = more popular)
+3. When multiple rank orderings are feasible, we report the centroid
+
+INTERPRETATION GUIDE:
+- 0.8+ : Very popular (top ranked)
+- 0.5-0.8 : Moderately popular
+- 0.2-0.5 : Less popular
+- <0.2 : Low popularity (bottom ranked)
+
+IMPORTANT: These are not probabilities that sum to 1!
+They are relative popularity indices derived from rank constraints.
+
+================================================================================
