@@ -52,7 +52,8 @@ class ContestantLifecycle:
     def was_active(self, week: int) -> bool:
         """Check if contestant was active (in denominator) for week"""
         state = self.get_state(week)
-        return state in [ContestantState.ACTIVE, ContestantState.ELIMINATED_THIS_WEEK]
+        return state in [ContestantState.ACTIVE, ContestantState.ELIMINATED_THIS_WEEK,
+                        ContestantState.FINALIST]
     
     def get_active_weeks(self) -> List[int]:
         """Get list of weeks contestant was active"""

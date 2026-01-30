@@ -1,17 +1,22 @@
 """
 Two-Phase Robust LP Engine for Percent Seasons (S3-S27)
 
+CRITICAL: Judge percentage = J_i / SUM(J_k), NOT J_i / MEAN(J_k)!
+
 Phase 1: Minimize slack (L1-norm) to find minimum inconsistency score S*
 Phase 2: With S* locked, find hard bounds [L_i, U_i] for each fan vote
 
 Mathematical formulation:
-- Variables: F_i (fan vote percentage for contestant i), slack variables s_j
-- Constraint: F_e + J_e - s_j <= F_s + J_s + s_j for each (eliminated, survivor) pair
-- Simplex: sum(F_i) = 1 for each week
-- Bounds: 0 <= F_i <= 1
+- Variables: v_i (fan vote percentage for contestant i), slack variables s_j
+- Judge percentage: J_i^% = J_i / sum(J_k) for active contestants
+- Combined score: C_i = J_i^% + v_i
+- Elimination constraint: C_E <= C_i for all survivors
+  => v_E - v_i <= (J_i - J_E) / sum(J_k)
+- Simplex: sum(v_i) = 1 for each week
+- Bounds: epsilon <= v_i <= 1 - (n-1)*epsilon
 
 Phase 1 Objective: min sum(|s_j|)
-Phase 2 Objective: min/max F_i subject to sum(|s_j|) <= S* + epsilon
+Phase 2 Objective: min/max v_i subject to sum(|s_j|) <= S* + delta
 """
 import numpy as np
 from scipy.optimize import linprog, OptimizeResult

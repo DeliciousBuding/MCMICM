@@ -12,7 +12,8 @@ Let $\mathcal{C}_{s,w} = \{1, 2, \ldots, n\}$ denote the set of active contestan
 \begin{itemize}[itemsep=0.2em]
     \item Judge scores $\mathbf{J} = (J_1, J_2, \ldots, J_n)$
     \item Elimination outcome $E \in \mathcal{C}_{s,w}$ (the contestant sent home)
-    \item For rank seasons: fan vote ranks $\mathbf{r} = (r_1, r_2, \ldots, r_n)$
+    \item For percent seasons (S3--S27): aggregate vote share information
+    \item For rank seasons (S1--S2, S28+): only judge ranks disclosed; \textbf{fan vote ranks are latent}
 \end{itemize}
 
 \noindent We seek to infer the latent fan vote shares $\mathbf{v} = (v_1, v_2, \ldots, v_n)$ satisfying:
@@ -29,27 +30,32 @@ where $\epsilon > 0$ is a minimum share floor (default: 1\%).
 For seasons S3--S27, where production disclosed some vote percentage information, we formulate fan vote inference as a \textbf{Linear Programming (LP) feasibility problem}.
 
 \subsubsection{Elimination Constraint}
-Under the standard DWTS rule, the contestant with the lowest combined score (judge + fan) is eliminated:
+Under the standard DWTS rule, the contestant with the lowest combined score (judge percentage + fan percentage) is eliminated. The judge percentage for contestant $i$ is:
+\begin{equation}
+    \label{eq:judge_pct}
+    J_i^{\%} = \frac{J_i}{\sum_{k=1}^{n} J_k},
+\end{equation}
+where the denominator is the \textbf{sum of all active contestants' judge scores}. The combined score is:
 \begin{equation}
     \label{eq:combined_score}
-    C_i = \frac{J_i}{\bar{J}} + v_i,
+    C_i = J_i^{\%} + v_i = \frac{J_i}{\sum_{k} J_k} + v_i.
 \end{equation}
-where $\bar{J} = \frac{1}{n}\sum_j J_j$ normalizes judge scores. The elimination constraint becomes:
+The elimination constraint ($E$ has the lowest combined score):
 \begin{equation}
     \label{eq:elimination_constraint}
     C_E \leq C_i \quad \forall i \neq E.
 \end{equation}
 
-Substituting \eqnref{eq:combined_score} into \eqnref{eq:elimination_constraint}:
+Substituting and rearranging:
 \begin{equation}
     \label{eq:lp_elimination}
-    v_E - v_i \leq \frac{J_i - J_E}{\bar{J}} \quad \forall i \neq E.
+    v_E - v_i \leq \frac{J_i - J_E}{\sum_{k} J_k} \quad \forall i \neq E.
 \end{equation}
 
 \subsubsection{Robust LP Formulation}
 \label{subsubsec:robust_lp}
 
-In practice, strict feasibility may fail due to measurement noise, undisclosed rule modifications, or production interventions. We introduce \textbf{slack variables} $\mathbf{s} = (s_1, s_2, \ldots, s_m)$ to relax the $m$ elimination constraints, formulating the \textbf{Robust LP}:
+In practice, strict feasibility may fail due to measurement noise, undisclosed rule modifications, or model specification gaps. We introduce \textbf{slack variables} $\mathbf{s} = (s_1, s_2, \ldots, s_m)$ to relax the $m$ elimination constraints, formulating the \textbf{Robust LP}:
 
 \begin{equation}
     \label{eq:robust_lp}
@@ -58,7 +64,7 @@ In practice, strict feasibility may fail due to measurement noise, undisclosed r
         S^* = \min_{\mathbf{v}, \mathbf{s}} \quad & \sum_{k=1}^{m} |s_k| \\
         \text{s.t.} \quad & \sum_{i=1}^{n} v_i = 1 \\
         & v_i \geq \epsilon \quad \forall i \\
-        & v_E - v_i \leq \frac{J_i - J_E}{\bar{J}} + s_k \quad \forall k \in \{1, \ldots, m\}
+        & v_E - v_i \leq \frac{J_i - J_E}{\sum_{k} J_k} + s_k \quad \forall k \in \{1, \ldots, m\}
     \end{aligned}
     }
 \end{equation}
@@ -73,7 +79,7 @@ In practice, strict feasibility may fail due to measurement noise, undisclosed r
 \noindent\textbf{Interpretation:}
 \begin{itemize}[itemsep=0.2em]
     \item $S^* = 0$: The system is \emph{feasible}---eliminations are fully explainable by fan votes and judge scores.
-    \item $S^* > 0$: The system is \emph{infeasible}---some external factor is needed to explain the observed outcomes.
+    \item $S^* > 0$: The system exhibits \emph{model-data mismatch}---some factor not captured by our model is required to explain the observed outcomes. This could be undocumented rule variations, judge save subjectivity (S28+), or data aggregation differences.
 \end{itemize}
 
 \subsubsection{Bounding via LP}
@@ -85,22 +91,26 @@ Given a feasible (or minimally relaxed) constraint set, we compute tight bounds 
 subject to constraints \eqnref{eq:vote_simplex}, \eqnref{eq:lp_elimination}, and $\sum |s_k| \leq S^* + \delta$.
 
 % 4.3 排名披露季（CP 核心）
-\subsection{Rank Seasons: Constraint Programming Core}
-\label{subsec:cp_core}
+\subsection{Rank Seasons: Mixed-Integer Linear Programming}
+\label{subsec:milp_core}
 
-For seasons S1--S2 and S28--S34, only ordinal rankings are disclosed. Let $r_i$ denote contestant $i$'s fan vote rank (1 = highest):
+For seasons S1--S2 and S28--S34, only judge rankings are disclosed; \textbf{fan vote ranks are latent variables}. We model fan ranks as \textbf{decision variables} using MILP.
+
+\subsubsection{MILP Formulation}
+Let $x_{ik} \in \{0,1\}$ indicate whether contestant $i$ has fan rank $k$. The constraints:
+\begin{align}
+    \sum_{k=1}^{n} x_{ik} &= 1 \quad \forall i \quad \text{(each contestant has exactly one rank)} \label{eq:one_rank}\\
+    \sum_{i=1}^{n} x_{ik} &= 1 \quad \forall k \quad \text{(each rank assigned to exactly one contestant)} \label{eq:rank_unique}\\
+    r_i^{\text{fan}} &= \sum_{k=1}^{n} k \cdot x_{ik} \quad \text{(define fan rank)} \label{eq:fan_rank_def}
+\end{align}
+
+The \textbf{elimination constraint} under rank rules (combined rank $R_i = r_i^{\text{judge}} + r_i^{\text{fan}}$):
 \begin{equation}
-    \label{eq:rank_ordering}
-    r_i < r_j \implies v_i > v_j.
+    \label{eq:rank_elim}
+    R_E \geq R_i \quad \forall i \neq E \quad \text{(eliminated has highest combined rank)}
 \end{equation}
 
-\noindent We model contestant eligibility via an FSM with states $\{\texttt{ACTIVE}, \texttt{IMMUNE}, \texttt{SAVED}, \texttt{ELIMINATED}\}$. Pairwise constraints are generated only between \texttt{ACTIVE} contestants.
-
-The \textbf{Constraint Programming (CP)} formulation:
-\begin{equation}
-    \label{eq:cp_formulation}
-    \text{Find } \mathbf{v} \in [0,1]^n: \sum v_i = 1,\ v_i \geq \epsilon,\ v_i > v_j \text{ if } r_i < r_j,\ C_E \leq C_i\ \forall i \neq E
-\end{equation}
+\noindent We model contestant eligibility via an FSM with states $\{\texttt{ACTIVE}, \texttt{IMMUNE}, \texttt{SAVED}, \texttt{ELIMINATED}\}$.
 
 % 4.4 规则自适应约束生成
 \subsection{Rule-Adaptive Constraints}

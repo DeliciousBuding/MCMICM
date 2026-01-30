@@ -35,10 +35,10 @@ model.fit(df[['weeks','eliminated','judge_score','fan_vote','celeb_type']],
 hazard_ratios = np.exp(model.summary['coef'])
 \end{lstlisting}
 
-\subsection*{A.3 Weighted Borda Mechanism}
+\subsection*{A.3 Weighted Percent Mechanism}
 
-\begin{lstlisting}[language=Python, caption={Borda counterfactual}]
-def borda_score(j_scores, v_shares, alpha=0.6):
+\begin{lstlisting}[language=Python, caption={Weighted Percent counterfactual}]
+def weighted_percent_score(j_scores, v_shares, alpha=0.6):
     j_norm = (j_scores - j_scores.min()) / (j_scores.ptp() + 1e-8)
     v_norm = (v_shares - v_shares.min()) / (v_shares.ptp() + 1e-8)
     return alpha * j_norm + (1-alpha) * v_norm

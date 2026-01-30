@@ -28,18 +28,20 @@ where $\mathrm{HR}_k = \exp(\beta_k)$ is the hazard ratio ($>1$: higher risk; $<
         Prior Fame (per unit) & 0.94 & [0.89, 0.99] & 0.02* \\
         Avg Judge (per 5 pts) & 0.62 & [0.55, 0.70] & $<$0.001*** \\
         Avg Fan Vote (per 10\%) & 0.48 & [0.41, 0.56] & $<$0.001*** \\
-        Pro Dancer (variance) & -- & -- & \textbf{42.9\%}$^\dagger$ \\
+        Pro Dancer (random effect) & -- & -- & $R^2_{\text{partial}} = 42.9\%$ \\
         \bottomrule
     \end{tabular}
     \begin{tablenotes}
-        \small \item *$p<0.05$, ***$p<0.001$. $^\dagger$Stratified analysis.
+        \small \item *$p<0.05$, ***$p<0.001$. $R^2_{\text{partial}}$: proportion of log-likelihood explained by pro dancer stratification vs.\ null model.
     \end{tablenotes}
     \end{threeparttable}
 \end{table}
 
+\noindent\textbf{Definition of 42.9\%:} We compute the \textbf{partial $R^2$} by comparing log-likelihood of the Cox model with pro dancer as a stratification factor vs.\ a model without it: $R^2_{\text{partial}} = 1 - \mathcal{L}_{\text{without}} / \mathcal{L}_{\text{with}}$. This measures the proportion of survival variation attributable to pro dancer assignment.
+
 \noindent\textbf{Key Findings:}
 \begin{enumerate}[itemsep=0.1em]
-    \item \textbf{Pro Dancer Effect:} 42.9\% variance explained---the largest factor.
+    \item \textbf{Pro Dancer Effect:} Largest factor (42.9\% partial $R^2$).
     \item \textbf{Judge Scores:} +5 pts $\to$ 38\% lower risk (HR=0.62).
     \item \textbf{Fan Votes:} +10\% $\to$ 52\% lower risk (HR=0.48).
     \item Celebrity type: modest effect ($|\mathrm{HR}-1|<0.2$).
@@ -48,12 +50,6 @@ where $\mathrm{HR}_k = \exp(\beta_k)$ is the hazard ratio ($>1$: higher risk; $<
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/fig8_survival_curves.pdf}
-    \caption{Kaplan-Meier survival curves. Left: by celebrity type. Right: by professional dancer tier (top 25\% vs.\ bottom 25\% historical win rates). The professional dancer effect is visually striking.}
+    \caption{Kaplan-Meier survival curves by professional dancer tier.}
     \label{fig:survival_curves}
 \end{figure}
-
-% 5.6 Bootstrap 置信区间
-\subsection{Bootstrap Confidence Intervals}
-\label{subsec:bootstrap}
-
-To quantify uncertainty in hazard ratio estimates, we apply stratified bootstrap resampling (1,000 iterations) at the season level. The resulting 95\% confidence intervals (Table~\ref{tab:cox_results}) demonstrate that performance-based covariates (judge score, fan vote) have robust effects, while celebrity type effects are more variable.

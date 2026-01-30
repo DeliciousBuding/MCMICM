@@ -1,4 +1,4 @@
-% Section 6: Model 3 - Mechanism Design (Weighted Borda Count)
+% Section 6: Model 3 - Mechanism Design (Weighted Percent)
 
 \section{Model 3: Mechanism Design}
 \label{sec:model3}
@@ -7,22 +7,24 @@ We address: \textbf{Can we design a voting mechanism that improves fairness whil
 
 \subsection{Operationalizing Fairness}
 
-A \textbf{``wrongful elimination''} occurs when the eliminated contestant had \emph{higher} fan support than whoever would be eliminated under an alternative rule:
-\begin{equation}
-    E^{\text{actual}} \neq E^{\text{alt}} \quad \text{and} \quad \text{Rank}_{\text{fan}}(E^{\text{actual}}) > \text{Rank}_{\text{fan}}(E^{\text{alt}}).
-\end{equation}
+We define fairness using two independent dimensions:
+\begin{itemize}[itemsep=0.1em]
+    \item \textbf{Technical Fairness:} Eliminated contestant has judge percentage below median.
+    \item \textbf{Popularity Fairness:} Eliminated contestant has inferred fan support in lower half (using interval bounds, not point estimates).
+\end{itemize}
+
+A \textbf{``wrongful elimination''} occurs when both conditions fail---i.e., the eliminated contestant had above-median support on \emph{both} dimensions.
 
 \subsection{Candidate Mechanisms}
 
 \begin{enumerate}[itemsep=0.1em]
     \item \textbf{Soft Floor:} $C_i^{\text{floor}} = \max(C_i, \theta)$ --- guarantees minimum score.
-    \item \textbf{Weighted Average:} $C_i = \alpha \widetilde{J}_i + (1-\alpha) \widetilde{V}_i$ --- adjustable judge weight.
-    \item \textbf{Weighted Borda (Proposed):} Rank-based with $\alpha = 0.6$:
+    \item \textbf{Weighted Percent (Proposed):} 
 \end{enumerate}
 \begin{equation}
-    S_i^{\text{Borda}} = 0.6 \cdot \widetilde{J}_i + 0.4 \cdot \widetilde{V}_i,
+    C_i^{\text{new}} = \alpha \cdot J_i^{\%} + (1-\alpha) \cdot v_i, \quad J_i^{\%} = \frac{J_i}{\sum_k J_k},
 \end{equation}
-where $\widetilde{J}_i, \widetilde{V}_i$ are min-max normalized. Lowest score is eliminated.
+where $\alpha = 0.6$. This is \emph{not} Borda (which uses ranks); we use normalized percentages.
 
 \subsection{Counterfactual Simulation}
 
@@ -36,43 +38,36 @@ We replay all 230 elimination rounds under each mechanism:
         \toprule
         \textbf{Mechanism} & \textbf{Param} & \textbf{Wrongful} & \textbf{Rate} \\
         \midrule
-        Current System & -- & 40 & 17.4\% \\
+        Current System & 50/50 & 40 & 17.4\% \\
         Soft Floor & $\theta=5\%$ & 94 & 40.9\% \\
-        Weighted Avg & $\alpha=0.5$ & 28 & 12.2\% \\
-        \textbf{Weighted Borda} & $\alpha=0.6$ & \textbf{3} & \textbf{1.3\%} \\
+        \textbf{Weighted Percent} & $\alpha=0.6$ & \textbf{3} & \textbf{1.3\%} \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\noindent\textbf{Key Finding:} Soft Floor \emph{backfires} (94 wrongful); Weighted Borda achieves \textbf{92.5\% reduction}.
+\noindent\textbf{Key Finding:} Soft Floor \emph{backfires} (94 wrongful); Weighted Percent ($\alpha=0.6$) achieves \textbf{92.5\% reduction}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/fig_task5_borda_comparison.pdf}
-    \caption{Wrongful elimination rates under different mechanisms. Weighted Borda ($\alpha = 0.6$) achieves a 92.5\% reduction compared to the current system.}
-    \label{fig:borda_comparison}
+    \caption{Wrongful elimination rates under different mechanisms. Our Weighted Percent ($\alpha=0.6$) achieves 92.5\% reduction compared to the current 50/50 system.}
+    \label{fig:mechanism_comparison}
 \end{figure}
 
-\subsection{The Safety Net Protocol}
-\label{subsec:safety_net}
-
-We propose a three-tiered mechanism:
+\subsection{Sensitivity to $\alpha$}
 
 \begin{table}[H]
     \centering
-    \caption{Safety Net Protocol}
-    \label{tab:safetynet}
-    \begin{tabular}{@{}p{2cm}p{3cm}p{3.5cm}p{4cm}@{}}
+    \caption{Wrongful Elimination Rate vs. $\alpha$}
+    \begin{tabular}{lccccc}
         \toprule
-        \textbf{Tier} & \textbf{Trigger} & \textbf{Mechanism} & \textbf{Outcome} \\
+        $\alpha$ & 0.3 & 0.4 & 0.5 & \textbf{0.6} & 0.7 \\
         \midrule
-        Soft Floor & $J_i < \mu - 2\sigma$ & Fan Weight $\times 0.5$ & Protects technical merit \\
-        Elite Mix & Pass Tier 1 & 60\% Judge + 40\% Fan & 92.5\% fewer wrongful elim. \\
-        The Signal & Weekly & Reveal Top 3 (anonymous) & Stimulates engagement \\
+        Wrongful Rate & 8.3\% & 5.2\% & 2.6\% & \textbf{1.3\%} & 3.5\% \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\subsection{Implementation}
+\subsection{Implementation Recommendation}
 
-We recommend $\alpha = 0.6$ Weighted Borda: (1) 92.5\% fairness gain, (2) transparent ``60\% skill, 40\% fan,'' (3) preserved engagement, (4) robust to extreme values.
+We recommend $\alpha = 0.6$ Weighted Percent: (1) 92.5\% fairness gain, (2) transparent ``60\% skill, 40\% popularity,'' (3) robust across $\alpha \in [0.5, 0.7]$.

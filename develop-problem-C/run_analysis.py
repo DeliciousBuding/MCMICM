@@ -159,7 +159,7 @@ class DWTSAnalysisPipeline:
             self.inversion_results[season] = result
             
             # Log summary
-            feasible = "✓" if result.is_feasible else "✗"
+            feasible = "[OK]" if result.is_feasible else "[X]"
             self.log(f"  Season {season}: {context.voting_method} method, "
                     f"S*={result.inconsistency_score:.3f} {feasible}")
         

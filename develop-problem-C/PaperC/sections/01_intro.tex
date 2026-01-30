@@ -5,7 +5,7 @@
 
 \subsection{Background}
 
-\emph{Dancing with the Stars} (DWTS) has run 34 seasons since 2005, pairing celebrities with professional dancers. Judge scores are public, but \emph{individual fan vote shares are never disclosed}---creating challenges for producers (anomaly detection), advertisers (popularity estimation), and researchers (voting behavior analysis).
+\emph{Dancing with the Stars} (DWTS) has run 34 seasons since 2005, pairing celebrities with professional dancers. Judge scores are public, but \textbf{individual fan vote shares are never directly disclosed}. Instead, partial information is revealed through the voting system: percent seasons (S3--S27) disclosed aggregate vote percentages, while rank seasons (S1--S2, S28+) disclosed only combined rankings. This creates an \emph{inverse problem}: reconstructing latent fan vote distributions from observable elimination outcomes.
 
 \subsection{Problem Statement}
 
@@ -21,11 +21,11 @@ We address five interconnected questions (MCM Problem C Tasks):
 \subsection{Contributions}
 
 \begin{enumerate}[itemsep=0.1em]
-    \item \textbf{Dual-Core Engine:} LP (percent seasons) + CP (rank seasons) for fan vote inference.
-    \item \textbf{Anomaly Detection:} S32/S33 identified as structurally infeasible.
-    \item \textbf{Survival Analysis:} Pro dancer explains 42.9\% of variance.
-    \item \textbf{Weighted Borda:} 92.5\% reduction in wrongful eliminations.
-    \item \textbf{Safety Net Protocol:} Actionable recommendations for producers.
+    \item \textbf{Dual-Core Engine:} LP (percent seasons) + MILP (rank seasons) for fan vote inference.
+    \item \textbf{Model-Data Mismatch Detection:} S32/S33 identified with non-zero constraint slack---revealing mathematical complexity introduced by S28+ rule changes.
+    \item \textbf{Survival Analysis:} Pro dancer explains 42.9\% of variance (partial $R^2$).
+    \item \textbf{Weighted Percent System:} 92.5\% reduction in wrongful eliminations.
+    \item \textbf{Transparency Protocol:} Actionable recommendations balancing entertainment and fairness.
 \end{enumerate}
 
 \subsection{Paper Organization}

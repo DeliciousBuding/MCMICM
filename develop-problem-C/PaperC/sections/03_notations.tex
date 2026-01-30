@@ -23,9 +23,9 @@ For clarity and consistency throughout this paper, we summarize the key symbols 
         \midrule
         % 观测变量
         $J_{i,w}$ & Judge score for contestant $i$ in week $w$ & [0, 40] \\
-        $\bar{J}_w$ & Average judge score in week $w$, $\bar{J}_w = \frac{1}{n_{s,w}}\sum_i J_{i,w}$ & [0, 40] \\
+        $\bar{J}_w$ & Sum of judge scores in week $w$, $\bar{J}_w = \sum_i J_{i,w}$ & -- \\
         $E_w$ & Index of eliminated contestant in week $w$ & -- \\
-        $r^{\mathrm{fan}}_{i,w}$ & Fan vote rank for contestant $i$ (1 = highest) & $\{1, \ldots, n_{s,w}\}$ \\
+        $r^{\mathrm{fan}}_{i,w}$ & Fan vote rank for contestant $i$ (\textbf{latent} for rank seasons) & $\{1, \ldots, n_{s,w}\}$ \\
         \midrule
         % 潜在变量（推断目标）
         $v_{i,w}$ & Fan vote share for contestant $i$ in week $w$ & $[0, 1]$, $\sum_i v_{i,w} = 1$ \\
@@ -47,7 +47,7 @@ For clarity and consistency throughout this paper, we summarize the key symbols 
         % 机制设计
         $\widetilde{J}_i$ & Min-max normalized judge score for contestant $i$ & $[0, 1]$ \\
         $\widetilde{V}_i$ & Min-max normalized fan vote for contestant $i$ & $[0, 1]$ \\
-        $S_i^{\mathrm{Borda}}$ & Weighted Borda score, $S_i = \alpha \widetilde{J}_i + \beta \widetilde{V}_i$ & $[0, 1]$ \\
+        $S_i^{\mathrm{wp}}$ & Weighted Percent score, $S_i = \alpha J_i^{\%} + (1-\alpha) V_i$ & $[0, 1]$ \\
         \bottomrule
     \end{tabularx}
 \end{table}

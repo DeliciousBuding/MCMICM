@@ -3,7 +3,7 @@ MEMORANDUM
 
 TO: Dancing with the Stars Producers
 FROM: Mathematical Modeling Team
-DATE: 2026-01-30 13:31
+DATE: 2026-01-30 16:04
 RE: Voting System Analysis and Recommendations
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -32,22 +32,22 @@ KEY FINDINGS
 Method Comparison:
 
 RANK METHOD:
-  • Judge Score Alignment: 39%
-  • Fan Vote Alignment: 36%  
-  • Close Call Rate: 65%
-  • Controversy Potential: 64%
+  • Judge Score Alignment: 29%
+  • Fan Vote Alignment: 10%  
+  • Close Call Rate: 47%
+  • Controversy Potential: 90%
 
 PERCENT METHOD:
-  • Judge Score Alignment: 47%
-  • Fan Vote Alignment: 56%  
-  • Close Call Rate: 54%
-  • Controversy Potential: 44%
+  • Judge Score Alignment: 44%
+  • Fan Vote Alignment: 23%  
+  • Close Call Rate: 74%
+  • Controversy Potential: 77%
 
 TIERED METHOD:
-  • Judge Score Alignment: 38%
-  • Fan Vote Alignment: 36%  
-  • Close Call Rate: 24%
-  • Controversy Potential: 64%
+  • Judge Score Alignment: 29%
+  • Fan Vote Alignment: 15%  
+  • Close Call Rate: 25%
+  • Controversy Potential: 85%
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
