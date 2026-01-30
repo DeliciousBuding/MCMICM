@@ -1,0 +1,61 @@
+% 附录 B：补充表格
+\section*{附录 B：补充表格}
+\addcontentsline{toc}{section}{附录 B：补充表格}
+\label{appendix:figures_zh}
+
+\subsection*{B.1 赛季可行性汇总}
+
+\begin{table}[H]
+\centering\small
+\caption{观众投票推断：赛季维度汇总（选定赛季）}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{赛季} & \textbf{类型} & \textbf{期数} & \textbf{是否可行} & \textbf{中位宽度} & $S^*$ \\
+\midrule
+S1--S2 & 排名 & 6--8 & \checkmark & 11.9\% & 0 \\
+S3--S27 & 百分比 & 10 & \checkmark & 8.1\% & 0 \\
+S28--S31 & 排名 & 10--11 & \checkmark & 9.6\% & 0 \\
+\textbf{S32} & 排名 & 10 & $\times$ & -- & \textbf{2.0} \\
+\textbf{S33} & 排名 & 11 & $\times$ & -- & \textbf{1.0} \\
+S34 & 排名 & 10 & \checkmark & 10.2\% & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{B.2 按胜率排名的顶尖专业舞者}
+
+\begin{table}[H]
+\centering\small
+\caption{专业舞者：决赛入围与获胜情况}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{专业舞者} & \textbf{参赛赛季} & \textbf{决赛次数} & \textbf{获胜次数} & \textbf{胜率\%} \\
+\midrule
+Derek Hough & 17 & 11 & 6 & 35.3 \\
+Julianne Hough & 8 & 4 & 2 & 25.0 \\
+Witney Carson & 12 & 4 & 2 & 16.7 \\
+Val Chmerkovskiy & 16 & 6 & 2 & 12.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{B.3 不匹配详情：S32 \& S33}
+
+S32--S33 使用了带有垫底二人约束（式 11）的 MILP：$R_E \geq R_{(n-1)}$。下表展示了该约束需要松弛量的周次。
+
+\begin{table}[H]
+\centering\small
+\caption{不匹配赛季中的约束松弛量（MILP 垫底二人约束）}
+\begin{tabular}{llp{5.5cm}c}
+\toprule
+\textbf{赛季} & \textbf{周次} & \textbf{约束状态} & \textbf{松弛量 $s_k$} \\
+\midrule
+S32 & 第5周 & 式(11)被违反：$R_E < R_{(n-1)}$ 0.8 & 0.8 \\
+S32 & 第7周 & 式(11)被违反：$R_E < R_{(n-1)}$ 1.2 & 1.2 \\
+S33 & 第6周 & 式(11)被违反：$R_E < R_{(n-1)}$ 0.5 & 0.5 \\
+S33 & 第9周 & 式(11)被违反：$R_E < R_{(n-1)}$ 0.5 & 0.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{解释：} 正松弛量表明在这些周次中，\textbf{不存在任何观众排名排列}能将被淘汰选手置于式(11)所定义的垫底两人中。这种结构性不匹配可能反映了评委拯救决策、多舞蹈得分汇总或未记录的规则细节。

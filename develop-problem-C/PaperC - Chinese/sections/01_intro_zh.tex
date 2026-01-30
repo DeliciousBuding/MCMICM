@@ -1,0 +1,33 @@
+% 第1节：引言
+
+\section{引言}
+\label{sec:intro}
+
+\subsection{研究背景}
+
+《与星共舞》（DWTS）自2005年以来已经播出34季，将名人与专业舞者进行配对。评委评分是公开的，但\textbf{个人观众投票份额从未被直接公开}。相反，部分信息通过投票系统间接透露：百分比规则季（第3-27季）采用基于百分比的评分方式，综合得分由规则定义；而排名规则季（第1-2季、第28季起）仅公开综合排名。这形成了一个\emph{反问题}：从可观测的淘汰结果中重构潜在的观众投票分布。
+
+\subsection{问题陈述}
+
+我们解决五个相互关联的问题（MCM问题C任务）：
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{观众投票推断：}从淘汰结果重构合理的观众投票分布。
+    \item \textbf{规则变更影响：}豁免权、双淘汰和评委拯救如何影响推断？
+    \item \textbf{成功因素：}什么因素预测生存（职业、舞伴、名气）？
+    \item \textbf{机制评估：}当前系统是否产生``公平''的结果？
+    \item \textbf{机制设计：}我们能否在保持观众参与度的同时提高公平性？
+\end{enumerate}
+
+\subsection{主要贡献}
+
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{双核引擎：}LP（百分比规则季）+ MILP（排名规则季）用于观众投票推断。
+    \item \textbf{模型-数据不匹配检测：}识别出第32/33季存在非零约束松弛量——揭示了第28季以后规则变更带来的数学复杂性。
+    \item \textbf{生存分析：}专业舞者是主导预测因子（LRT $\chi^2 = 47.3$，$\Delta C = 0.09$）。
+    \item \textbf{加权百分比系统：}将确定性错误淘汰从40减少到3。
+    \item \textbf{透明协议：}提供平衡娱乐性和公平性的可操作建议。
+\end{enumerate}
+
+\subsection{论文结构}
+
+\secref{sec:assumptions}：假设；\secref{sec:notations}：符号说明；\secref{sec:model1}：观众投票反演；\secref{sec:model2}：生存分析；\secref{sec:model3}：机制设计；\secref{sec:sensitivity}：敏感性分析；\secref{sec:evaluation}：模型评估；\secref{sec:conclusion}：结论。

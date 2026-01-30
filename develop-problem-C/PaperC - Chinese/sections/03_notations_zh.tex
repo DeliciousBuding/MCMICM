@@ -1,0 +1,60 @@
+% 第3节：符号说明
+% 符号说明表
+
+\section{符号说明}
+\label{sec:notations}
+
+为了确保本文的清晰性和一致性，我们在表~\ref{tab:notations}中总结了模型中使用的关键符号。
+
+\begin{table}[H]
+    \centering
+    \caption{关键符号汇总}
+    \label{tab:notations}
+    \begin{tabularx}{\textwidth}{c X c}
+        \toprule
+        \textbf{符号} & \textbf{描述} & \textbf{单位/范围} \\
+        \midrule
+        % 基本索引
+        $s$ & 赛季索引 & $s \in \{1, 2, \ldots, 34\}$ \\
+        $w$ & 赛季内的周（期次）索引 & $w \in \{1, \ldots, W_s\}$ \\
+        $i$ & 选手索引 & -- \\
+        $\mathcal{C}_{s,w}$ & 第$s$季第$w$周的在场选手集合 & -- \\
+        $n_{s,w}$ & 在场选手数量，$|\mathcal{C}_{s,w}|$ & -- \\
+        \midrule
+        % 观测变量
+        $J_{i,w}$ & 第$w$周选手$i$的评委评分 & [0, 40] \\
+        $\bar{J}_w$ & 第$w$周评委评分总和，$\bar{J}_w = \sum_i J_{i,w}$ & -- \\
+        $E_w$ & 第$w$周被淘汰选手的索引 & -- \\
+        $r^{\mathrm{fan}}_{i,w}$ & 选手$i$的观众投票排名（排名规则季为\textbf{潜变量}） & $\{1, \ldots, n_{s,w}\}$ \\
+        \midrule
+        % 潜在变量（推断目标）
+        $v_{i,w}$ & 第$w$周选手$i$的观众投票份额 & $[0, 1]$，$\sum_i v_{i,w} = 1$ \\
+        $\hat{v}_{i,w}$ & 推断的（点估计）观众投票份额 & $[0, 1]$ \\
+        $[v^{\min}_{i,w}, v^{\max}_{i,w}]$ & 通过LP边界得到的$v_{i,w}$可行区间 & $[0, 1]$ \\
+        \midrule
+        % 模型参数
+        $\epsilon$ & 最小投票份额下限（敏感性参数） & $[0, 0.1]$ \\
+        $S^*(\epsilon)$ & 在下限$\epsilon$处的最优松弛变量（不匹配度量） & $\geq 0$ \\
+        $\alpha$ & 混合机制中评委评分的权重 & 默认0.6 \\
+        $\beta$ & 混合机制中观众投票的权重，$\beta = 1 - \alpha$ & 默认0.4 \\
+        \midrule
+        % 生存分析
+        $T_i$ & 选手$i$的生存时间（存活周数） & 周 \\
+        $\delta_i$ & 删失指示器：1表示被淘汰，0表示存活至决赛 & -- \\
+        $\lambda(t \mid \mathbf{x}_i)$ & 选手$i$在时间$t$的风险函数 & -- \\
+        $\mathrm{HR}_k$ & 协变量$k$的风险比 & -- \\
+        \midrule
+        % 机制设计
+        $J_i^{\%}$ & 选手$i$的评委百分比，$J_i / \sum_k J_k$ & $[0, 1]$ \\
+        $S_i^{\mathrm{wp}}$ & 加权百分比得分，$S_i = \alpha J_i^{\%} + (1-\alpha) V_i$ & $[0, 1]$ \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\noindent\textbf{索引约定。}
+\begin{itemize}[itemsep=0.2em]
+    \item 赛季按时间顺序编号：第1季（2005年）至第34季（2025年）。
+    \item 周从第一个竞赛期次开始编号（不包括任何没有淘汰的首播）。
+    \item \emph{百分比规则季}（第3-27季）：综合得分由百分比规则定义；个人观众投票份额不可观测。
+    \item \emph{排名规则季}（第1-2季、第28-34季）：仅公开序数\emph{排名}。
+\end{itemize}

@@ -1,0 +1,30 @@
+% AI Tools Usage Disclosure (COMAP 2026)
+\section*{AI Report}
+\addcontentsline{toc}{section}{AI Report}
+\label{appendix:ai}
+
+\textbf{Tools Used:} Claude Opus 4.5 (code architecture, algorithm implementation), ChatGPT-4o (grammar), GitHub Copilot (code assistance), DeepL (translation).
+
+\textbf{Usage Summary:}
+\begin{table}[H]
+\centering\small
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Tool} & \textbf{Task} & \textbf{Usage} \\
+\midrule
+Claude & Model Design & LP/CP framework formulation \\
+Claude & Code & Python \texttt{dwts\_model} package \\
+Claude & Analysis & Money Plot mismatch detection \\
+ChatGPT & Writing & Grammar polish (technical content by team) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Verification:} All AI outputs reviewed and tested. Key results (40→3 definite-wrongful reduction, S32/S33 mismatches) independently validated. LP/MILP formulations checked against optimization textbooks.
+
+\textbf{Human-Only Contributions:} Problem formulation, data collection, result interpretation, policy recommendations, final parameter choices ($\alpha = 0.6$, $\epsilon = 1\%$).
+
+\textbf{Statement:} AI tools accelerated workflow; all substantive intellectual contributions reflect human team judgment.
+
+\vspace{1em}
+\noindent\textbf{Signed:} Team \#2617892

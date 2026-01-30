@@ -1,0 +1,185 @@
+% MCM/ICM 2026 LaTeX 中文版主控文件
+% 编译方式：XeLaTeX + Biber
+% !TEX program = xelatex
+% !BIB program = biber
+
+\documentclass{mcmthesis}
+\usepackage{xeCJK}
+
+% 兼容性补丁
+\newcounter{chapter}
+\renewcommand{\thechapter}{\arabic{chapter}}
+
+% MCM题目配置
+\mcmsetup{
+    tcn = {2617892},
+    problem = {C},
+    sheet = true,
+    titleinsheet = true,
+    keywordsinsheet = true,
+    titlepage = false
+}
+
+% 目录开关
+\makeatletter
+\@ifundefined{showtoctrue}{}{\showtoctrue}
+\makeatother
+
+%=== 宏包加载 ===
+\usepackage{palatino}
+\usepackage{microtype}
+\setlength{\emergencystretch}{2em}
+\usepackage{lastpage}
+\usepackage{zref-abspage}
+\usepackage{float}
+\usepackage{geometry}
+\setlength{\headheight}{15pt}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{threeparttable}
+\usepackage[ruled, vlined, linesnumbered]{algorithm2e}
+\SetAlgorithmName{算法}{algorithm}{算法列表}
+\SetKwInput{KwIn}{输入}
+\SetKwInput{KwOut}{输出}
+\SetKwInput{KwData}{数据}
+\SetKwInput{KwResult}{结果}
+\usepackage{listings}
+\lstset{
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    tabsize=4
+}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows, positioning, calc}
+\usepackage{enumitem}
+\setlist[enumerate]{itemsep=0pt, parsep=0pt}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=green!50!black,
+    urlcolor=blue!80!black
+}
+\usepackage{tocloft}
+\setlength{\cftbeforesecskip}{2pt}
+\setlength{\cftbeforesubsecskip}{1pt}
+\usepackage[backend=biber, style=ieee, sorting=none]{biblatex}
+\addbibresource{ref.bib}
+
+%=== 自定义命令 ===
+\newcounter{mainpages}
+\makeatletter
+\newcommand{\savemainpages}{%
+    \immediate\write\@auxout{\string\setcounter{mainpages}{\the\value{page}}}%
+}
+\makeatother
+
+\newcommand{\figref}[1]{图~\ref{#1}}
+\newcommand{\tabref}[1]{表~\ref{#1}}
+\newcommand{\eqnref}[1]{式~(\ref{#1})}
+\newcommand{\algref}[1]{算法~\ref{#1}}
+\newcommand{\secref}[1]{第~\ref{#1}~节}
+
+%=== 文档元信息 ===
+\title{从淘汰数据推断观众投票：\\ 
+       一种带有不匹配检测的双核反演框架 \\
+       及《与星共舞》的机制设计}
+\author{Team \#2617892}
+
+%=== 正文开始 ===
+\begin{document}
+
+% Summary Sheet
+\pagenumbering{arabic}
+\setcounter{page}{0}
+\pagestyle{empty}
+\input{sections/00_abstract_zh.tex}
+\maketitle
+\thispagestyle{empty}
+
+% Memo
+\newpage
+\setcounter{page}{1}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Team \#2617892}
+\fancyhead[R]{\small 第 \thepage\ 页，共 \themainpages\ 页}
+\fancyfoot[C]{}
+\input{sections/memo_zh.tex}
+
+% Contents
+\newpage
+\renewcommand{\contentsname}{目录}
+\tableofcontents
+
+% 正文继续
+\newpage
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Team \#2617892}
+\fancyhead[R]{\small 第 \thepage\ 页，共 \themainpages\ 页}
+\fancyfoot[C]{}
+
+% Section 1
+\input{sections/01_intro_zh.tex}
+
+% Section 2
+\input{sections/02_assumptions_zh.tex}
+
+% Section 3
+\input{sections/03_notations_zh.tex}
+
+% Section 4
+\input{sections/04_model1_zh.tex}
+
+% Section 5
+\input{sections/05_model2_zh.tex}
+
+% Section 6
+\input{sections/06_model3_zh.tex}
+
+% Section 7
+\input{sections/07_sensitivity_zh.tex}
+
+% Section 8
+\input{sections/08_evaluation_zh.tex}
+
+% Section 9
+\input{sections/09_conclusion_zh.tex}
+
+% References
+\newpage
+\nocite{*}
+\printbibliography[heading=bibintoc, title={参考文献}]
+
+% 保存正文总页数
+\savemainpages
+
+% Appendices
+\clearpage
+\appendix
+\pagenumbering{gobble}
+\pagestyle{plain}
+
+\input{appendices/appendix_code_zh.tex}
+\newpage
+\input{appendices/appendix_figures_zh.tex}
+\newpage
+\input{appendices/ai_report_zh.tex}
+
+\end{document}

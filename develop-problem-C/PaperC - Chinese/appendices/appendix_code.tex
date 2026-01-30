@@ -1,0 +1,46 @@
+% Appendix A: Key Code
+\section*{Appendix A: Key Code}
+\addcontentsline{toc}{section}{Appendix A: Key Code}
+\label{appendix:code}
+
+Core algorithms are summarized below; full code available in supplementary materials.
+
+\subsection*{A.1 LP Inversion Engine (Simplified)}
+
+\begin{lstlisting}[language=Python, caption={LP fan vote bound computation}]
+def compute_bounds(judge_scores, eliminated_idx, eps=0.01):
+    n = len(judge_scores)
+    j_sum = np.sum(judge_scores)  # sum, not mean
+    A_ub, b_ub = [], []
+    for i in range(n):
+        if i != eliminated_idx:
+            c = np.zeros(n); c[eliminated_idx], c[i] = 1, -1
+            A_ub.append(c)
+            b_ub.append((judge_scores[i]-judge_scores[eliminated_idx])/j_sum)
+    bounds = [(eps, 1.0) for _ in range(n)]
+    results = {}
+    for i in range(n):
+        c_min = np.zeros(n); c_min[i] = 1
+        res = linprog(c_min, A_ub, b_ub, [[1]*n], [1], bounds)
+        results[i] = res.fun if res.success else None
+    return results
+\end{lstlisting}
+
+\subsection*{A.2 Cox Proportional Hazards}
+
+\begin{lstlisting}[language=Python, caption={Survival analysis}]
+from lifelines import CoxPHFitter
+model = CoxPHFitter()
+model.fit(df[['weeks','eliminated','judge_score','fan_vote','celeb_type']],
+          duration_col='weeks', event_col='eliminated')
+hazard_ratios = np.exp(model.summary['coef'])
+\end{lstlisting}
+
+\subsection*{A.3 Weighted Percent Mechanism}
+
+\begin{lstlisting}[language=Python, caption={Weighted Percent counterfactual}]
+def weighted_percent_score(j_scores, v_shares, alpha=0.6):
+    # No min-max: use percentage normalization per Eq.(3)
+    j_pct = j_scores / j_scores.sum()  # J_i / sum_k(J_k)
+    return alpha * j_pct + (1-alpha) * v_shares
+\end{lstlisting}

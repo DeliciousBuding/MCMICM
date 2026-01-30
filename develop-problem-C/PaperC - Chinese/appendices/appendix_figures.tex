@@ -1,0 +1,61 @@
+% Appendix B: Additional Tables
+\section*{Appendix B: Additional Tables}
+\addcontentsline{toc}{section}{Appendix B: Additional Tables}
+\label{appendix:figures}
+
+\subsection*{B.1 Season Feasibility Summary}
+
+\begin{table}[H]
+\centering\small
+\caption{Fan Vote Inference: Season-Level Summary (Selected Seasons)}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Season} & \textbf{Type} & \textbf{Eps} & \textbf{Feasible} & \textbf{Med.\ Width} & $S^*$ \\
+\midrule
+S1--S2 & Rank & 6--8 & \checkmark & 11.9\% & 0 \\
+S3--S27 & Percent & 10 & \checkmark & 8.1\% & 0 \\
+S28--S31 & Rank & 10--11 & \checkmark & 9.6\% & 0 \\
+\textbf{S32} & Rank & 10 & $\times$ & -- & \textbf{2.0} \\
+\textbf{S33} & Rank & 11 & $\times$ & -- & \textbf{1.0} \\
+S34 & Rank & 10 & \checkmark & 10.2\% & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{B.2 Top Pro Dancers by Win Rate}
+
+\begin{table}[H]
+\centering\small
+\caption{Professional Dancers: Finals and Wins}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Pro Dancer} & \textbf{Seasons} & \textbf{Finals} & \textbf{Wins} & \textbf{Win\%} \\
+\midrule
+Derek Hough & 17 & 11 & 6 & 35.3 \\
+Julianne Hough & 8 & 4 & 2 & 25.0 \\
+Witney Carson & 12 & 4 & 2 & 16.7 \\
+Val Chmerkovskiy & 16 & 6 & 2 & 12.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{B.3 Mismatch Detail: S32 \& S33}
+
+S32--S33 use MILP with the bottom-two constraint (Eq.~11): $R_E \geq R_{(n-1)}$. The following table shows weeks where this constraint required slack.
+
+\begin{table}[H]
+\centering\small
+\caption{Constraint Slack in Mismatch Seasons (MILP Bottom-Two Constraint)}
+\begin{tabular}{llp{5.5cm}c}
+\toprule
+\textbf{Season} & \textbf{Week} & \textbf{Constraint Status} & \textbf{Slack $s_k$} \\
+\midrule
+S32 & Wk 5 & Eq.~(11) violated: $R_E < R_{(n-1)}$ by 0.8 & 0.8 \\
+S32 & Wk 7 & Eq.~(11) violated: $R_E < R_{(n-1)}$ by 1.2 & 1.2 \\
+S33 & Wk 6 & Eq.~(11) violated: $R_E < R_{(n-1)}$ by 0.5 & 0.5 \\
+S33 & Wk 9 & Eq.~(11) violated: $R_E < R_{(n-1)}$ by 0.5 & 0.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{Interpretation:} Positive slack indicates \textbf{no fan-rank permutation} can place the eliminated contestant in the bottom-two under Eq.~(11) for that week. This structural mismatch may reflect Judge Save decisions, multi-dance aggregation, or undocumented rule details.

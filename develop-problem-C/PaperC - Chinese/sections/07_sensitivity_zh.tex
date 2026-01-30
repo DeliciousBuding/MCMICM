@@ -1,0 +1,102 @@
+% 第7节：敏感性与鲁棒性分析
+
+\section{敏感性与鲁棒性分析}
+\label{sec:sensitivity}
+
+我们进行了系统的敏感性分析，以验证我们的模型在不同参数选择和数据扰动下的鲁棒性。
+
+% 7.1 最小投票份额敏感性
+\subsection{最小投票份额下限 ($\epsilon$)}
+\label{subsec:epsilon_sensitivity_zh}
+
+下限参数 $\epsilon$ 控制着模型1中的最小投票份额约束。我们将 $\epsilon$ 从 0\% 变化到 10\%，并检查：
+
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{可行率：} $S^* = 0$ 的赛季比例。
+    \item \textbf{边界紧凑度：} 平均区间宽度 $v_i^{\max} - v_i^{\min}$。
+    \item \textbf{不匹配检测：} 在每个 $\epsilon$ 下哪些赛季表现出 $S^* > 0$。
+\end{itemize}
+
+\noindent\textbf{主要发现：} 在 $\epsilon = 1\%$（我们的默认值）时，94.1\% 的赛季是可行的，中位边界宽度为 8.3\%。增加到 $\epsilon = 5\%$ 时，边界缩小到 5.1\%，但可行率降低到 82.4\%。
+
+% 7.2 机制权重敏感性
+\subsection{机制权重 ($\alpha$) 敏感性}
+\label{subsec:alpha_sensitivity_zh}
+
+对于加权百分比机制，我们将 $\alpha$（评委权重）从 0.3 到 0.8 进行变化：
+
+\begin{table}[H]
+    \centering
+    \caption{确定性错误淘汰 ($|\mathcal{D}_W|$) vs.\ 评委权重 $\alpha$}
+    \label{tab:alpha_sensitivity_zh}
+    \begin{tabular}{cccc}
+        \toprule
+        $\alpha$ & $|\mathcal{D}_W|$ & 比例 & 相比当前系统的减少 \\
+        \midrule
+        0.30 & 19 & 8.3\% & 52.5\% \\
+        0.40 & 12 & 5.2\% & 70.0\% \\
+        0.50 & 6 & 2.6\% & 85.0\% \\
+        0.55 & 4 & 1.7\% & 90.0\% \\
+        \textbf{0.60} & \textbf{3} & \textbf{1.3\%} & \textbf{92.5\%} \\
+        0.65 & 4 & 1.7\% & 90.0\% \\
+        0.70 & 8 & 3.5\% & 80.0\% \\
+        0.80 & 18 & 7.8\% & 55.0\% \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\noindent\textbf{主要发现：} 最优范围是 $\alpha \in [0.55, 0.65]$，其中 $\alpha = 0.6$ 将确定性错误淘汰数降至 3。该机制对 $\alpha$ 的微小扰动具有鲁棒性。
+
+% 7.3 Bootstrap 稳定性
+\subsection{Bootstrap 稳定性分析}
+\label{subsec:bootstrap_stability_zh}
+
+为了评估估计的稳定性，我们进行了 1,000 次赛季级别的 Bootstrap 重采样：
+
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{观众投票边界：} 中位边界宽度的 95\% 置信区间为 $[7.6\%, 9.1\%]$。
+    \item \textbf{专业舞者效应：} C指数改进量 $\Delta C$ 的 95\% 置信区间为 $[0.06, 0.12]$。
+    \item \textbf{加权百分比错误淘汰率：} 95\% 置信区间为 $[0.4\%, 2.6\%]$（相比当前系统有稳健的提升）。
+\end{itemize}
+
+% 7.4 Leave-One-Season-Out 交叉验证
+\subsection{留一赛季交叉验证 (Leave-One-Season-Out)}
+\label{subsec:loso_zh}
+
+我们使用留一赛季交叉验证来验证模型2（生存分析）：
+
+\begin{enumerate}
+    \item 在33个赛季上训练 Cox 模型。
+    \item 预测预留赛季的生存曲线。
+    \item 计算预留数据上的一致性指数 (C-index)。
+\end{enumerate}
+
+\begin{table}[H]
+    \centering
+    \caption{留一赛季验证结果}
+    \label{tab:loso_zh}
+    \begin{tabular}{lc}
+        \toprule
+        \textbf{指标} & \textbf{值} \\
+        \midrule
+        平均 C-index & 0.72 \\
+        标准差 C-index & 0.08 \\
+        最差赛季 (第32季) & 0.54 \\
+        最佳赛季 (第15季) & 0.86 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\noindent\textbf{主要发现：} 模型达到了 0.72 的平均 C-index，表明了良好的区分能力。值得注意的是，不匹配的第32季具有最低的 C-index (0.54)，证实了我们的不匹配检测能够正确识别出标准模型表现不佳的赛季。
+
+% 7.5 数据扰动鲁棒性
+\subsection{数据扰动鲁棒性}
+\label{subsec:perturbation_zh}
+
+我们在评委评分中加入高斯噪声（$\sigma = 1$分）并重新运行反演：
+
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{边界稳定性：} 边界的中位绝对变化为 1.2 个百分点。
+    \item \textbf{排名一致性：} 94.3\% 的选手排名得以保持。
+    \item \textbf{不匹配持久性：} 在所有扰动试验中，第32季和第33季始终被标记。
+\end{itemize}

@@ -1,0 +1,85 @@
+% 备忘录：基于模型的透明协议
+
+\newpage
+\thispagestyle{empty}
+
+\begin{center}
+\Large\textbf{备\quad 忘\quad 录}
+\end{center}
+
+\vspace{0.5em}
+\noindent\rule{\textwidth}{1.5pt}
+\vspace{0.3em}
+
+\begin{tabular}{@{}ll}
+\textbf{收件人：}  & 《与星共舞》节目总监 \\
+\textbf{发件人：}  & \#2617892队，数据分析顾问团队 \\
+\textbf{日期：}    & 2026年1月26日 \\
+\textbf{主题：}    & \textbf{投票系统审核的基于模型的透明协议}
+\end{tabular}
+
+\vspace{0.3em}
+\noindent\rule{\textwidth}{1.5pt}
+\vspace{0.8em}
+
+\subsection*{执行摘要}
+
+我们提出了一个用于审计DWTS淘汰结果的数学框架。我们的目标\emph{不是}指控操纵行为，而是识别观测结果与模型预测存在差异的期次——从而能够主动准备解释说明并完善系统。
+
+\subsection*{框架概述}
+
+我们的双核反演引擎从淘汰数据中重构可行的观众投票分布：
+\begin{itemize}[itemsep=0.1em]
+    \item \textbf{百分比规则季（第3-27季）：}带松弛变量的LP；评委评分归一化为 $J_i / \sum_k J_k$。
+    \item \textbf{排名规则季（第1-2季、第28-34季）：}带有潜在观众排名排列约束的MILP。
+\end{itemize}
+
+\noindent \textbf{不匹配指标} $S^*$ 量化了达到可行性所需的最小约束违反程度：
+\begin{itemize}[itemsep=0.1em]
+    \item $S^* = 0$：模型一致的结果。
+    \item $S^* > 0$：至少一个建模假设可能被违反。
+\end{itemize}
+
+\subsection*{主要发现}
+
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{第1-31季：}所有赛季 $S^* = 0$（完全模型一致）。
+    \item \textbf{第32-33季：}$S^* > 0$ 表明假设与数据存在张力。可能来源：
+    \begin{itemize}[itemsep=0.05em]
+        \item 评委拯救标准未被排名求和逻辑捕获。
+        \item 多舞蹈周得分汇总方式与假设不同。
+        \item 规则过渡时间（第28季与之后）存在不确定性。
+    \end{itemize}
+    \item \textbf{Bobby Bones（第27季）：}宽泛的可行区间 $[1\%, 91\%]$ 说明50/50系统如何保护低分但拥有忠实粉丝群的选手。
+\end{enumerate}
+
+\subsection*{建议}
+
+\begin{enumerate}[itemsep=0.2em]
+    \item \textbf{内部审计协议：}
+    \begin{itemize}[itemsep=0.05em]
+        \item 在结果播出前运行LP/MILP求解器（运行时间<5秒）。
+        \item 标记 $S^* > 0.5$ 的期次以引起制作人注意。
+        \item 如果媒体提出质疑，准备解释性要点。
+    \end{itemize}
+    
+    \item \textbf{加权百分比评分（可选）：}
+    \[
+        \text{得分}_i = 0.6 \times J_i^\% + 0.4 \times V_i
+    \]
+    市场推广口号：``60\%技术，40\%人气''。模拟结果显示确定性错误淘汰从\textbf{40减少到3}。
+    
+    \item \textbf{评委拯救透明度：}
+    公开宣布拯救标准（如``技术进步''或``累计表现''），以减少主观感知并提高模型保真度。
+\end{enumerate}
+
+\subsection*{局限性}
+
+\begin{itemize}[itemsep=0.1em]
+    \item 我们无法观测实际投票数；所有估计都是边界值，而非精确值。
+    \item 不匹配（$S^* > 0$）表明假设违反，而非操纵证据。
+    \item 第27季后的规则细节是从可用资料推断的；官方文件可能有所不同。
+\end{itemize}
+
+\vspace{0.5em}
+\hfill\textbf{--- \#2617892队}

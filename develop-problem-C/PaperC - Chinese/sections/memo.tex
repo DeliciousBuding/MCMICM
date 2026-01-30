@@ -1,0 +1,85 @@
+% Memo: Model-Based Transparency Protocol
+
+\newpage
+\thispagestyle{empty}
+
+\begin{center}
+\Large\textbf{MEMORANDUM}
+\end{center}
+
+\vspace{0.5em}
+\noindent\rule{\textwidth}{1.5pt}
+\vspace{0.3em}
+
+\begin{tabular}{@{}ll}
+\textbf{TO:}      & Director of Programming, \emph{Dancing with the Stars} \\
+\textbf{FROM:}    & Team \#2617892, Data Analytics Consultants \\
+\textbf{DATE:}    & January 26, 2026 \\
+\textbf{SUBJECT:} & \textbf{Model-Based Transparency Protocol for Voting System Review}
+\end{tabular}
+
+\vspace{0.3em}
+\noindent\rule{\textwidth}{1.5pt}
+\vspace{0.8em}
+
+\subsection*{Executive Summary}
+
+We present a mathematical framework for auditing DWTS elimination outcomes. Our goal is \emph{not} to allege manipulation, but to identify episodes where observed outcomes diverge from model predictions---enabling proactive explanation preparation and system refinement.
+
+\subsection*{Framework Overview}
+
+Our Dual-Core Inversion Engine reconstructs feasible fan vote distributions from elimination data:
+\begin{itemize}[itemsep=0.1em]
+    \item \textbf{Percent Seasons (S3--S27):} LP with slack variables; judge scores normalized as $J_i / \sum_k J_k$.
+    \item \textbf{Rank Seasons (S1--S2, S28--S34):} MILP with permutation constraints on latent fan ranks.
+\end{itemize}
+
+\noindent The \textbf{Mismatch Indicator} $S^*$ quantifies the minimum constraint violation needed for feasibility:
+\begin{itemize}[itemsep=0.1em]
+    \item $S^* = 0$: Model-consistent outcome.
+    \item $S^* > 0$: At least one modeling assumption may be violated.
+\end{itemize}
+
+\subsection*{Key Findings}
+
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{S1--S31:} $S^* = 0$ for all seasons (full model consistency).
+    \item \textbf{S32--S33:} $S^* > 0$ indicates assumption-data tension. Possible sources:
+    \begin{itemize}[itemsep=0.05em]
+        \item Judges' Save criteria not captured by rank-sum logic.
+        \item Multi-dance week score aggregation differs from assumptions.
+        \item Rule transition timing (S28 vs.\ later) is uncertain.
+    \end{itemize}
+    \item \textbf{Bobby Bones (S27):} Wide feasible interval $[1\%, 91\%]$ illustrates how the 50/50 system can protect low-scoring contestants with dedicated fan bases.
+\end{enumerate}
+
+\subsection*{Recommendations}
+
+\begin{enumerate}[itemsep=0.2em]
+    \item \textbf{Internal Audit Protocol:}
+    \begin{itemize}[itemsep=0.05em]
+        \item Run LP/MILP solver before results broadcast (runtime $<5$ sec).
+        \item Flag episodes with $S^* > 0.5$ for producer awareness.
+        \item Prepare explanatory talking points if media questions arise.
+    \end{itemize}
+    
+    \item \textbf{Weighted Percent Scoring (Optional):}
+    \[
+        \text{Score}_i = 0.6 \times J_i^\% + 0.4 \times V_i
+    \]
+    Marketing: ``60\% skill, 40\% popularity.'' Simulations reduce definite-wrongful eliminations from \textbf{40 to 3}.
+    
+    \item \textbf{Judges' Save Documentation:}
+    Publicly announce save criteria (e.g., ``technical improvement'' or ``cumulative performance'') to reduce perceived arbitrariness and improve model fidelity.
+\end{enumerate}
+
+\subsection*{Limitations}
+
+\begin{itemize}[itemsep=0.1em]
+    \item We do not observe actual vote counts; all estimates are bounds, not exact values.
+    \item Mismatches ($S^* > 0$) indicate assumption violations, not manipulation evidence.
+    \item Rule details post-S27 are inferred from available sources; official documentation may differ.
+\end{itemize}
+
+\vspace{0.5em}
+\hfill\textbf{--- Team \#2617892}

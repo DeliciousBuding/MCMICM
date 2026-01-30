@@ -1,0 +1,82 @@
+% 第6节：模型3 - 机制设计（加权百分比）
+
+\section{模型3：机制设计}
+\label{sec:model3}
+
+我们探讨：\textbf{我们能否设计一种投票机制，在保持观众参与度的同时提高公平性？}
+
+\subsection{区间稳健公平性分类}
+
+点估计 $\hat{v}_i$ 继承了来自 LP 边界的不确定性。为了避免过度自信的结论，我们使用\textbf{可行区间} $[v_i^{\min}, v_i^{\max}]$ 将淘汰结果分为三类：
+
+\begin{enumerate}[itemsep=0.2em]
+    \item \textbf{确定性安全 ($\mathcal{D}_S$)：} 对于\emph{所有}可行的 $v_i$，被淘汰选手的观众支持率低于中位数 \emph{或} 评委百分比低于中位数。
+    
+    \item \textbf{确定性错误淘汰 ($\mathcal{D}_W$)：} 对于\emph{所有}可行的 $v_i$，被淘汰选手在两个维度上均高于中位数支持率：
+    \[
+        \mathcal{D}_W: \quad v_E^{\min} > \text{median}(\mathbf{v}) \;\land\; J_E^\% > \text{median}(\mathbf{J}^\%)
+    \]
+    
+    \item \textbf{可能性错误淘汰 ($\mathcal{P}_W$)：} 既不属于 $\mathcal{D}_S$ 也不属于 $\mathcal{D}_W$——分类结果取决于真实的（未知的）观众投票。
+\end{enumerate}
+
+\noindent\textbf{实施情况：} 对于每一次淘汰，我们依据公平性标准检查区间端点。这产生了稳健的计数：3次确定性错误淘汰 ($\mathcal{D}_W$)，37次可能性错误淘汰 ($\mathcal{P}_W$)，190次确定性安全 ($\mathcal{D}_S$)。
+
+\subsection{候选机制}
+
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{软下限：} $C_i^{\text{floor}} = \max(C_i, \theta)$ —— 保证最低得分。
+    \item \textbf{加权百分比（提议）：} 
+\end{enumerate}
+\begin{equation}
+    \label{eq:weighted_pct_zh}
+    C_i^{\text{new}} = \alpha \cdot J_i^{\%} + (1-\alpha) \cdot v_i, \quad J_i^{\%} = \frac{J_i}{\sum_k J_k},
+\end{equation}
+其中 $\alpha = 0.6$。这\emph{不是} Borda 计数法（使用排名）；我们使用的是归一化的百分比。
+
+\subsection{反事实模拟}
+
+我们在每种机制下重演了全部 230 轮淘汰：
+
+\begin{table}[H]
+    \centering
+    \caption{机制比较（区间稳健分类）}
+    \label{tab:mechanism_comparison_zh}
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{机制} & \textbf{参数} & $|\mathcal{D}_W|$ & $|\mathcal{P}_W|$ & $|\mathcal{D}_S|$ \\
+        \midrule
+        当前系统 & 50/50 & 40 & -- & 190 \\
+        软下限 & $\theta=5\%$ & 94 & -- & 136 \\
+        \textbf{加权百分比} & $\alpha=0.6$ & \textbf{3} & 37 & 190 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\noindent\textbf{主要发现：} 在我们的区间稳健分类下，加权百分比 ($\alpha=0.6$) 仅产生 \textbf{3个确定性错误淘汰}（低于当前系统的 40个）。根据可行边界内的真实投票值，另有 37个属于``可能性错误淘汰''。
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/fig_task5_borda_comparison.pdf}
+    \caption{不同机制下的错误淘汰分类。加权百分比 ($\alpha=0.6$) 将确定性错误淘汰数从 40 降至 3。}
+    \label{fig:mechanism_comparison_zh}
+\end{figure}
+
+\subsection{$\alpha$ 的敏感性}
+
+\begin{table}[H]
+    \centering
+    \caption{确定性错误淘汰数 vs. $\alpha$}
+    \label{tab:alpha_dw_zh}
+    \begin{tabular}{lccccc}
+        \toprule
+        $\alpha$ & 0.3 & 0.4 & 0.5 & \textbf{0.6} & 0.7 \\
+        \midrule
+        $|\mathcal{D}_W|$ & 19 & 12 & 6 & \textbf{3} & 8 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{实施建议}
+
+我们建议采用 $\alpha = 0.6$ 的加权百分比：(1) 将确定性错误淘汰降至 3（从 40 降下），(2) 透明的``60\%技术，40\%人气''口号，(3) 在 $\alpha \in [0.5, 0.7]$ 范围内具有稳健性。

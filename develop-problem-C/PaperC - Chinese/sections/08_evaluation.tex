@@ -1,0 +1,62 @@
+% Section 8: Model Evaluation
+% 模型评估
+
+\section{Model Evaluation}
+\label{sec:evaluation}
+
+We evaluate our framework via consistency tests, case studies, and efficiency benchmarks.
+
+\subsection{Internal Consistency}
+
+\begin{itemize}[itemsep=0.1em]
+    \item \textbf{100\%} of point estimates lie within computed bounds $[v_i^{\min}, v_i^{\max}]$.
+    \item Median week-to-week change: $|\hat{v}_{i,w} - \hat{v}_{i,w-1}| = 3.2\%$; autocorrelation $\rho = 0.71$.
+\end{itemize}
+
+\subsection{Case Study Gallery}
+\label{subsec:case_studies}
+
+\textbf{Case 1: Jerry Rice (S2, 2nd Place)---Rank Rules.}
+Rice averaged 22.5 judge points (3rd among finalists), yet finished 2nd. Under our MILP model with fan ranks as decision variables, the feasibility analysis shows a fan ranking of 1st or 2nd is required to explain his placement---implying massive fan support overcame moderate technical scores.
+
+\textbf{Case 2: Bobby Bones (S27, 1st Place)---Percent Rules.}
+Bones averaged only 22.4 judge points, substantially below Milo Manheim (27.3), Evanna Lynch (26.1), and Alexis Ren (26.5). Our LP inversion yields a \emph{wide} feasible interval: $v_{\text{Bones}} \in [0.01, 0.91]$ at Week 7 (see Figure~\ref{fig:bobby_survival}). 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/bobby_bones_survival.png}
+    \caption{Bobby Bones (S27) feasible vote interval over time. The wide bounds reflect \emph{underidentification} under our constraints, not exact vote values.}
+    \label{fig:bobby_survival}
+\end{figure}
+
+\noindent\textbf{Key Insight:} The wide interval ($[1\%, 91\%]$) indicates severe \emph{underidentification}---our constraints do not pin down Bones' true fan support. This may reflect missing rule details or information not captured in public data. We interpret this as an \textbf{uncertainty signal} rather than an exact claim about fan behavior. The finding motivates our Weighted Percent proposal (\secref{sec:model3}), which would narrow such intervals by increasing judge weight.
+
+\textbf{Case 3: S32--S33 Model-Data Mismatch.}
+Constraint slack $S^* > 0$ at specific weeks reveals outcomes not fully explainable by our model assumptions. For S32, $S^* = 2.0$ with reversal weeks at Week 2 and 3; for S33, $S^* = 1.0$ with reversal at Week 2. Possible explanations:
+\begin{itemize}[itemsep=0.1em]
+    \item Judges' Save decisions introduce subjectivity not captured by rank-sum logic.
+    \item Bottom-two selection mechanics may involve production discretion.
+    \item Multi-dance week score aggregation may differ from our assumptions.
+\end{itemize}
+\noindent These mismatches are \emph{not} evidence of manipulation, but highlight the mathematical complexity introduced by S28+ rule changes.
+
+\subsection{Comparison with Alternatives}
+
+\begin{table}[H]
+    \centering
+    \caption{Model Comparison}
+    \label{tab:model_comparison}
+    \begin{tabular}{lcc}
+        \toprule
+        \textbf{Approach} & \textbf{Violation Rate} & \textbf{C-index} \\
+        \midrule
+        Naive uniform & 73\% & 0.50 \\
+        Judge-only regression & 28\% & 0.61 \\
+        \textbf{Our LP/MILP} & \textbf{0\% (S1--S31)} & \textbf{0.72} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Computational Efficiency}
+
+Total runtime: \textbf{19.8 sec} on standard laptop (i7, 16GB RAM).

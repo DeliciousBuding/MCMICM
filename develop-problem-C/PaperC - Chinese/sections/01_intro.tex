@@ -1,0 +1,33 @@
+% Section 1: Introduction
+
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{Background}
+
+\emph{Dancing with the Stars} (DWTS) has run 34 seasons since 2005, pairing celebrities with professional dancers. Judge scores are public, but \textbf{individual fan vote shares are never directly disclosed}. Instead, partial information is revealed through the voting system: percent-rule seasons (S3--S27) used percentage-based scoring where combined scores are defined by rule, while rank-rule seasons (S1--S2, S28+) disclosed only combined rankings. This creates an \emph{inverse problem}: reconstructing latent fan vote distributions from observable elimination outcomes.
+
+\subsection{Problem Statement}
+
+We address five interconnected questions (MCM Problem C Tasks):
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{Fan Vote Inference:} Reconstruct plausible fan vote distributions from eliminations.
+    \item \textbf{Rule Change Impact:} How do immunity, double eliminations, and judge saves affect inference?
+    \item \textbf{Success Factors:} What predicts survival (profession, partner, fame)?
+    \item \textbf{Mechanism Evaluation:} Does the current system produce ``fair'' outcomes?
+    \item \textbf{Mechanism Design:} Can we improve fairness while maintaining engagement?
+\end{enumerate}
+
+\subsection{Contributions}
+
+\begin{enumerate}[itemsep=0.1em]
+    \item \textbf{Dual-Core Engine:} LP (percent seasons) + MILP (rank seasons) for fan vote inference.
+    \item \textbf{Model-Data Mismatch Detection:} S32/S33 identified with non-zero constraint slack---revealing mathematical complexity introduced by S28+ rule changes.
+    \item \textbf{Survival Analysis:} Pro dancer is dominant predictor (LRT $\chi^2 = 47.3$, $\Delta C = 0.09$).
+    \item \textbf{Weighted Percent System:} Reduces definite-wrongful eliminations from 40 to 3.
+    \item \textbf{Transparency Protocol:} Actionable recommendations balancing entertainment and fairness.
+\end{enumerate}
+
+\subsection{Paper Organization}
+
+\secref{sec:assumptions}: Assumptions; \secref{sec:notations}: Notations; \secref{sec:model1}: Fan Vote Inversion; \secref{sec:model2}: Survival Analysis; \secref{sec:model3}: Mechanism Design; \secref{sec:sensitivity}: Sensitivity; \secref{sec:evaluation}: Evaluation; \secref{sec:conclusion}: Conclusions.

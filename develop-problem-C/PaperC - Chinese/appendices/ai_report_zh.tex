@@ -1,0 +1,30 @@
+% AI工具使用说明 (COMAP 2026)
+\section*{AI工具报告}
+\addcontentsline{toc}{section}{AI工具报告}
+\label{appendix:ai_zh}
+
+\textbf{使用的工具：} Claude Opus 4.5（代码架构、算法实现）、ChatGPT-4o（语法）、GitHub Copilot（代码辅助）、DeepL（翻译）。
+
+\textbf{使用摘要：}
+\begin{table}[H]
+\centering\small
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{工具} & \textbf{任务} & \textbf{用法} \\
+\midrule
+Claude & 模型设计 & LP/CP 框架公式化 \\
+Claude & 代码实现 & Python \texttt{dwts\_model} 软件包 \\
+Claude & 数据分析 & Money Plot 不匹配检测 \\
+ChatGPT & 文本编写 & 语法润色（技术内容由团队完成） \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{验证工作：} 所有的AI输出都经过了审查和测试。关键结果（确定性错误淘汰从 40 减少到 3，S32/S33 不匹配）得到了独立验证。LP/MILP 公式均对照优化教科书进行了检查。
+
+\textbf{纯人工贡献：} 问题定义、数据收集、结果解构、政策建议、最终参数选择 ($\alpha = 0.6$, $\epsilon = 1\%$)。
+
+\textbf{声明：} AI工具有效加速了工作流程；所有实质性的智力贡献均反映了人类团队的判断。
+
+\vspace{1em}
+\noindent\textbf{签名：} Team \#2617892
