@@ -1,31 +1,30 @@
-% 第5节：模型2 - 生存分析
+﻿% Section 5: Model 2 (Chinese)
 
-\section{模型2：生存分析与风险识别}
-\label{sec:model2}
+\section{模型二：反事实赛制评估}
+\label{sec:model2_zh}
 
-\noindent\textbf{\textit{本节针对任务3：}} 利用推断出的投票区间的中值 $\bar{v}_i$ 作为代理变量，我们探索了影响选手生存周期的内在因素。
+\noindent\textbf{\textit{对应问题 2：}} 固定粉丝意愿与评委分数，替换规则权重，评估赛制公平性与稳定性。
 
-\subsection{Cox比例风险模型构建}
-
-我们定义风险率为 $\lambda(t|Z) = \lambda_0(t) \exp(\beta^T Z)$，其中协变量向量 $Z$ 包括：
-\begin{itemize}
-    \item \textbf{专业舞伴偏向 ($P_i$):} 反映某些舞伴的高人气。
-    \item \textbf{名气代理指标 ($F_i$):} 初始观众投票份额。
-    \item \textbf{技术成长率 ($G_i$):} 评委评分的斜率。
+\subsection{评估指标}
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{Kendall 相关}：排名一致性。
+    \item \textbf{逆转率}：机制淘汰是否与观众淘汰不同。
+    \item \textbf{孔多塞一致性}：是否淘汰粉丝赢家。
 \end{itemize}
 
-\subsection{主要发现}
-
-我们的 Cox 模型（$C$-index = 0.76）揭示了几个违反直觉的趋势：
-\begin{enumerate}
-    \item \textbf{专业舞伴效应：} 拥有前 10% 人气的专业舞伴可使淘汰风险降低 64%。
-    \item \textbf{生存拐点：} 在前三周，评委分数的预测权重比观众投票大 1.8 倍，但在季中之后，两者的重要性发生反转。
-    \item \textbf{性别差异：} 结果显示男性名人的生存率在观众投票中有微弱但显著（$p=0.04$）的优势。
-\end{enumerate}
-
-\begin{figure}[H]
+\subsection{结果}
+\begin{table}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{figures/fig_forest_plot.jpg}
-    \caption{第1-34季的累积风险曲线：显示了不同专业舞伴群体之间显著的生存差异。}
-    \label{fig:survival_curves}
-\end{figure}
+    \caption{反事实评估汇总}
+    \label{tab:counterfactual_summary_zh}
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{规则} & \textbf{Kendall 相关} & \textbf{逆转率} & \textbf{孔多塞一致性} \\
+        \midrule
+        固定 60/40（$\alpha=0.6$） & 0.455 & 0.174 & 1.000 \\
+        动态权重 & 0.409 & 0.174 & 1.000 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\noindent\textbf{解读：} 动态权重略降低 Kendall 相关（更偏观众波动），但逆转率与孔多塞一致性保持不变。

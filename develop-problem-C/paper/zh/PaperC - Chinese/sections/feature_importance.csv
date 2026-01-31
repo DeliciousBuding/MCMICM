@@ -1,0 +1,42 @@
+feature,importance
+judge_min,0.60282767
+judge_mean,0.1291675
+partner_bucket_Derek Hough,0.044459607
+judge_max,0.033598047
+judge_std,0.033417948
+celebrity_industry_Politician,0.021257682
+partner_bucket_Maksim Chmerkoskiy,0.019041806
+judge_count,0.019012364
+partner_bucket_Tony Dovolani,0.016105134
+partner_bucket_Other,0.015914587
+celebrity_industry_Athlete,0.013027131
+celebrity_age_during_season,0.01093356
+celebrity_industry_TV Personality,0.008808592
+celebrity_industry_Singer/Rapper,0.0041257413
+partner_bucket_Sharna Burgess,0.0037185606
+celebrity_industry_Astronaut,0.0032693653
+partner_bucket_Emma Slater,0.003073184
+celebrity_industry_Entrepreneur,0.0030136115
+celebrity_industry_Model,0.0029295504
+partner_bucket_Valentin Chmerkovskiy,0.00210159
+partner_bucket_Mark Ballas,0.001939424
+partner_bucket_Karina Smirnoff,0.001816854
+celebrity_industry_Magician,0.0012077619
+partner_bucket_Peta Murgatroyd,0.001055567
+celebrity_industry_Radio Personality,0.000936158
+celebrity_industry_Con artist,0.0008260079
+celebrity_industry_Social Media Personality,0.0007720182
+celebrity_industry_Comedian,0.00073386595
+celebrity_industry_Journalist,0.0004812127
+celebrity_industry_Racing Driver,0.00025913678
+celebrity_industry_News Anchor,0.00015996424
+celebrity_industry_Fashion Designer,8.7754e-06
+celebrity_industry_Beauty Pagent,0.0
+celebrity_industry_Producer,0.0
+celebrity_industry_Military,0.0
+celebrity_industry_Motivational Speaker,0.0
+celebrity_industry_Musician,0.0
+celebrity_industry_Conservationist,0.0
+celebrity_industry_Fitness Instructor,0.0
+celebrity_industry_Sports Broadcaster,0.0
+celebrity_industry_Social media personality,0.0

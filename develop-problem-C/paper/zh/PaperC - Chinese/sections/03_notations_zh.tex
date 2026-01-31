@@ -1,27 +1,43 @@
-% 第3节：符号说明
+﻿% 符号说明（中文）
 
 \section{符号说明}
-\label{sec:notations}
+\label{sec:notations_zh}
 
 \begin{table}[H]
-\centering
-\caption{关键符号汇总}
-\label{tab:notations}
-\begin{tabularx}{\textwidth}{l X l}
-\toprule
-\textbf{符号} & \textbf{描述} & \textbf{公式/单位} \\
-\midrule
-$n$ & 相应周次的活跌选手数量 & 整数 \\
-$J_i$ & 选手 $i$ 的原始评委总分 & $[3, 30]$ \\
-$J_i^\%$ & 选手 $i$ 的评委分占百分比份额 & $\in [0, 1]$ \\
-$R_{J,i}$ & 选手 $i$ 的评委排名（1为最高） & $\in [1, n]$ \\
-$v_i$ & 选手 $i$ 的观众投票份额（推断的目标） & $\sum v_i = 1$ \\
-$R_{v,i}$ & 选手 $i$ 的观众排名等级 & $\in [1, n]$ \\
-$T_i$ & 选手 $i$ 的综合得分（用于决定淘汰） & 取决于规则 \\
-$\mathcal{D}_W$ & 确认的非预期淘汰案例集合 & 集合 \\
-$s$ & 线性规划中的松弛变量（反映不匹配） & $\ge 0$ \\
-$\lambda(t)$ & Cox模型的风险率函数 & 概率密度 \\
-$\alpha$ & 机制设计中的评委权重因子 & $\in [0, 1]$ \\
-\bottomrule
-\end{tabularx}
+    \centering
+    \caption{主要符号说明}
+    \label{tab:notations_zh}
+    \begin{tabularx}{\textwidth}{c X c}
+        \toprule
+        \textbf{符号} & \textbf{含义} & \textbf{范围} \\
+        \midrule
+        $s$ & 赛季编号 & $s \in \{1,\ldots,34\}$ \\
+        $w$ & 周次编号 & $w \in \{1,\ldots,W_s\}$ \\
+        $i$ & 选手编号 & -- \\
+        $\mathcal{C}_{s,w}$ & 第 $s$ 赛季第 $w$ 周活跃集合 & -- \\
+        $n_{s,w}$ & 活跃选手数量 & -- \\
+        \midrule
+        $J_{i,w}$ & 评委分数 & [0, 40] \\
+        $\bar{J}_w$ & 当周评委分总和 & -- \\
+        $E_w$ & 当周淘汰选手 & -- \\
+        $r^{\mathrm{fan}}_{i,w}$ & 粉丝排名（排名制隐变量） & $\{1,\ldots,n_{s,w}\}$ \\
+        \midrule
+        $v_{i,w}$ & 粉丝票份额 & $[0,1]$, $\sum_i v_{i,w}=1$ \\
+        $\hat{v}_{i,w}$ & 后验均值 & $[0,1]$ \\
+        $[v^{\min}_{i,w}, v^{\max}_{i,w}]$ & 可行区间 & $[0,1]$ \\
+        $\mathrm{HDI}_{i,w}$ & 95\% HDI 区间 & $[0,1]$ \\
+        \midrule
+        $\epsilon$ & 最小份额约束 & $[0,0.1]$ \\
+        $S^*$ & 最小松弛（不一致指标） & $\ge 0$ \\
+        $\lambda$ & MCMC 时间平滑系数 & $>0$ \\
+        $\alpha$ & 评委权重 & $[0,1]$ \\
+        \midrule
+        $T_i$ & 选手存活周数 & weeks \\
+        $f(\mathbf{x}_i)$ & XGBoost 预测值 & weeks \\
+        $\phi_j$ & 特征 $j$ 的 SHAP 值 & -- \\
+        \midrule
+        $J_i^{\%}$ & 评委百分比 & $[0,1]$ \\
+        $S_i^{\mathrm{wp}}$ & 加权得分 $\alpha J_i^{\%} + (1-\alpha)v_i$ & $[0,1]$ \\
+        \bottomrule
+    \end{tabularx}
 \end{table}

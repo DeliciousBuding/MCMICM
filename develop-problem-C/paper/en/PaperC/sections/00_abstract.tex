@@ -1,20 +1,17 @@
-% Abstract / Summary Sheet
-% 摘要页（占第0页，不计入正文）
+﻿% Abstract / Summary Sheet
 
 \begin{abstract}
 
-\textbf{Motivated by recurring judge--fan disagreements (e.g., Season 27), we treat \emph{Dancing with the Stars} (DWTS) as an audit problem:} can the show's published scoring rules explain the observed eliminations \textbf{without ever observing individual fan vote shares}?
+\textbf{Motivated by recurring judge--fan disagreements, we frame \emph{Dancing with the Stars} (DWTS) as an audit problem:} can published rules explain eliminations without observing fan vote shares'
 
-To answer this, we build a \textbf{Dual-Core Inversion Engine} that (i) reconstructs \emph{feasible fan-vote intervals} under percent-rule seasons (S3--S27) via \textbf{Linear Programming}, and (ii) infers \emph{rank-only fan permutations} under rank-rule seasons (S1--S2, S28--S34) via \textbf{Mixed-Integer Linear Programming}. We then quantify \textbf{model--data mismatch} using a minimal-slack metric $S^*$, identifying when no feasible vote assignment can reproduce the observed outcome.
+We build a \textbf{Dual-Core Inversion Engine}: LP recovers feasible fan-vote intervals for percent seasons (S3--S27), while MILP infers latent fan ranks for rank seasons (S1--S2, S28--S34). On top of these intervals, we construct a \textbf{truncated Bayesian posterior} with MCMC and temporal smoothness; only samples that reproduce the observed eliminations are accepted.
 
-Across 34 seasons, our inversion engine explains \textbf{32 seasons with zero slack} under a 1\% tolerance; only \textbf{S32--S33} exhibit structural mismatch (no feasible assignment exists under stated rules). Possible causes include undocumented rule variations, unmodeled judge-save criteria, or multi-dance aggregation differences.
+Our posterior reconstruction yields 2,250 contestant-week estimates across 264 elimination weeks. Counterfactual evaluation reports mean Kendall's Tau $\approx 0.455$ and reversal rate $\approx 0.174$, indicating stable but nontrivial fan--judge tension. Feature attribution via \textbf{XGBoost + SHAP} shows judge-score statistics as the dominant survival driver, with partner effects and nonlinear age contributions.
 
-Building on inferred votes, \textbf{Cox survival analysis} reveals: (1) professional partner is the dominant survival predictor (likelihood ratio test $\chi^2 = 47.3$, $p < 0.001$; Harrell's C-index improvement $\Delta C = 0.09$); (2) judge scores dominate early rounds while fan momentum drives late-stage outcomes.
-
-For mechanism design, our \textbf{Weighted Percent} recommendation ($0.6 \times \text{JudgePct} + 0.4 \times \text{FanPct}$) reduces \textbf{Definite-Wrongful eliminations from 40 to 3} ($-92.5\%$) while preserving fan influence near the Pareto knee.
+For mechanism design, a \textbf{dynamic adaptive weighting} (judge-heavy early, fan-heavy late) is recommended. The Pareto frontier highlights the 60/40 rule as a balanced static point, while the dynamic schedule preserves audience influence without sacrificing fairness signals.
 
 \begin{keywords}
-inverse problems; linear programming; mixed-integer programming; survival analysis; mechanism design
+Bayesian inference; MCMC; linear programming; mixed-integer programming; XGBoost; SHAP; mechanism design
 \end{keywords}
 
 \end{abstract}

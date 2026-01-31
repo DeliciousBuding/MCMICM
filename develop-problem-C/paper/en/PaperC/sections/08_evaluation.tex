@@ -1,105 +1,27 @@
-% Section 8: Model Evaluation
-% 模型评估
+﻿% Section 8: Model Evaluation
 
 \section{Model Evaluation}
 \label{sec:evaluation}
 
-We evaluate our framework via consistency tests, case studies, and efficiency benchmarks.
+We evaluate our framework via internal consistency checks, case studies, and computational efficiency.
 
 \subsection{Internal Consistency}
-
 \begin{itemize}[itemsep=0.1em]
-    \item \textbf{100\%} of point estimates lie within computed bounds $[v_i^{\min}, v_i^{\max}]$.
-    \item Median week-to-week change: $|\hat{v}_{i,w} - \hat{v}_{i,w-1}| = 3.2\%$; autocorrelation $\rho = 0.71$.
+    \item \textbf{Posterior validity:} 100\% of posterior means lie within their LP/MILP intervals.
+    \item \textbf{Uncertainty scale:} mean HDI width = 0.239; median HDI width = 0.268.
+    \item \textbf{Coverage:} 2,250 contestant-week posteriors across 264 elimination weeks.
 \end{itemize}
 
-\subsection{Case Study Gallery}
-\label{subsec:case_studies}
-
-\textbf{Case 1: Jerry Rice (S2, 2nd Place)---Rank Rules.}
-Rice averaged 22.5 judge points (3rd among finalists), yet finished 2nd. Under our MILP model with fan ranks as decision variables, the feasibility analysis shows a fan ranking of 1st or 2nd is required to explain his placement---implying massive fan support overcame moderate technical scores.
-
-\begin{tcolorbox}[colback=dwts-fill!30!white, colframe=dwts-aux!80!black, title=\textbf{Case 1 Insight: Celebrity Power in Early Seasons}]
-Jerry Rice's case demonstrates that even in early rank-based seasons, \textbf{celebrity recognition could override dancing ability}. This pattern---famous contestants surviving despite lower scores---would later culminate in the Bobby Bones controversy.
-\end{tcolorbox}
-
-\textbf{Case 2: Bobby Bones (S27, 1st Place)---The System Vulnerability Exposed.}
-Bones averaged only 22.4 judge points, substantially below Milo Manheim (27.3), Evanna Lynch (26.1), and Alexis Ren (26.5). Our LP inversion yields a \emph{wide} feasible interval: $v_{\text{Bones}} \in [0.01, 0.91]$ at Week 7 (see \figref{fig:bobby_survival}). 
+\subsection{Case Study: Bobby Bones (S27)}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{figures/bobby_bones_survival.png}
-    \caption{\textbf{The Bobby Bones Anomaly: When the System Fails to Constrain.} Feasible vote interval for Bobby Bones (S27) across competition weeks. The extraordinarily wide bounds ($[1\%, 91\%]$) reveal \textbf{severe underidentification}---our mathematical constraints cannot pin down his true support level. This is not a data error; it's a \emph{structural property} of the 50/50 system: a contestant with low but non-zero judge scores can survive with virtually any fan vote share. \textbf{Takeaway:} The current system structurally allows low-scoring contestants to win if they mobilize dedicated fans.}
+    \caption{\textbf{Bobby Bones Posterior Fan Vote.} The 95\% HDI remains wide (max width $\approx 0.46$), highlighting structural underidentification in the 50/50 system.}
     \label{fig:bobby_survival}
 \end{figure}
 
-\begin{tcolorbox}[colback=dwts-warning!10!white, colframe=dwts-warning!80!black, title=\textbf{Case 2 Insight: The ``Bobby Bones Problem'' is Structural}]
-The wide interval $[1\%, 91\%]$ is not uncertainty about Bobby Bones specifically---it reveals that \textbf{the current 50/50 system cannot mathematically distinguish between ``massive fan support'' and ``moderate support with low competition.''}  Any contestant with judge scores above the elimination threshold can survive with surprisingly low actual fan support. This is why we recommend the 60/40 weighted system: it would narrow such intervals by making judge scores more decisive.
-\end{tcolorbox}
-
-\textbf{Case 3: S32--S33 Model-Data Mismatch---The Judges' Save Black Box.}
-Constraint slack $S^* > 0$ at specific weeks reveals outcomes not fully explainable by our model assumptions. For S32, $S^* = 2.0$ with reversal weeks at Week 2 and 3; for S33, $S^* = 1.0$ with reversal at Week 2. 
-
-\begin{tcolorbox}[colback=dwts-warning2!15!white, colframe=dwts-warning!80!black, title=\textbf{Case 3 Insight: Successful Detection of Rule Opacity}]
-These mismatches are \emph{not} evidence of manipulation---they are \textbf{successful detections of the opacity introduced by Judges' Save}. The save mechanism allows judges to override rank-based outcomes using subjective criteria (``improvement,'' ``artistry'') that cannot be predicted from scores alone. Our system correctly identifies these episodes as ``unexplainable by published rules,'' providing advance warning for media preparation.
-\end{tcolorbox}
-
-\noindent\textbf{Possible explanations for S32--S33 mismatches:}
-\begin{itemize}[itemsep=0.1em]
-    \item Judges' Save decisions introduce subjectivity not captured by rank-sum logic.
-    \item Bottom-two selection mechanics may involve production discretion.
-    \item Multi-dance week score aggregation may differ from our assumptions.
-\end{itemize}
-
-\subsection{Comparison with Alternatives}
-
-\begin{table}[H]
-    \centering
-    \caption{Model Comparison: Our LP/MILP Framework vs. Baseline Approaches}
-    \label{tab:model_comparison}
-    \begin{tabular}{lcc}
-        \toprule
-        \textbf{Approach} & \textbf{Violation Rate} & \textbf{C-index} \\
-        \midrule
-        Naive uniform (assume equal votes) & 73\% & 0.50 \\
-        Judge-only regression & 28\% & 0.61 \\
-        \textbf{Our LP/MILP Framework} & \textbf{0\% (S1--S31)} & \textbf{0.72} \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\begin{tcolorbox}[colback=dwts-proposed!10!white, colframe=dwts-proposed!80!black, title=\textbf{Key Result: 94\% Consistency Across 34 Seasons}]
-Our Dual-Core Engine achieves \textbf{perfect consistency ($S^* = 0$) for 32 of 34 seasons}. The two exceptions (S32--S33) are correctly flagged as rule-opacity events, not model failures. No alternative approach matches this combination of coverage and interpretability.
-\end{tcolorbox}
-
-\subsection{Monte Carlo Audit Results}
-\label{subsec:mc_evaluation}
-
-We run constraint-consistent Monte Carlo sampling on all 298 eliminations to quantify Popularity Dissonance probabilities. The mean $P(\text{Wrongful})$ is 0.490 and the median is 0.529; at a 5\% threshold, 17 cases are classified as Definite-Correct and the remaining 281 are Uncertain.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figures/mc_probability_distribution.pdf}
-    \caption{\textbf{Distribution of Popularity Dissonance Probabilities.} Histogram + KDE show the overall fairness landscape with a median near 0.53.}
-    \label{fig:mc_distribution}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figures/mc_season_evolution.pdf}
-    \caption{\textbf{Evolution Across Seasons.} Mean $P(\text{Wrongful})$ with 95\% CI reveals higher dissonance in rank-rule eras (S1--S2, S28+).}
-    \label{fig:mc_season_evolution}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/mc_confidence_intervals.pdf}
-    \caption{\textbf{Top Cases with Confidence Intervals.} The most likely dissonant eliminations include several judge-save era weeks.}
-    \label{fig:mc_top_cases}
-\end{figure}
-
-\input{sections/mc_summary_statistics.tex}
+\noindent\textbf{Interpretation.} Even after Bayesian smoothing, the interval remains broad---a low judge-score contestant can survive with a wide range of fan support. This motivates shifting weight toward judges early in the season.
 
 \subsection{Computational Efficiency}
-
-At 5,000 samples per elimination, the full Monte Carlo audit completes in a few minutes on a standard laptop; per-episode LP solves remain sub-second. This enables \textbf{pre-broadcast consistency checking} before results air.
+The end-to-end pipeline completes within a few minutes on a laptop for 2,000 MCMC samples per week. LP/MILP inversion remains sub-second per week, enabling pre-broadcast diagnostics.

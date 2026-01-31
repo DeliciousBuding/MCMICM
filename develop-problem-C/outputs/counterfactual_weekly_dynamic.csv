@@ -1,0 +1,265 @@
+season,week,alpha,observed_elim,fan_elim,mech_elim,kendall_tau,reversal,condorcet_ok
+1,2,0.7,Trista Sutter,Trista Sutter,Evander Holyfield,0.3333333333333333,1.0,1.0
+1,3,0.7,Evander Holyfield,Evander Holyfield,Evander Holyfield,0.6,0.0,1.0
+1,4,0.7,Rachel Hunter,Joey McIntyre,Joey McIntyre,1.0,0.0,1.0
+2,1,0.7,Kenny Mayne,Kenny Mayne,Master P,0.06666666666666667,1.0,1.0
+2,2,0.7,Tatum O'Neal,Jerry Rice,Master P,-0.05555555555555555,1.0,1.0
+2,3,0.7,Giselle Fernandez,Giselle Fernandez,Jerry Rice,0.6428571428571428,1.0,1.0
+2,4,0.7,Master P,Tia Carrere,George Hamilton,0.33333333333333337,1.0,1.0
+2,5,0.7,Tia Carrere,Tia Carrere,Tia Carrere,0.3333333333333333,0.0,1.0
+2,6,0.6,George Hamilton,George Hamilton,George Hamilton,0.7999999999999999,0.0,1.0
+2,7,0.5,Lisa Rinna,Stacy Keibler,Jerry Rice,0.3333333333333334,1.0,1.0
+3,1,0.7,Tucker Carlson,Tucker Carlson,Tucker Carlson,0.38181818181818183,0.0,1.0
+3,2,0.7,Shanna Moakler,Shanna Moakler,Shanna Moakler,-0.022222222222222223,0.0,1.0
+3,3,0.7,Harry Hamlin,Harry Hamlin,Harry Hamlin,-0.16666666666666666,0.0,1.0
+3,4,0.7,Vivica A. Fox,Vivica A. Fox,Vivica A. Fox,0.0,0.0,1.0
+3,5,0.7,Willa Ford,Willa Ford,Willa Ford,0.4285714285714286,0.0,1.0
+3,7,0.58,Jerry Springer,Jerry Springer,Jerry Springer,0.7999999999999999,0.0,1.0
+3,8,0.52,Monique Coleman,Monique Coleman,Monique Coleman,1.0,0.0,1.0
+4,2,0.7,Paulina Porizkova,Paulina Porizkova,Paulina Porizkova,0.23636363636363636,0.0,1.0
+4,3,0.7,Shandi Finnessey,Shandi Finnessey,Shandi Finnessey,-0.15555555555555553,0.0,1.0
+4,4,0.7,Leeza Gibbons,Leeza Gibbons,Leeza Gibbons,-0.1111111111111111,0.0,1.0
+4,5,0.7,Clyde Drexler,Clyde Drexler,Clyde Drexler,0.14285714285714285,0.0,1.0
+4,6,0.64,Heather Mills,Heather Mills,Heather Mills,0.23809523809523814,0.0,1.0
+4,7,0.58,John Ratzenberger,John Ratzenberger,John Ratzenberger,0.2,0.0,1.0
+4,8,0.52,Billy Ray Cyrus,Billy Ray Cyrus,Billy Ray Cyrus,0.6,0.0,1.0
+4,9,0.45999999999999996,Ian Ziering,Ian Ziering,Ian Ziering,1.0,0.0,1.0
+5,1,0.7,Josie Maran,Josie Maran,Josie Maran,0.303030303030303,0.0,1.0
+5,2,0.7,Albert Reed,Albert Reed,Albert Reed,-0.0909090909090909,0.0,1.0
+5,3,0.7,Wayne Newton,Wayne Newton,Wayne Newton,0.4222222222222222,0.0,1.0
+5,4,0.7,Floyd Mayweather Jr. ,Floyd Mayweather Jr. ,Floyd Mayweather Jr. ,0.0,0.0,1.0
+5,5,0.7,Mark Cuban,Mark Cuban,Mark Cuban,0.07142857142857142,0.0,1.0
+5,6,0.64,Sabrina Bryan,Sabrina Bryan,Sabrina Bryan,0.14285714285714288,0.0,1.0
+5,7,0.58,Jane Seymour,Jane Seymour,Jane Seymour,0.9999999999999999,0.0,1.0
+5,8,0.52,Cameron Mathison,Cameron Mathison,Cameron Mathison,0.9999999999999999,0.0,1.0
+5,9,0.45999999999999996,Jennie Garth,Jennie Garth,Jennie Garth,1.0,0.0,1.0
+6,2,0.7,Monica Seles,Monica Seles,Monica Seles,0.2121212121212121,0.0,1.0
+6,3,0.7,Steve Guttenberg,Steve Guttenberg,Steve Guttenberg,0.15555555555555553,0.0,1.0
+6,4,0.7,Adam Carolla,Adam Carolla,Adam Carolla,-0.1111111111111111,0.0,1.0
+6,5,0.7,Priscilla Presley,Priscilla Presley,Priscilla Presley,0.0,0.0,1.0
+6,6,0.64,Marlee Matlin,Marlee Matlin,Marlee Matlin,-0.23809523809523814,0.0,1.0
+6,7,0.58,Shannon Elizabeth,Shannon Elizabeth,Shannon Elizabeth,0.3333333333333333,0.0,1.0
+6,8,0.52,Mario,Mario,Mario,0.6,0.0,1.0
+6,9,0.45999999999999996,Marissa Jaret Winokur,Marissa Jaret Winokur,Marissa Jaret Winokur,1.0,0.0,1.0
+7,1,0.7,Ted McGinley,Ted McGinley,Jeffrey Ross,0.4102564102564102,1.0,1.0
+7,2,0.7,Kim Kardashian,Kim Kardashian,Kim Kardashian,-0.1272727272727273,0.0,1.0
+7,4,0.7,Rocco DiSpirito,Rocco DiSpirito,Rocco DiSpirito,0.0,0.0,1.0
+7,5,0.7,Toni Braxton,Toni Braxton,Toni Braxton,-0.14285714285714285,0.0,1.0
+7,6,0.64,Cloris Leachman,Cloris Leachman,Cloris Leachman,0.4285714285714286,0.0,1.0
+7,7,0.58,Susan Lucci,Susan Lucci,Susan Lucci,0.06666666666666665,0.0,1.0
+7,8,0.52,Maurice Greene,Maurice Greene,Maurice Greene,0.9999999999999999,0.0,1.0
+7,9,0.45999999999999996,Cody Linley,Cody Linley,Cody Linley,0.6666666666666669,0.0,1.0
+8,2,0.7,Belinda Carlisle,Belinda Carlisle,Belinda Carlisle,0.0,0.0,1.0
+8,3,0.7,Denise Richards,Denise Richards,Denise Richards,-0.0606060606060606,0.0,1.0
+8,4,0.7,Steve Wozniak,Steve Wozniak,Steve Wozniak,0.23636363636363636,0.0,1.0
+8,5,0.7,David Alan Grier,David Alan Grier,David Alan Grier,-0.16666666666666666,0.0,1.0
+8,6,0.6499999999999999,Steve-O,Steve-O,Steve-O,-0.42857142857142855,0.0,1.0
+8,7,0.6,Lawrence Taylor,Lawrence Taylor,Lawrence Taylor,0.6190476190476191,0.0,1.0
+8,8,0.55,Chuck Wicks,Chuck Wicks,Chuck Wicks,0.3333333333333333,0.0,1.0
+8,9,0.5,Lil' Kim,Lil' Kim,Lil' Kim,0.9999999999999999,0.0,1.0
+8,10,0.45,Ty Murray,Ty Murray,Ty Murray,1.0,0.0,1.0
+9,1,0.7,Ashley Hamiliton,Ashley Hamiliton,Ashley Hamiliton,0.31666666666666665,0.0,1.0
+9,2,0.7,Kathy Ireland,Kathy Ireland,Kathy Ireland,0.5164835164835165,0.0,1.0
+9,3,0.7,Debi Mazar,Debi Mazar,Debi Mazar,0.0,0.0,1.0
+9,4,0.7,Chuck Liddell,Chuck Liddell,Chuck Liddell,-0.0909090909090909,0.0,1.0
+9,5,0.7,Natalie Coughlin,Natalie Coughlin,Natalie Coughlin,0.15555555555555553,0.0,1.0
+9,6,0.64,Melissa Joan Hart,Melissa Joan Hart,Melissa Joan Hart,0.3888888888888889,0.0,1.0
+9,7,0.58,Mark Dacascos,Mark Dacascos,Mark Dacascos,0.8095238095238096,0.0,1.0
+9,8,0.52,Aaron Carter,Aaron Carter,Aaron Carter,0.39999999999999997,0.0,1.0
+9,9,0.45999999999999996,Joanna Krupa,Joanna Krupa,Joanna Krupa,0.6666666666666669,0.0,1.0
+10,2,0.7,Shannen Doherty,Shannen Doherty,Shannen Doherty,-0.2,0.0,1.0
+10,3,0.7,Buzz Aldrin,Buzz Aldrin,Buzz Aldrin,0.1111111111111111,0.0,1.0
+10,4,0.7,Aiden Turner,Aiden Turner,Aiden Turner,-0.05555555555555555,0.0,1.0
+10,5,0.7,Kate Gosselin,Kate Gosselin,Kate Gosselin,0.07142857142857142,0.0,1.0
+10,6,0.64,Jake Pavelka,Jake Pavelka,Jake Pavelka,-0.23809523809523814,0.0,1.0
+10,7,0.58,Pamela Anderson,Pamela Anderson,Pamela Anderson,0.7333333333333333,0.0,1.0
+10,8,0.52,Niecy Nash,Niecy Nash,Niecy Nash,0.0,0.0,1.0
+10,9,0.45999999999999996,Chad Ochocinco,Chad Ochocinco,Chad Ochocinco,1.0,0.0,1.0
+11,1,0.7,David Hasselhoff,David Hasselhoff,David Hasselhoff,0.0606060606060606,0.0,1.0
+11,2,0.7,Michael Bolton,Michael Bolton,Michael Bolton,0.3090909090909091,0.0,1.0
+11,3,0.7,Margaret Cho,Margaret Cho,Margaret Cho,0.4222222222222222,0.0,1.0
+11,4,0.7,The Situation,The Situation,The Situation,0.5,0.0,1.0
+11,5,0.7,Florence Henderson,Florence Henderson,Florence Henderson,-0.21428571428571427,0.0,1.0
+11,6,0.64,Audrina Patridge,Audrina Patridge,Audrina Patridge,-0.04761904761904762,0.0,1.0
+11,7,0.58,Rick Fox,Rick Fox,Rick Fox,0.7333333333333333,0.0,1.0
+11,8,0.52,Kurt Warner,Kurt Warner,Kurt Warner,0.7999999999999999,0.0,1.0
+11,9,0.45999999999999996,Brandy,Brandy,Brandy,1.0,0.0,1.0
+12,2,0.7,Mike Catherwood,Mike Catherwood,Mike Catherwood,-0.2727272727272727,0.0,1.0
+12,3,0.7,Wendy Williams,Wendy Williams,Wendy Williams,0.28888888888888886,0.0,1.0
+12,4,0.7,Sugar Ray Leonard,Sugar Ray Leonard,Sugar Ray Leonard,0.0,0.0,1.0
+12,5,0.7,Petra Nemcova,Petra Nemcova,Petra Nemcova,0.2857142857142857,0.0,1.0
+12,6,0.64,Chris Jericho,Chris Jericho,Chris Jericho,-0.14285714285714288,0.0,1.0
+12,7,0.58,Kendra Wilkinson,Kendra Wilkinson,Kendra Wilkinson,0.4666666666666666,0.0,1.0
+12,8,0.52,Romeo,Romeo,Romeo,0.7999999999999999,0.0,1.0
+12,9,0.45999999999999996,Ralph Macchio,Ralph Macchio,Ralph Macchio,1.0,0.0,1.0
+13,1,0.7,Metta World Peace (Ron),Metta World Peace (Ron),Metta World Peace (Ron),0.1515151515151515,0.0,1.0
+13,2,0.7,Elisabetta Canalis,Elisabetta Canalis,Elisabetta Canalis,0.23636363636363636,0.0,1.0
+13,3,0.7,Kristin Cavallari,Kristin Cavallari,Kristin Cavallari,0.06666666666666667,0.0,1.0
+13,4,0.7,Chynna Phillips,Chynna Phillips,Chynna Phillips,0.05555555555555555,0.0,1.0
+13,5,0.7,Carson Kressley,Carson Kressley,Carson Kressley,0.2857142857142857,0.0,1.0
+13,6,0.64,Chaz Bono,Chaz Bono,Chaz Bono,0.33333333333333337,0.0,1.0
+13,7,0.58,David Arquette,David Arquette,David Arquette,0.2,0.0,1.0
+13,8,0.52,Nancy Grace,Nancy Grace,Nancy Grace,0.39999999999999997,0.0,1.0
+13,9,0.45999999999999996,Hope Solo,Hope Solo,Hope Solo,0.6666666666666669,0.0,1.0
+14,2,0.7,Martina Navratilova,Martina Navratilova,Martina Navratilova,0.303030303030303,0.0,1.0
+14,3,0.7,Jack Wagner,Jack Wagner,Jack Wagner,0.45454545454545453,0.0,1.0
+14,4,0.7,Sherri Sheperd,Sherri Sheperd,Sherri Sheperd,-0.1111111111111111,0.0,1.0
+14,5,0.7,Gavin DeGraw,Gavin DeGraw,Gavin DeGraw,0.16666666666666666,0.0,1.0
+14,6,0.64,Gladys Knight,Gladys Knight,Gladys Knight,0.21428571428571427,0.0,1.0
+14,7,0.58,Jaleel White,Jaleel White,Jaleel White,0.6190476190476191,0.0,1.0
+14,8,0.52,Roshon Fegan,Melissa Gilbert,Melissa Gilbert,0.8666666666666666,0.0,1.0
+14,9,0.45999999999999996,Maria Menounos,Maria Menounos,Maria Menounos,1.0,0.0,1.0
+15,1,0.7,Pamela Anderson,Pamela Anderson,Pamela Anderson,0.5384615384615383,0.0,1.0
+15,2,0.7,Joey Fatone,Joey Fatone,Joey Fatone,0.3636363636363636,0.0,1.0
+15,3,0.7,Helio Castroneves,Drew Lachey,Drew Lachey,0.6727272727272727,0.0,1.0
+15,4,0.7,Bristol Palin,Bristol Palin,Bristol Palin,-0.1111111111111111,0.0,1.0
+15,6,0.64,Sabrina Bryan,Sabrina Bryan,Sabrina Bryan,0.3571428571428571,0.0,1.0
+15,8,0.52,Gilles Marini,Kirstie Alley,Kirstie Alley,1.0,0.0,1.0
+15,9,0.45999999999999996,Apolo Anton Ohno,Emmitt Smith,Emmitt Smith,0.9999999999999999,0.0,1.0
+16,3,0.7,Wynonna Judd,Wynonna Judd,Wynonna Judd,0.23636363636363636,0.0,1.0
+16,4,0.7,Lisa Vanderpump,Lisa Vanderpump,Lisa Vanderpump,0.1111111111111111,0.0,1.0
+16,5,0.7,D. L. Hughley,D. L. Hughley,D. L. Hughley,0.16666666666666666,0.0,1.0
+16,6,0.64,Victor Ortiz,Victor Ortiz,Victor Ortiz,0.2857142857142857,0.0,1.0
+16,7,0.58,Andy Dick,Andy Dick,Andy Dick,0.33333333333333337,0.0,1.0
+16,8,0.52,Sean Lowe,Sean Lowe,Sean Lowe,0.4666666666666666,0.0,1.0
+16,9,0.45999999999999996,Ingo Rademacher,Ingo Rademacher,Ingo Rademacher,0.7999999999999999,0.0,1.0
+16,10,0.4,Alexandra Raisman,Alexandra Raisman,Alexandra Raisman,1.0,0.0,1.0
+17,2,0.7,Keyshawn Johnson,Keyshawn Johnson,Keyshawn Johnson,0.3636363636363636,0.0,1.0
+17,3,0.7,Bill Nye,Bill Nye,Bill Nye,0.16363636363636364,0.0,1.0
+17,4,0.7,Valerie Harper,Valerie Harper,Valerie Harper,0.1111111111111111,0.0,1.0
+17,5,0.7,Christina Milian,Christina Milian,Christina Milian,0.16666666666666666,0.0,1.0
+17,7,0.6,"Nicole ""Snooki"" Polizzi","Nicole ""Snooki"" Polizzi","Nicole ""Snooki"" Polizzi",0.4999999999999999,0.0,1.0
+17,8,0.55,Brant Daugherty,Brant Daugherty,Brant Daugherty,0.6190476190476191,0.0,1.0
+17,9,0.5,Elizabeth Berkley Lauren,Elizabeth Berkley Lauren,Elizabeth Berkley Lauren,0.9999999999999999,0.0,1.0
+17,10,0.45,Leah Remini,Leah Remini,Leah Remini,0.9999999999999999,0.0,1.0
+17,11,0.4,Bill Engvall,Bill Engvall,Bill Engvall,1.0,0.0,1.0
+18,2,0.7,Sean Avery,Sean Avery,Diana Nyad,0.1818181818181818,1.0,1.0
+18,5,0.7,Cody Simpson,Cody Simpson,Cody Simpson,0.0,0.0,1.0
+18,6,0.64,Drew Carey,Drew Carey,Drew Carey,0.3571428571428571,0.0,1.0
+18,7,0.58,NeNe Leakes,NeNe Leakes,NeNe Leakes,0.9047619047619049,0.0,1.0
+18,8,0.52,Danica McKellar,Danica McKellar,Danica McKellar,0.9999999999999999,0.0,1.0
+18,9,0.45999999999999996,Charlie White,Charlie White,Charlie White,0.9999999999999999,0.0,1.0
+18,10,0.4,James Maslow,James Maslow,James Maslow,1.0,0.0,1.0
+19,1,0.7,Lolo Jones,Lolo Jones,Lolo Jones,0.10256410256410255,0.0,1.0
+19,2,0.7,Tavis Smiley,Tavis Smiley,Tavis Smiley,0.2121212121212121,0.0,1.0
+19,3,0.7,Randy Couture,Randy Couture,Randy Couture,0.23636363636363636,0.0,1.0
+19,4,0.7,Betsey Johnson,Betsey Johnson,Betsey Johnson,-0.4222222222222222,0.0,1.0
+19,6,0.6499999999999999,Jonathan Bennett,Jonathan Bennett,Jonathan Bennett,0.2777777777777778,0.0,1.0
+19,7,0.6,Antonio Sabato Jr.,Antonio Sabato Jr.,Antonio Sabato Jr.,0.42857142857142855,0.0,1.0
+19,8,0.55,Michael Waltrip,Michael Waltrip,Michael Waltrip,0.4285714285714286,0.0,1.0
+19,9,0.5,Lea Thompson,Lea Thompson,Lea Thompson,0.9999999999999999,0.0,1.0
+19,10,0.45,Tommy Chong,Tommy Chong,Tommy Chong,0.7999999999999999,0.0,1.0
+19,11,0.4,Bethany Mota,Bethany Mota,Bethany Mota,1.0,0.0,1.0
+20,2,0.7,Redfoo,Redfoo,Redfoo,0.2424242424242424,0.0,1.0
+20,3,0.7,Charlotte McKinney,Charlotte McKinney,Charlotte McKinney,-0.05454545454545454,0.0,1.0
+20,4,0.7,Michael Sam,Michael Sam,Michael Sam,-0.022222222222222223,0.0,1.0
+20,5,0.7,Suzanne Somers,Suzanne Somers,Suzanne Somers,-0.2222222222222222,0.0,1.0
+20,6,0.64,Patti LaBelle,Patti LaBelle,Patti LaBelle,0.42857142857142855,0.0,1.0
+20,7,0.58,Willow Shields,Willow Shields,Willow Shields,0.8095238095238096,0.0,1.0
+20,8,0.52,Robert Herjavec,Chris Soules,Robert Herjavec,0.6,1.0,1.0
+20,9,0.45999999999999996,Nastia Liukin,Nastia Liukin,Nastia Liukin,1.0,0.0,1.0
+21,2,0.7,Victor Espinoza,Chaka Khan,Chaka Khan,0.3846153846153845,0.0,1.0
+21,4,0.7,Gary Busey,Gary Busey,Gary Busey,0.1111111111111111,0.0,1.0
+21,6,0.6499999999999999,Paula Deen,Paula Deen,Paula Deen,0.6666666666666666,0.0,1.0
+21,7,0.6,Hayes Grier,Hayes Grier,Hayes Grier,0.7142857142857142,0.0,1.0
+21,8,0.55,Andy Grammer,Andy Grammer,Andy Grammer,0.4285714285714286,0.0,1.0
+21,9,0.5,Alexa PenaVega,Alexa PenaVega,Alexa PenaVega,0.8666666666666666,0.0,1.0
+21,11,0.4,Carlos PenaVega,Carlos PenaVega,Carlos PenaVega,1.0,0.0,1.0
+22,2,0.7,Geraldo Rivera,Geraldo Rivera,Geraldo Rivera,0.39393939393939387,0.0,1.0
+22,3,0.7,Mischa Barton,Mischa Barton,Mischa Barton,0.3090909090909091,0.0,1.0
+22,4,0.7,Marla Maples,Marla Maples,Marla Maples,-0.022222222222222223,0.0,1.0
+22,6,0.64,Doug Flutie,Doug Flutie,Doug Flutie,0.3333333333333333,0.0,1.0
+22,7,0.58,Kim Fields,Kim Fields,Kim Fields,0.7857142857142856,0.0,1.0
+22,8,0.52,Jodie Sweetin,Jodie Sweetin,Jodie Sweetin,0.7333333333333333,0.0,1.0
+22,9,0.45999999999999996,Antonio Brown,Wanya Morris,Antonio Brown,0.7999999999999999,1.0,1.0
+23,2,0.7,Jake T. Austin,Jake T. Austin,Jake T. Austin,0.3589743589743589,0.0,1.0
+23,3,0.7,Rick Perry,Rick Perry,Rick Perry,0.303030303030303,0.0,1.0
+23,4,0.7,Babyface,Babyface,Babyface,0.6000000000000001,0.0,1.0
+23,6,0.6499999999999999,Amber Rose,Amber Rose,Amber Rose,-0.05555555555555555,0.0,1.0
+23,7,0.6,Maureen McCormick,Maureen McCormick,Maureen McCormick,0.4999999999999999,0.0,1.0
+23,8,0.55,Ryan Lochte,Ryan Lochte,Ryan Lochte,0.5238095238095238,0.0,1.0
+23,9,0.5,Marilu Henner,Marilu Henner,Marilu Henner,0.9999999999999999,0.0,1.0
+23,10,0.45,Terra Jole,Terra Jole,Terra Jole,0.7999999999999999,0.0,1.0
+23,11,0.4,Jana Kramer,Jana Kramer,Jana Kramer,1.0,0.0,1.0
+24,2,0.7,Chris Kattan,Chris Kattan,Chris Kattan,0.39393939393939387,0.0,1.0
+24,3,0.7,Charo,Charo,Charo,0.0909090909090909,0.0,1.0
+24,4,0.7,Mr. T,Mr. T,Mr. T,0.1111111111111111,0.0,1.0
+24,5,0.7,Erika Jayne,Erika Jayne,Erika Jayne,-0.1111111111111111,0.0,1.0
+24,6,0.64,Heather Morris,Heather Morris,Heather Morris,0.8571428571428571,0.0,1.0
+24,7,0.58,Nancy Kerrigan,Nick Viall,Nick Viall,0.7142857142857143,0.0,1.0
+24,8,0.52,Bonner Bolton,Bonner Bolton,Bonner Bolton,0.9999999999999999,0.0,1.0
+24,9,0.45999999999999996,Simone Biles,Simone Biles,Simone Biles,1.0,0.0,1.0
+25,2,0.7,Barbara Corcoran,Barbara Corcoran,Barbara Corcoran,0.5384615384615383,0.0,1.0
+25,4,0.7,Derek Fisher,Derek Fisher,Derek Fisher,0.34545454545454546,0.0,1.0
+25,5,0.7,Sasha Pieterse,Sasha Pieterse,Sasha Pieterse,0.24444444444444444,0.0,1.0
+25,6,0.64,Nick Lachey,Nick Lachey,Nick Lachey,0.3333333333333333,0.0,1.0
+25,7,0.58,Nikki Bella,Nikki Bella,Nikki Bella,0.6428571428571428,0.0,1.0
+25,8,0.52,Terrell Owens,Terrell Owens,Terrell Owens,0.2,0.0,1.0
+25,9,0.45999999999999996,Victoria Arlen,Victoria Arlen,Victoria Arlen,0.9999999999999999,0.0,1.0
+25,10,0.4,Drew Scott,Drew Scott,Drew Scott,1.0,0.0,1.0
+26,1,0.7,Jamie Anderson,Johnny Damon,Johnny Damon,0.28888888888888886,0.0,1.0
+26,2,0.7,Kareem Abdul-Jabbar,Kareem Abdul-Jabbar,Kareem Abdul-Jabbar,0.3571428571428571,0.0,1.0
+26,3,0.7,Jennie Finch Daigle,Mirai Nagasu,Jennie Finch Daigle,0.3333333333333333,1.0,1.0
+27,1,0.7,Nikki Glaser,Nikki Glaser,Nikki Glaser,0.15384615384615383,0.0,1.0
+27,2,0.7,Danelle Umstead,Danelle Umstead,Danelle Umstead,0.0303030303030303,0.0,1.0
+27,3,0.7,Nancy McKeon,Nancy McKeon,Nancy McKeon,-0.2727272727272727,0.0,1.0
+27,4,0.7,Tinashe,Tinashe,Tinashe,-0.3333333333333333,0.0,1.0
+27,6,0.625,Mary Lou Retton,Mary Lou Retton,Mary Lou Retton,0.1111111111111111,0.0,1.0
+27,7,0.55,John Schneider,John Schneider,John Schneider,0.8571428571428571,0.0,1.0
+27,8,0.475,Juan Pablo Di Pace,Joe Amabile,Joe Amabile,0.9999999999999999,0.0,1.0
+28,2,0.7,Mary Wilson,Mary Wilson,Lamar Odom,0.4545454545454545,1.0,1.0
+28,4,0.7,Lamar Odom,Lamar Odom,Lamar Odom,0.6888888888888888,0.0,1.0
+28,6,0.6499999999999999,Sailor Brinkley-Cook,Sailor Brinkley-Cook,Sean Spicer,-0.2222222222222222,1.0,1.0
+28,7,0.6,Karamo Brown,Karamo Brown,Sean Spicer,0.2857142857142857,1.0,1.0
+28,8,0.55,Kate Flannery,Kate Flannery,Sean Spicer,0.14285714285714288,1.0,1.0
+28,9,0.5,Sean Spicer,Ally Brooke,Sean Spicer,0.3333333333333333,1.0,1.0
+28,10,0.45,James Van Der Beek,Ally Brooke,Lauren Alaina,0.0,1.0,1.0
+29,2,0.7,Charles Oakley,Charles Oakley,Charles Oakley,0.20000000000000004,0.0,1.0
+29,3,0.7,Carole Baskin,Carole Baskin,Carole Baskin,0.3626373626373627,0.0,1.0
+29,4,0.7,Anne Heche,Anne Heche,Anne Heche,0.30769230769230765,0.0,1.0
+29,5,0.7,Jesse Metcalfe,Jesse Metcalfe,Jesse Metcalfe,0.5454545454545454,0.0,1.0
+29,6,0.6499999999999999,Veron Davis,Veron Davis,Skai Jackson,0.3090909090909091,1.0,1.0
+29,7,0.6,Monica Aldama,Nelly,Monica Aldama,0.28888888888888886,1.0,1.0
+29,8,0.55,Chrishell Stause,Chrishell Stause,Nelly,0.2857142857142857,1.0,1.0
+29,9,0.5,AJ McLean,AJ McLean,Nelly,0.6190476190476191,1.0,1.0
+29,10,0.45,Skai Jackson,Skai Jackson,Nelly,0.8666666666666666,1.0,1.0
+30,2,0.7,Martin Kove,Martin Kove,Martin Kove,0.7142857142857143,0.0,1.0
+30,3,0.7,Christine Chiu,Christine Chiu,Iman Shumpert,-0.03296703296703297,1.0,1.0
+30,4,0.7,Brian Austin Green,Matt James,Matt James,0.23076923076923073,0.0,1.0
+30,5,0.7,Melanie C,Melanie C,"Mike ""The Miz"" Mizanin",0.7818181818181819,1.0,1.0
+30,6,0.64,Kenya Moore,Kenya Moore,Kenya Moore,0.7777777777777777,0.0,1.0
+30,7,0.58,"Mike ""The Miz"" Mizanin","Mike ""The Miz"" Mizanin","Mike ""The Miz"" Mizanin",0.4444444444444444,0.0,1.0
+30,8,0.52,Jimmie Allen,JoJo Siwa,Jimmie Allen,0.3571428571428571,1.0,1.0
+30,9,0.45999999999999996,Melora Hardin,Suni Lee,Cody Rigsby,0.2,1.0,1.0
+31,1,0.7,Jason Lewis,Jason Lewis,Vinny Guadagnino,0.6333333333333333,1.0,1.0
+31,2,0.7,Teresa Giudice,Teresa Giudice,Cheryl Ladd,0.5428571428571429,1.0,1.0
+31,3,0.7,Cheryl Ladd,Cheryl Ladd,Vinny Guadagnino,0.27472527472527475,1.0,1.0
+31,4,0.7,Sam Champion,Sam Champion,Sam Champion,0.23076923076923073,0.0,1.0
+31,5,0.7,Joseph Baena,Heidi D'Amelio,Vinny Guadagnino,-0.0606060606060606,1.0,1.0
+31,6,0.64,Jessie James Decker,Wayne Brady,Vinny Guadagnino,0.6888888888888888,1.0,1.0
+31,7,0.58,Jordin Sparks,Jordin Sparks,Vinny Guadagnino,0.5,1.0,1.0
+31,8,0.52,Heidi D'Amelio,Vinny Guadagnino,Vinny Guadagnino,0.5714285714285714,0.0,1.0
+31,9,0.45999999999999996,Trevor Donovan,Trevor Donovan,Trevor Donovan,0.8666666666666666,0.0,1.0
+32,1,0.7,Matt Walsh,Matt Walsh,Matt Walsh,0.38461538461538464,0.0,1.0
+32,2,0.7,Jamie Lynn Spears,Jamie Lynn Spears,Mauricio Umansky,0.025641025641025637,1.0,1.0
+32,3,0.7,Tyson Beckford,Tyson Beckford,Tyson Beckford,0.39393939393939387,0.0,1.0
+32,4,0.7,Adrian Peterson,Adrian Peterson,Alyson Hannigan,0.2727272727272727,1.0,1.0
+32,5,0.7,Mira Sorvino,Mira Sorvino,Harry Jowsey,0.4222222222222222,1.0,1.0
+32,6,0.6499999999999999,Mauricio Umansky,Mauricio Umansky,Mauricio Umansky,0.9444444444444445,0.0,1.0
+32,7,0.6,Lele Pons,Lele Pons,Harry Jowsey,0.2857142857142857,1.0,1.0
+32,8,0.55,Barry Williams,Barry Williams,Harry Jowsey,0.6190476190476191,1.0,1.0
+32,9,0.5,Harry Jowsey,Harry Jowsey,Harry Jowsey,0.7333333333333333,0.0,1.0
+33,2,0.7,Tori Spelling,Anna Delvey,Eric Roberts,0.3846153846153845,1.0,1.0
+33,3,0.7,Eric Roberts,Reginald VelJohnson,Reginald VelJohnson,0.6000000000000001,0.0,1.0
+33,4,0.7,Brooks Nader,Brooks Nader,Dwight Howard ,0.3888888888888889,1.0,1.0
+33,5,0.7,Phaedra Parks,Dwight Howard ,Dwight Howard ,0.5714285714285714,0.0,1.0
+33,6,0.625,Jenn Tran,Jenn Tran,Stephen Nedoroscik,0.5238095238095238,1.0,1.0
+33,7,0.55,Dwight Howard ,Joey Graziadei,Dwight Howard ,0.3333333333333333,1.0,1.0
+34,2,0.7,Corey Feldman,Scott Hoying,Andy Richter,0.45054945054945056,1.0,1.0
+34,3,0.7,Lauren Jauregui,Lauren Jauregui,Lauren Jauregui,0.39393939393939387,0.0,1.0
+34,4,0.7,Hilaria Baldwin,Hilaria Baldwin,Andy Richter,0.38181818181818183,1.0,1.0
+34,6,0.6499999999999999,Scott Hoying,Scott Hoying,Scott Hoying,0.8222222222222221,0.0,1.0
+34,7,0.6,Jen Affleck,Jen Affleck,Elaine Hendrix,0.7777777777777778,1.0,1.0
+34,8,0.55,Danielle Fishel,Elaine Hendrix,Andy Richter,0.21428571428571427,1.0,1.0
+34,9,0.5,Andy Richter,Dylan Efron,Dylan Efron,1.0,0.0,1.0
+34,10,0.45,Whitney Leavitt,Whitney Leavitt,Elaine Hendrix,0.8666666666666666,1.0,1.0

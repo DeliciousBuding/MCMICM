@@ -1,110 +1,17 @@
-% Section 7: Sensitivity and Robustness Analysis
-% 敏感性与鲁棒性分析
+﻿% Section 7: Sensitivity Analysis
 
-\section{Sensitivity and Robustness Analysis}
+\section{Sensitivity Analysis}
 \label{sec:sensitivity}
 
-We conduct systematic sensitivity analysis to validate our models' robustness across parameter choices and data perturbations.
+We test robustness with respect to MCMC parameters and dynamic weight schedules.
 
-% 7.1 最小投票份额敏感性
-\subsection{Minimum Vote Share Floor ($\epsilon$)}
-\label{subsec:epsilon_sensitivity}
+\subsection{MCMC Parameters}
+- Increasing sample size tightens HDI widths but increases runtime linearly.  
+- Higher smoothness $\lambda$ reduces week-to-week volatility, but overly large $\lambda$ can understate true shocks.
 
-The floor parameter $\epsilon$ controls the minimum vote share constraint in Model 1. We vary $\epsilon$ from 0\% to 10\% and examine:
+\subsection{Dynamic Weighting}
+- Earlier pivot weeks emphasize technical filtering; later pivots favor fan influence.  
+- The 0.7-to-0.4 schedule is stable under small shifts ($\pm 1$ week), with reversal rate nearly unchanged.
 
-\begin{itemize}[itemsep=0.2em]
-    \item \textbf{Feasibility rate:} Proportion of seasons with $S^* = 0$.
-    \item \textbf{Bound tightness:} Average interval width $v_i^{\max} - v_i^{\min}$.
-    \item \textbf{Mismatch detection:} Which seasons exhibit $S^* > 0$ at each $\epsilon$.
-\end{itemize}
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.85\textwidth]{figures/fig_epsilon_sensitivity.pdf}
-%     \caption{Sensitivity analysis for minimum vote floor $\epsilon$. Left: Feasibility rate decreases as $\epsilon$ increases. Right: Bound tightness improves (narrower intervals) with higher $\epsilon$ among feasible cases.}
-%     \label{fig:epsilon_sensitivity}
-% \end{figure}
-
-\noindent\textbf{Key Finding:} At $\epsilon = 1\%$ (our default), 94.1\% of seasons are feasible with median bound width 8.3\%. Increasing to $\epsilon = 5\%$ narrows bounds to 5.1\% but reduces feasibility to 82.4\%.
-
-% 7.2 机制权重敏感性
-\subsection{Mechanism Weight ($\alpha$) Sensitivity}
-\label{subsec:alpha_sensitivity}
-
-For the Weighted Percent mechanism, we vary $\alpha$ (judge weight) from 0.3 to 0.8:
-
-\begin{table}[H]
-    \centering
-    \caption{Definite-Wrongful ($|\mathcal{D}_W|$) vs.\ Judge Weight $\alpha$}
-    \label{tab:alpha_sensitivity}
-    \begin{tabular}{cccc}
-        \toprule
-        $\alpha$ & $|\mathcal{D}_W|$ & Rate & Reduction vs.\ Current \\
-        \midrule
-        0.30 & 19 & 8.3\% & 52.5\% \\
-        0.40 & 12 & 5.2\% & 70.0\% \\
-        0.50 & 6 & 2.6\% & 85.0\% \\
-        0.55 & 4 & 1.7\% & 90.0\% \\
-        \textbf{0.60} & \textbf{3} & \textbf{1.3\%} & \textbf{92.5\%} \\
-        0.65 & 4 & 1.7\% & 90.0\% \\
-        0.70 & 8 & 3.5\% & 80.0\% \\
-        0.80 & 18 & 7.8\% & 55.0\% \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\noindent\textbf{Key Finding:} The optimal range is $\alpha \in [0.55, 0.65]$, with $\alpha = 0.6$ minimizing definite-wrongful count to 3. The mechanism is robust to small perturbations in $\alpha$.
-
-% 7.3 Bootstrap 稳定性
-\subsection{Bootstrap Stability Analysis}
-\label{subsec:bootstrap_stability}
-
-To assess estimation stability, we perform 1,000 bootstrap resamples at the season level:
-
-\begin{itemize}[itemsep=0.2em]
-    \item \textbf{Fan vote bounds:} 95\% CI for median bound width is $[7.6\%, 9.1\%]$.
-    \item \textbf{Professional dancer effect:} 95\% CI for C-index improvement $\Delta C$ is $[0.06, 0.12]$.
-    \item \textbf{Weighted Percent wrongful rate:} 95\% CI is $[0.4\%, 2.6\%]$ (robust improvement over current system).
-\end{itemize}
-
-% 7.4 Leave-One-Season-Out 交叉验证
-\subsection{Leave-One-Season-Out Validation}
-\label{subsec:loso}
-
-We validate Model 2 (survival analysis) using leave-one-season-out cross-validation:
-
-\begin{enumerate}
-    \item Train Cox model on 33 seasons.
-    \item Predict survival curves for held-out season.
-    \item Compute concordance index (C-index) on held-out data.
-\end{enumerate}
-
-\begin{table}[H]
-    \centering
-    \caption{Leave-One-Season-Out Validation Results}
-    \label{tab:loso}
-    \begin{tabular}{lc}
-        \toprule
-        \textbf{Metric} & \textbf{Value} \\
-        \midrule
-        Mean C-index & 0.72 \\
-        Std C-index & 0.08 \\
-        Worst season (S32) & 0.54 \\
-        Best season (S15) & 0.86 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\noindent\textbf{Key Finding:} The model achieves a mean C-index of 0.72, indicating good discriminative ability. Notably, the mismatch season S32 has the lowest C-index (0.54), confirming that our mismatch detection correctly identifies seasons where standard models underperform.
-
-% 7.5 数据扰动鲁棒性
-\subsection{Data Perturbation Robustness}
-\label{subsec:perturbation}
-
-We add Gaussian noise to judge scores ($\sigma = 1$ point) and re-run the inversion:
-
-\begin{itemize}[itemsep=0.2em]
-    \item \textbf{Bound stability:} Median absolute change in bounds is 1.2 percentage points.
-    \item \textbf{Ranking consistency:} 94.3\% of contestant rankings are preserved.
-    \item \textbf{Mismatch persistence:} S32 and S33 remain flagged in all perturbation trials.
-\end{itemize}
+\subsection{Feature Attribution Stability}
+SHAP rankings remain consistent under bootstrap resampling; judge statistics and partner effects consistently dominate.

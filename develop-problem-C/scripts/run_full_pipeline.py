@@ -1,18 +1,21 @@
 ﻿"""
-一键执行模型一主流程：
-1) 运行蒙特卡洛分析
-2) 生成论文级图表
-3) 生成规则透明度与案例图
-4) 同步到中英文论文并编译 PDF
+一键执行新版框架：
+1) 硬约束反演（LP/MILP）
+2) 截断贝叶斯 + MCMC（含时间平滑）
+3) 反事实评估与指标计算
+4) 机制设计与帕累托前沿
+5) 特征分析（XGBoost + SHAP）
+6) 生成图表并编译论文
 """
 import argparse
 import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Dict, Optional
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -25,8 +28,10 @@ sys.path.insert(0, str(SRC_DIR))
 
 from dwts_model.etl import DWTSDataLoader, ActiveSetManager
 from dwts_model.engines import PercentLPEngine, RankCPEngine
+from dwts_model.sampling import 采样_单周, 汇总后验
+from dwts_model.analysis import 运行反事实评估, 运行帕累托优化, 运行特征分析
 
-# 统一配色（与可视化脚本一致）
+# 统一配色
 PALETTE = {
     "light_blue": "#90C9E7",
     "cyan_blue": "#219EBC",
@@ -43,27 +48,120 @@ def _run_cmd(cmd, cwd: Path):
     subprocess.run(cmd, cwd=str(cwd), check=True)
 
 
-def run_mc(samples: int, seasons: str, regularize: bool, tightening: float):
-    cmd = [sys.executable, str(PROJECT_ROOT / "scripts" / "run_mc_analysis.py"), "--samples", str(samples)]
-    if seasons:
-        cmd += ["--seasons", seasons]
-    if regularize:
-        cmd += ["--regularize", "--tightening-factor", str(tightening)]
-    _run_cmd(cmd, PROJECT_ROOT)
+def _规则一致性(week_ctx, fan_votes: Dict[str, float], method: str, has_judges_save: bool) -> bool:
+    contestants = list(week_ctx.active_set)
+    if not contestants:
+        return False
+    if method == "percent":
+        combined = {c: 0.5 * week_ctx.judge_percentages.get(c, 0.0) + 0.5 * fan_votes.get(c, 0.0) for c in contestants}
+        eliminated = min(combined.items(), key=lambda x: x[1])[0]
+        return eliminated in week_ctx.eliminated
+    # 排名制
+    sorted_fans = sorted(contestants, key=lambda x: fan_votes.get(x, 0.0), reverse=True)
+    fan_rank = {c: i + 1 for i, c in enumerate(sorted_fans)}
+    combined = {c: fan_rank.get(c, len(contestants)) + week_ctx.judge_ranks.get(c, len(contestants)) for c in contestants}
+    required = max(2, len(week_ctx.eliminated)) if has_judges_save else len(week_ctx.eliminated)
+    bottom = sorted(combined.items(), key=lambda x: x[1], reverse=True)[:required]
+    bottom_set = {c for c, _ in bottom}
+    return any(e in bottom_set for e in week_ctx.eliminated)
 
 
-def run_visuals():
-    cmd = [sys.executable, str(PROJECT_ROOT / "scripts" / "visualize_mc_results.py")]
-    _run_cmd(cmd, PROJECT_ROOT)
+def _动态权重(week: int, total_weeks: int, start: float = 0.7, end: float = 0.4, pivot: int = 5) -> float:
+    """动态自适应权重：前期偏评委，后期偏观众。"""
+    if total_weeks <= 1:
+        return start
+    if week <= pivot:
+        return start
+    if total_weeks <= pivot:
+        return end
+    progress = min(max((week - pivot) / (total_weeks - pivot), 0.0), 1.0)
+    return start + (end - start) * progress
 
 
-def generate_rule_transparency_figure():
-    """生成规则透明度（不一致度）图"""
-    loader = DWTSDataLoader(str(DATA_PATH))
-    loader.load()
-    manager = ActiveSetManager(loader)
-    manager.build_all_contexts()
+def run_inversion_and_posterior(
+    manager: ActiveSetManager,
+    mcmc_samples: int,
+    burnin: int,
+    thin: int,
+    smooth_lambda: float,
+) -> pd.DataFrame:
+    """硬约束反演 + 截断贝叶斯采样，输出后验汇总。"""
+    lp_engine = PercentLPEngine()
+    cp_engine = RankCPEngine()
 
+    interval_records = []
+    posterior_records = []
+
+    for season in manager.get_all_seasons():
+        context = manager.get_season_context(season)
+        engine = lp_engine if context.voting_method == "percent" else cp_engine
+        inversion_result = engine.solve(context)
+
+        prev_mean: Optional[Dict[str, float]] = None
+        for week, week_ctx in context.weeks.items():
+            if not week_ctx.has_valid_elimination():
+                continue
+
+            interval_bounds = {}
+            for contestant in week_ctx.active_set:
+                est = inversion_result.week_results.get(week, {}).get(contestant)
+                if est:
+                    interval_bounds[contestant] = (est.lower_bound, est.upper_bound)
+                else:
+                    interval_bounds[contestant] = (0.01, 0.99)
+
+                interval_records.append(
+                    {
+                        "season": season,
+                        "week": week,
+                        "contestant": contestant,
+                        "voting_method": context.voting_method,
+                        "lower": interval_bounds[contestant][0],
+                        "upper": interval_bounds[contestant][1],
+                        "point": est.point_estimate if est else np.nan,
+                    }
+                )
+
+            # MCMC 采样
+            samples = 采样_单周(
+                interval_bounds=interval_bounds,
+                n_samples=mcmc_samples,
+                burnin=burnin,
+                thin=thin,
+                smooth_lambda=smooth_lambda,
+                prev_sample=prev_mean,
+            )
+
+            # 强制规则一致性过滤（硬约束）
+            filtered = [s for s in samples if _规则一致性(week_ctx, s, context.voting_method, context.has_judges_save)]
+            summary = 汇总后验(filtered if filtered else samples)
+
+            for contestant, (mean_val, hdi_low, hdi_high) in summary.items():
+                posterior_records.append(
+                    {
+                        "season": season,
+                        "week": week,
+                        "contestant": contestant,
+                        "fan_mean": mean_val,
+                        "fan_hdi_low": hdi_low,
+                        "fan_hdi_high": hdi_high,
+                    }
+                )
+
+            prev_mean = {k: v[0] for k, v in summary.items()} if summary else None
+
+    intervals_df = pd.DataFrame(interval_records)
+    posterior_df = pd.DataFrame(posterior_records)
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    intervals_df.to_csv(OUTPUT_DIR / "fan_vote_intervals.csv", index=False)
+    posterior_df.to_csv(OUTPUT_DIR / "fan_vote_posterior_summary.csv", index=False)
+
+    return posterior_df
+
+
+def generate_rule_transparency_figure(manager: ActiveSetManager):
+    """规则透明度审计图"""
     lp_engine = PercentLPEngine()
     cp_engine = RankCPEngine()
 
@@ -108,52 +206,27 @@ def generate_rule_transparency_figure():
     print(f"OK Saved: {out_path}")
 
 
-def generate_bobby_bones_figure():
-    """生成 Bobby Bones 个案区间图"""
-    loader = DWTSDataLoader(str(DATA_PATH))
-    loader.load()
-    manager = ActiveSetManager(loader)
-    manager.build_all_contexts()
+def generate_bobby_bones_figure(posterior_df: Optional[pd.DataFrame] = None):
+    """Bobby Bones 后验带状图"""
+    if posterior_df is None or posterior_df.empty:
+        return
 
-    season = 27
-    context = manager.get_season_context(season)
-    engine = PercentLPEngine()
-    result = engine.solve(context)
+    df = posterior_df[posterior_df["contestant"].str.lower() == "bobby bones"].copy()
+    if df.empty:
+        return
 
-    # 选手名称匹配
-    target_name = "Bobby Bones"
-    all_names = list(context.fsm.lifecycles.keys()) if context.fsm else []
-    name_map = {c.lower(): c for c in all_names}
-    if target_name.lower() not in name_map:
-        raise ValueError("未找到 Bobby Bones，请检查数据名称")
-    actual_name = name_map[target_name.lower()]
-
-    weeks = []
-    lowers = []
-    uppers = []
-    points = []
-
-    for week in sorted(result.week_results.keys()):
-        est = result.week_results.get(week, {}).get(actual_name)
-        if not est:
-            continue
-        weeks.append(week)
-        lowers.append(est.lower_bound)
-        uppers.append(est.upper_bound)
-        points.append(est.point_estimate)
-
-    if not weeks:
-        raise ValueError("Bobby Bones 无有效周次数据")
+    df = df.sort_values("week")
+    weeks = df["week"].tolist()
+    means = df["fan_mean"].tolist()
+    lows = df["fan_hdi_low"].tolist()
+    highs = df["fan_hdi_high"].tolist()
 
     plt.figure(figsize=(9, 4.5))
-    plt.fill_between(weeks, lowers, uppers, color=PALETTE["light_blue"], alpha=0.6, label="Feasible Interval")
-    plt.plot(weeks, points, color=PALETTE["cyan_blue"], linewidth=2, label="Point Estimate")
-    plt.plot(weeks, lowers, color=PALETTE["deep_cyan"], linestyle="--", linewidth=1)
-    plt.plot(weeks, uppers, color=PALETTE["deep_cyan"], linestyle="--", linewidth=1)
-
+    plt.fill_between(weeks, lows, highs, color=PALETTE["light_blue"], alpha=0.6, label="95% HDI")
+    plt.plot(weeks, means, color=PALETTE["cyan_blue"], linewidth=2, label="Posterior Mean")
     plt.xlabel("Week")
     plt.ylabel("Fan Vote Share")
-    plt.title("Bobby Bones (S27) Feasible Interval")
+    plt.title("Bobby Bones (S27) Posterior Fan Vote")
     plt.ylim(0, 1)
     plt.grid(True, alpha=0.2, linewidth=0.6)
     plt.legend(frameon=False, loc="upper right")
@@ -161,6 +234,28 @@ def generate_bobby_bones_figure():
 
     out_path = FIGURES_DIR / "bobby_bones_survival.png"
     plt.savefig(out_path, dpi=300, bbox_inches="tight")
+    plt.close()
+    print(f"OK Saved: {out_path}")
+
+
+def generate_dynamic_weight_figure(manager: ActiveSetManager):
+    """动态权重曲线示意"""
+    total_weeks = max((manager.get_season_context(s).num_weeks for s in manager.get_all_seasons()), default=1)
+    weeks = list(range(1, total_weeks + 1))
+    alphas = [_动态权重(w, total_weeks) for w in weeks]
+
+    plt.figure(figsize=(7.5, 4.2))
+    plt.plot(weeks, alphas, color=PALETTE["deep_cyan"], linewidth=2)
+    plt.scatter(weeks, alphas, color=PALETTE["cyan_blue"], s=18)
+    plt.xlabel("Week")
+    plt.ylabel("Judge Weight (alpha)")
+    plt.title("Dynamic Adaptive Weighting Schedule")
+    plt.ylim(0.3, 0.8)
+    plt.grid(True, alpha=0.2)
+    plt.tight_layout()
+
+    out_path = FIGURES_DIR / "fig_dynamic_weight_schedule.pdf"
+    plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"OK Saved: {out_path}")
 
@@ -175,14 +270,12 @@ def sync_paper_assets():
         "figure1.jpg",
     }
     generated = {
-        "mc_probability_distribution.pdf",
-        "mc_season_evolution.pdf",
-        "mc_confidence_intervals.pdf",
-        "mc_voting_method_comparison.pdf",
-        "mc_classification_breakdown.pdf",
-        "mc_interval_width_analysis.pdf",
         "fig_anomaly_detection.pdf",
         "bobby_bones_survival.png",
+        "fig_pareto_frontier.pdf",
+        "fig_shap_summary.pdf",
+        "fig_shap_age_dependence.pdf",
+        "fig_dynamic_weight_schedule.pdf",
     }
 
     paper_targets = [
@@ -208,35 +301,81 @@ def sync_paper_assets():
                 shutil.copy2(src, fig_dir / name)
 
         # 同步汇总表
-        summary_src = OUTPUT_DIR / "mc_summary_statistics.tex"
-        if summary_src.exists():
-            shutil.copy2(summary_src, paper_dir / "sections" / "mc_summary_statistics.tex")
+        for summary_name in [
+            "fan_vote_posterior_summary.csv",
+            "counterfactual_summary.csv",
+            "counterfactual_summary_dynamic.csv",
+            "pareto_frontier.csv",
+            "feature_importance.csv",
+        ]:
+            src = OUTPUT_DIR / summary_name
+            if src.exists():
+                shutil.copy2(src, paper_dir / "sections" / summary_name)
 
 
 def compile_paper(paper_dir: Path, main_file: str):
-    """编译论文 PDF"""
     cmd = ["latexmk", "-xelatex", "-interaction=nonstopmode", "-file-line-error", main_file]
     try:
         _run_cmd(cmd, paper_dir)
     except Exception as exc:
         print(f"[WARN] latexmk 失败：{exc}")
-        # 兜底：尝试直接运行 xelatex
         _run_cmd(["xelatex", "-interaction=nonstopmode", main_file], paper_dir)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run full Model-1 pipeline")
-    parser.add_argument("--samples", type=int, default=5000, help="MC 样本数")
-    parser.add_argument("--seasons", type=str, default=None, help="赛季范围，例如 '1-10' 或 '32,33'")
-    parser.add_argument("--regularize", action="store_true", help="排名制启用区间收缩")
-    parser.add_argument("--tightening-factor", type=float, default=0.12, help="收缩比例")
+    parser = argparse.ArgumentParser(description="Run full DWTS framework pipeline")
+    parser.add_argument("--mcmc-samples", type=int, default=2000, help="MCMC 样本数")
+    parser.add_argument("--burnin", type=int, default=500, help="MCMC burn-in")
+    parser.add_argument("--thin", type=int, default=5, help="MCMC 抽稀")
+    parser.add_argument("--smooth-lambda", type=float, default=10.0, help="时间平滑强度")
+    parser.add_argument("--skip-ml", action="store_true", help="跳过特征分析")
     parser.add_argument("--skip-compile", action="store_true", help="跳过 PDF 编译")
     args = parser.parse_args()
 
-    run_mc(samples=args.samples, seasons=args.seasons, regularize=args.regularize, tightening=args.tightening_factor)
-    run_visuals()
-    generate_rule_transparency_figure()
-    generate_bobby_bones_figure()
+    FIGURES_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    loader = DWTSDataLoader(str(DATA_PATH))
+    loader.load()
+    manager = ActiveSetManager(loader)
+    manager.build_all_contexts()
+
+    posterior_df = run_inversion_and_posterior(
+        manager,
+        mcmc_samples=args.mcmc_samples,
+        burnin=args.burnin,
+        thin=args.thin,
+        smooth_lambda=args.smooth_lambda,
+    )
+
+    generate_rule_transparency_figure(manager)
+    generate_bobby_bones_figure(posterior_df)
+    generate_dynamic_weight_figure(manager)
+
+    # 反事实评估（固定权重）
+    counter = 运行反事实评估(manager, posterior_df, alpha=0.6)
+    counter.逐周结果.to_csv(OUTPUT_DIR / "counterfactual_weekly.csv", index=False)
+    counter.汇总结果.to_csv(OUTPUT_DIR / "counterfactual_summary.csv", index=False)
+
+    # 反事实评估（动态权重）
+    counter_dynamic = 运行反事实评估(manager, posterior_df, alpha=0.6, dynamic_alpha_fn=_动态权重)
+    counter_dynamic.逐周结果.to_csv(OUTPUT_DIR / "counterfactual_weekly_dynamic.csv", index=False)
+    counter_dynamic.汇总结果.to_csv(OUTPUT_DIR / "counterfactual_summary_dynamic.csv", index=False)
+
+    # 机制设计（帕累托）
+    alphas = [round(a, 2) for a in np.linspace(0.3, 0.8, 11)]
+    pareto = 运行帕累托优化(
+        manager,
+        posterior_df,
+        alphas=alphas,
+        fig_path=str(FIGURES_DIR / "fig_pareto_frontier.pdf"),
+    )
+    pareto.结果表.to_csv(OUTPUT_DIR / "pareto_frontier.csv", index=False)
+
+    # 特征分析
+    if not args.skip_ml:
+        运行特征分析(loader, output_dir=str(OUTPUT_DIR), fig_dir=str(FIGURES_DIR))
+
     sync_paper_assets()
 
     if not args.skip_compile:

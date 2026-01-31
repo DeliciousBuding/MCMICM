@@ -1,5 +1,4 @@
-% Section 3: Notations
-% 符号说明表
+﻿% Section 3: Notations
 
 \section{Notations}
 \label{sec:notations}
@@ -14,39 +13,33 @@ For clarity and consistency throughout this paper, we summarize the key symbols 
         \toprule
         \textbf{Symbol} & \textbf{Description} & \textbf{Unit/Range} \\
         \midrule
-        % 基本索引
-        $s$ & Season index & $s \in \{1, 2, \ldots, 34\}$ \\
-        $w$ & Week (episode) index within a season & $w \in \{1, \ldots, W_s\}$ \\
+        $s$ & Season index & $s \in \{1,\ldots,34\}$ \\
+        $w$ & Week index within a season & $w \in \{1,\ldots,W_s\}$ \\
         $i$ & Contestant index & -- \\
-        $\mathcal{C}_{s,w}$ & Set of active contestants in season $s$, week $w$ & -- \\
+        $\mathcal{C}_{s,w}$ & Active contestant set in season $s$, week $w$ & -- \\
         $n_{s,w}$ & Number of active contestants, $|\mathcal{C}_{s,w}|$ & -- \\
         \midrule
-        % 观测变量
         $J_{i,w}$ & Judge score for contestant $i$ in week $w$ & [0, 40] \\
-        $\bar{J}_w$ & Sum of judge scores in week $w$, $\bar{J}_w = \sum_i J_{i,w}$ & -- \\
-        $E_w$ & Index of eliminated contestant in week $w$ & -- \\
-        $r^{\mathrm{fan}}_{i,w}$ & Fan vote rank for contestant $i$ (\textbf{latent} for rank seasons) & $\{1, \ldots, n_{s,w}\}$ \\
+        $\bar{J}_w$ & Sum of judge scores in week $w$, $\sum_i J_{i,w}$ & -- \\
+        $E_w$ & Eliminated contestant index in week $w$ & -- \\
+        $r^{\mathrm{fan}}_{i,w}$ & Fan vote rank (latent in rank seasons) & $\{1,\ldots,n_{s,w}\}$ \\
         \midrule
-        % 潜在变量（推断目标）
-        $v_{i,w}$ & Fan vote share for contestant $i$ in week $w$ & $[0, 1]$, $\sum_i v_{i,w} = 1$ \\
-        $\hat{v}_{i,w}$ & Inferred (point estimate) fan vote share & $[0, 1]$ \\
-        $[v^{\min}_{i,w}, v^{\max}_{i,w}]$ & Feasible interval for $v_{i,w}$ via LP bounds & $[0, 1]$ \\
+        $v_{i,w}$ & Fan vote share for contestant $i$ in week $w$ & $[0,1]$, $\sum_i v_{i,w}=1$ \\
+        $\hat{v}_{i,w}$ & Posterior mean of fan vote share & $[0,1]$ \\
+        $[v^{\min}_{i,w}, v^{\max}_{i,w}]$ & Feasible interval from LP/MILP & $[0,1]$ \\
+        $\mathrm{HDI}_{i,w}$ & 95\% highest density interval for $v_{i,w}$ & $[0,1]$ \\
         \midrule
-        % 模型参数
-        $\epsilon$ & Minimum vote share floor (sensitivity parameter) & $[0, 0.1]$ \\
-        $S^*(\epsilon)$ & Slack variable at optimum for floor $\epsilon$ (mismatch metric) & $\geq 0$ \\
-        $\alpha$ & Weight on judge score in hybrid mechanism & default 0.6 \\
-        $\beta$ & Weight on fan vote in hybrid mechanism, $\beta = 1 - \alpha$ & default 0.4 \\
+        $\epsilon$ & Minimum vote share floor & $[0,0.1]$ \\
+        $S^*$ & Minimum slack (mismatch indicator) & $\ge 0$ \\
+        $\lambda$ & Temporal smoothness penalty in MCMC & $>0$ \\
+        $\alpha$ & Judge weight in hybrid mechanism & $[0,1]$ \\
         \midrule
-        % 生存分析
-        $T_i$ & Survival time (weeks survived) for contestant $i$ & weeks \\
-        $\delta_i$ & Censoring indicator: 1 if eliminated, 0 if survived to finale & -- \\
-        $\lambda(t \mid \mathbf{x}_i)$ & Hazard function for contestant $i$ at time $t$ & -- \\
-        $\mathrm{HR}_k$ & Hazard ratio for covariate $k$ & -- \\
+        $T_i$ & Survival weeks of contestant $i$ & weeks \\
+        $f(\mathbf{x}_i)$ & XGBoost prediction for $T_i$ & weeks \\
+        $\phi_j$ & SHAP value for feature $j$ & -- \\
         \midrule
-        % 机制设计
-        $J_i^{\%}$ & Judge percentage for contestant $i$, $J_i / \sum_k J_k$ & $[0, 1]$ \\
-        $S_i^{\mathrm{wp}}$ & Weighted Percent score, $S_i = \alpha J_i^{\%} + (1-\alpha) V_i$ & $[0, 1]$ \\
+        $J_i^{\%}$ & Judge percentage for contestant $i$ & $[0,1]$ \\
+        $S_i^{\mathrm{wp}}$ & Weighted-percent score, $\alpha J_i^{\%} + (1-\alpha)v_i$ & $[0,1]$ \\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -55,6 +48,6 @@ For clarity and consistency throughout this paper, we summarize the key symbols 
 \begin{itemize}[itemsep=0.2em]
     \item Seasons are numbered chronologically: S1 (2005) through S34 (2025).
     \item Weeks are numbered starting from the first competition episode (excluding any premiere without elimination).
-    \item \emph{Percent-rule seasons} (S3--S27): Combined scores defined by percentage rule; individual fan shares unobserved.
-    \item \emph{Rank-rule seasons} (S1--S2, S28--S34): Only ordinal \emph{rankings} are revealed.
+    \item \emph{Percent-rule seasons} (S3--S27): combined scores defined by percentage rule; fan shares unobserved.
+    \item \emph{Rank-rule seasons} (S1--S2, S28--S34): only ordinal rankings are revealed.
 \end{itemize}

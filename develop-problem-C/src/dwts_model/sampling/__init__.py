@@ -1,9 +1,8 @@
-# 采样模块（主流程保留）
-from .mc_robustness import MonteCarloRobustnessAnalyzer, MCRobustnessResult
-from .simplex import SimplexProjection
+﻿# 采样模块：截断贝叶斯 + MCMC
+from .bayes_mcmc import 采样_单周, 汇总后验, 计算_hdi
 
 __all__ = [
-    "MonteCarloRobustnessAnalyzer",
-    "MCRobustnessResult",
-    "SimplexProjection",
+    "采样_单周",
+    "汇总后验",
+    "计算_hdi",
 ]

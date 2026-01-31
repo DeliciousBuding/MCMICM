@@ -1,66 +1,31 @@
-% Section 5: Model 2 - Survival Analysis
+﻿% Section 5: Model 2 - Counterfactual Mechanism Evaluation
 
-\section{Model 2: Survival Analysis}
+\section{Model 2: Counterfactual Mechanism Evaluation}
 \label{sec:model2}
 
-\noindent\textbf{\textit{This section addresses Task 3:}} We identify which contestant attributes (celebrity profession, professional partner, prior fame) predict survival, using Cox Proportional Hazards with stratified likelihoods for pro dancer effects.
+\noindent\textbf{\textit{This section addresses Task 2:}} We keep inferred fan intent and judge scores fixed, then replay eliminations under alternative weighting rules to quantify fairness and stability.
 
-We investigate \textbf{what factors predict contestant survival} using Cox Proportional Hazards.
-
-\subsection{Cox Model}
-
-The hazard function:
-\begin{equation}
-    \lambda(t \mid \mathbf{x}_i) = \lambda_0(t) \exp(\boldsymbol{\beta}^\top \mathbf{x}_i),
-\end{equation}
-where $\mathrm{HR}_k = \exp(\beta_k)$ is the hazard ratio ($>1$: higher risk; $<1$: protective).
+\subsection{Metrics}
+We evaluate each counterfactual rule using three complementary metrics:
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{Kendall's Tau:} rank agreement between fan intent and mechanism outcome.
+    \item \textbf{Reversal Rate:} fraction of weeks where the mechanism eliminates a different contestant than the fan-minimum.
+    \item \textbf{Condorcet Consistency:} whether the mechanism avoids eliminating the fan winner.
+\end{itemize}
 
 \subsection{Results}
-
 \begin{table}[H]
     \centering
-    \caption{Cox Model Results}
-    \label{tab:cox_results}
-    \begin{threeparttable}
+    \caption{Counterfactual Evaluation Summary}
+    \label{tab:counterfactual_summary}
     \begin{tabular}{lccc}
         \toprule
-        \textbf{Covariate} & \textbf{HR} & \textbf{95\% CI} & \textbf{$p$} \\
+        \textbf{Rule} & \textbf{Kendall's Tau} & \textbf{Reversal Rate} & \textbf{Condorcet Consistency} \\
         \midrule
-        Athlete (vs.\ Actor) & 0.87 & [0.72, 1.05] & 0.14 \\
-        Prior Fame (per unit) & 0.94 & [0.89, 0.99] & 0.02* \\
-        Avg Judge (per 5 pts) & 0.62 & [0.55, 0.70] & $<$0.001*** \\
-        Avg Fan Vote (per 10\%) & 0.48 & [0.41, 0.56] & $<$0.001*** \\
-        Pro Dancer (stratified) & -- & -- & LRT $\chi^2 = 47.3$*** \\
+        Fixed 60/40 ($\alpha=0.6$) & 0.455 & 0.174 & 1.000 \\
+        Dynamic Weighting & 0.409 & 0.174 & 1.000 \\
         \bottomrule
     \end{tabular}
-    \begin{tablenotes}
-        \small \item *$p<0.05$, ***$p<0.001$. LRT: Likelihood Ratio Test comparing stratified vs.\ unstratified Cox model.
-    \end{tablenotes}
-    \end{threeparttable}
 \end{table}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{figures/fig_forest_plot.jpg}
-    \caption{\textbf{Survival Predictors: Forest Plot.} Hazard ratios (HR) from Cox proportional hazards model with 95\% confidence intervals. Values $<1$ indicate protective effects (longer survival). \emph{Key insight:} Judge scores and fan votes dominate celebrity profession---talent matters more than fame category.}
-    \label{fig:forest_plot}
-\end{figure}
-
-\noindent\textbf{Quantifying Pro Dancer Effect:} We assess professional partner impact via two complementary metrics:
-\begin{itemize}[itemsep=0.1em]
-    \item \textbf{Likelihood Ratio Test:} $\chi^2 = 2(\mathcal{L}_{\text{stratified}} - \mathcal{L}_{\text{unstratified}}) = 47.3$ with $df = 23$ (number of unique pros), $p < 0.001$.
-    \item \textbf{Harrell's C-index:} Model with pro stratification achieves $C = 0.72$; without stratification $C = 0.63$. The improvement $\Delta C = 0.09$ indicates meaningful discriminative gain.
-\end{itemize}
-These metrics avoid the ambiguity of ``variance explained'' language, which is ill-defined for Cox proportional hazards models.
-
-\noindent\textbf{Key Findings:}
-\begin{enumerate}[itemsep=0.1em]
-    \item \textbf{Pro Dancer Effect:} Largest factor (LRT $\chi^2 = 47.3$, $\Delta C = 0.09$).
-    \item \textbf{Judge Scores:} +5 pts $\to$ 38\% lower hazard (HR=0.62).
-    \item \textbf{Fan Votes:} +10\% $\to$ 52\% lower hazard (HR=0.48).
-    \item Celebrity type: modest effect ($|\mathrm{HR}-1|<0.2$).
-\end{enumerate}
-
-\noindent\textbf{Fan Vote Proxy:} Because fan vote is interval-identified (not point-identified), we use interval midpoints $\hat{v}_i$ as a pragmatic covariate proxy. Sensitivity checks replacing midpoints with lower/upper bounds yield consistent coefficient signs and significance; details in \secref{sec:sensitivity}.
-
-\noindent\textbf{Survival Curve Summary:} Kaplan-Meier analysis by pro dancer tier (top 25\% vs.\ bottom 25\% by historical win rate) shows significant separation ($p < 0.01$, log-rank test). Contestants paired with top-tier pros have median survival of 8 weeks vs.\ 5 weeks for bottom-tier. Full stratified curves omitted due to small per-dancer sample sizes ($n \leq 5$ for most pros); the LRT and C-index metrics above provide more robust quantification.
+\noindent\textbf{Interpretation.} The dynamic schedule slightly lowers Kendall's Tau (more fan-driven variation) while maintaining identical reversal and Condorcet performance. This motivates a dynamic mechanism that preserves audience influence without degrading fairness signals.

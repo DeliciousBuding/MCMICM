@@ -1,43 +1,22 @@
 ﻿% Section 8: Evaluation (Chinese)
 
 \section{模型评估}
-\label{sec:evaluation}
+\label{sec:evaluation_zh}
 
-\subsection{一致性与案例}
-\textbf{Bobby Bones（S27）案例：} LP 反演给出极宽区间，揭示 50/50 机制下的结构性不确定。
+\subsection{一致性检验}
+\begin{itemize}[itemsep=0.1em]
+    \item \textbf{后验有效性：} 100\% 的后验均值位于可行区间内。
+    \item \textbf{不确定性尺度：} HDI 平均宽度 0.239，中位数 0.268。
+    \item \textbf{覆盖：} 264 个淘汰周次、2,250 条选手-周后验估计。
+\end{itemize}
 
+\subsection{案例：Bobby Bones（S27）}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{figures/bobby_bones_survival.png}
-    \caption{\textbf{Bobby Bones 案例：} 可行区间随周次变化。}
-    \label{fig:bobby_survival}
+    \caption{\textbf{Bobby Bones 后验。} 95\% HDI 最大宽度约 0.46，反映 50/50 赛制的结构性不确定性。}
+    \label{fig:bobby_survival_zh}
 \end{figure}
-
-\subsection{蒙特卡洛审计}
-我们对全部 298 次淘汰进行约束一致性采样。总体均值 $P(\\text{Wrongful})=0.490$，中位数 0.529；在 5\\% 阈值下，17 例为“明确正确”，其余 281 例为“不确定”。 
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figures/mc_probability_distribution.pdf}
-    \caption{\textbf{人气偏离概率分布。}}
-    \label{fig:mc_distribution}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\textwidth]{figures/mc_season_evolution.pdf}
-    \caption{\textbf{赛季演化：} 平均 $P(\text{Wrongful})$ 与 95\% 置信区间。}
-    \label{fig:mc_season_evolution}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{figures/mc_confidence_intervals.pdf}
-    \caption{\textbf{高风险周次的置信区间。}}
-    \label{fig:mc_top_cases}
-\end{figure}
-
-\input{sections/mc_summary_statistics.tex}
 
 \subsection{计算效率}
-在每次淘汰 5,000 样本配置下，完整审计在常规设备上可于数分钟内完成；LP/MILP 单周求解仍为秒级以内。
+全流程在 2,000 个 MCMC 样本/周次条件下可在数分钟内完成，满足赛前快速审计需求。

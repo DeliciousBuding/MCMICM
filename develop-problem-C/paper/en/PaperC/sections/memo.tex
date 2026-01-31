@@ -1,4 +1,4 @@
-% Memo: Executive Brief for DWTS Programming Leadership
+﻿% Memo: Executive Brief for DWTS Programming Leadership
 
 \newpage
 \thispagestyle{empty}
@@ -15,7 +15,7 @@
 \textbf{TO:}      & Executive Producer, \emph{Dancing with the Stars} \\
 \textbf{FROM:}    & Team \#2617892 --- Modeling \& Audit Unit \\
 \textbf{DATE:}    & January 30, 2026 \\
-\textbf{SUBJECT:} & \textbf{Transparency Risks \& Rule Recommendations}
+\textbf{SUBJECT:} & \textbf{Rule Audit \& Dynamic Mechanism Recommendation}
 \end{tabular}
 
 \vspace{0.3em}
@@ -24,46 +24,38 @@
 
 \subsection*{Executive Summary}
 
-We conducted an independent audit of DWTS elimination outcomes across all 34 US seasons. Our analysis addresses a fundamental question: \textbf{Can the show's published scoring rules explain the observed eliminations without ever observing individual fan vote shares?}
+We audited DWTS eliminations across 34 seasons using a rule-consistent inversion engine and Bayesian posterior reconstruction. The core question: \textbf{Can published rules explain observed eliminations without observing fan votes'}
 
-For 32 of 34 seasons, the answer is \textbf{yes}---our mathematical model finds feasible fan vote distributions consistent with all outcomes. For \textbf{Seasons 32--33}, however, structural mismatches exist: no feasible vote assignment can fully reproduce the observed eliminations under stated rules.
-
-\subsection*{Key Finding (Audit Perspective)}
-
-Beginning in S28, the Judges' Save introduces a layer of \textbf{decision opacity}: the broadcasted ``bottom-two'' procedure is rule-driven, but the final elimination depends on qualitative criteria not disclosed in a verifiable form. This does not imply wrongdoing; however, it \textbf{raises audit risk} by making certain outcomes \textbf{non-reproducible} under a purely rule-based model.
+\textbf{Answer: yes.} All seasons are feasible under the published rules (no positive slack $S^*$). However, feasibility does not imply certainty: several weeks remain weakly identified, and wide posterior intervals persist.
 
 \subsection*{Three Principal Findings}
 
 \begin{enumerate}[itemsep=0.2em]
-    \item \textbf{Model--Data Mismatch in Recent Seasons.} \\
-    Seasons 32 and 33 exhibit positive slack ($S^* > 0$) in our optimization framework, indicating outcomes that cannot be explained by feasible vote assignments under documented rules. Likely cause: the Judges' Save criterion operates on undisclosed factors (``improvement,'' ``artistry'') not captured by score-based logic. \textit{Implication: Audit trail is incomplete for these seasons.}
+    \item \textbf{Rule Transparency Holds.} \newline
+    The optimization audit finds $S^*=0$ across seasons, indicating the rules are sufficient to explain eliminations under our model assumptions.
     
-    \item \textbf{Structural Vulnerability to Fan-Base Mobilization.} \\
-    The current 50/50 judge--fan split allows contestants with mobilized fan bases to survive despite low technical scores. Season 27 (Bobby Bones) exemplifies this: our inferred vote intervals show a contestant can advance with approximately 25--30\% fan support if competitors' votes are fragmented. \textit{Implication: Competitive integrity risk exists under current mechanism.}
+    \item \textbf{Structural Uncertainty Persists.} \newline
+    Even with rule consistency, some weeks exhibit wide posterior HDIs (e.g., max width \(\approx 0.46\) in the Bobby Bones case), revealing underidentification in the 50/50 system.
     
-    \item \textbf{40 Definite-Wrongful Eliminations Identified.} \\
-    Using interval-robust classification, we identified 40 historical eliminations where the eliminated contestant had \emph{both} above-median judge scores \emph{and} above-median estimated fan support across all feasible vote assignments. A mechanism adjustment would reduce this to \textbf{3} cases.
+    \item \textbf{Counterfactual Stability.} \newline
+    Mean Kendall's Tau is \(\approx 0.455\) and reversal rate is \(\approx 0.174\). A dynamic schedule preserves these fairness signals while improving audience influence.
 \end{enumerate}
 
-\subsection*{Recommendation: Weighted Percent Mechanism}
+\subsection*{Recommendation: Dynamic Adaptive Weighting}
 
-To improve transparency without sacrificing engagement, we recommend:
+We recommend a dynamic rule that shifts from judge-heavy to fan-heavy weighting:
 
 \begin{itemize}[itemsep=0.1em]
-    \item \textbf{Adopt a 60/40 weighting:} $0.6 \times \text{JudgePct} + 0.4 \times \text{FanPct}$
-    \item \textbf{Impact:} Reduces Definite-Wrongful eliminations from 40 to 3 ($-92.5\%$)
-    \item \textbf{Robustness:} Performance stable across $\alpha \in [0.55, 0.65]$ (Pareto knee)
-    \item \textbf{Fan engagement preserved:} 68\% of historical fan influence retained
+    \item \textbf{Early weeks (1--5):} emphasize judges (\(\alpha \approx 0.7\)) for skill screening.
+    \item \textbf{Late weeks:} gradually shift to fans (\(\alpha \to 0.4\)) for engagement.
+    \item \textbf{Static fallback:} 60/40 remains a stable baseline point on the Pareto frontier.
 \end{itemize}
-
-\noindent Additionally, consider reporting minimal verifiable information (e.g., bottom-two composition) to improve audit trail completeness.
 
 \subsection*{Scope \& Limitations}
 
 \begin{itemize}[itemsep=0.1em]
-    \item We never observe actual vote counts---our analysis produces \emph{feasible intervals}, not exact values.
-    \item Mismatch events signal \textbf{model--data discrepancy}, not manipulation.
-    \item Post-S27 rule details are inferred from problem statement; official documentation may differ.
+    \item Fan votes are unobserved; we infer feasible posteriors, not exact values.
+    \item Counterfactuals assume fan behavior is invariant to rule changes.
 \end{itemize}
 
 \vspace{0.8em}

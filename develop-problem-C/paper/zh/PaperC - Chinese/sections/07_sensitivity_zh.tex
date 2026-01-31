@@ -1,27 +1,14 @@
-% 第7节：敏感性分析
+﻿% Section 7: Sensitivity (Chinese)
 
-\section{敏感性与稳健性分析}
-\label{sec:sensitivity}
+\section{敏感性分析}
+\label{sec:sensitivity_zh}
 
-\subsection{针对投票单性形约束的扰动}
+\subsection{MCMC 参数}
+- 样本数增大可收窄 HDI，但时间成本线性增加。  
+- 平滑系数 $\lambda$ 过大可能掩盖真实波动。
 
-我们通过对推断的观众投票份额 $v_i$ 引入 $\pm 5\%$ 的随机摄动来测试模型 1 的稳定性。结果显示，对于超过 95% 的单周案例，可行区间的结构保持不变（即晋级/淘汰的逻辑顺序未发生逆转），这证明了我们的 LP 框架具有良好的稳健性。
+\subsection{动态权重}
+- 提前 pivot 周次会增强评委筛选作用；延后则提升观众影响。
 
-\subsection{留一法交叉验证 (LOSO)}
-
-为了验证模型 2 的泛化能力，我们对 34 个赛季进行了留一法验证。
-\begin{itemize}
-    \item \textbf{C-index 稳定性：} 在不同赛季中，$C$-index 维持在 $0.74-0.78$ 之间。
-    \item \textbf{最敏感因素：} 专业舞伴的人气指标表现出最高的预测稳健性，而技术成长率在地 30 季之后受评委拯救机制的影响表现出较大的波动。
-\end{itemize}
-
-\subsection{Bootstrap 显著性检验}
-
-对 Cox 模型的系数进行 1000 次 Bootstrap 采样后的结果（如图 \ref{fig:bootstrap} 所示）表明，主要生存因子的 95% 置信区间均不包含零，证实了我们的风险识别是可靠的。
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{figures/fig_forest_plot.jpg}
-    \caption{Bootstrap 采样分布：展示了各协变量对生存期影响的稳健性。}
-    \label{fig:bootstrap}
-\end{figure}
+\subsection{特征归因稳定性}
+SHAP 排名在 bootstrap 下保持一致，评委分统计与舞伴效应稳居前列。
